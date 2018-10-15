@@ -1,0 +1,14 @@
+{
+  "name": "sublevo",
+  "version": "1.0.0",
+  "description": "Social hub for concerts",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "concert"
+  ],
+  "author": "Ziggy Shea",
+  "license": "ISC"
+}
