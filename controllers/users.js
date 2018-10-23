@@ -25,7 +25,6 @@ const validateUser = [
 
 module.exports = {
     new(req, res) {
-        console.log(req.session);
         res.render('users/new', { user: {} });
     },
     create: [

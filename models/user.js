@@ -13,8 +13,13 @@ module.exports = class User {
         this.createdAt = createdAt;
     }
 
-    static async find(id) {
+    static async findById(id) {
         return knex('users').where({ id }).first();
+    }
+
+    static async find(type, input) {
+        const userRaw = await knex('users').where(`${type}`, input).first();
+        return new User(userRaw);
     }
 
     async save() {

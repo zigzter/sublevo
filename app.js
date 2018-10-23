@@ -33,7 +33,7 @@ app.use(async (req, res, next) => {
     res.locals.currentUser = null;
     if (userId) {
         try {
-            const user = await User.find(userId);
+            const user = await User.findById(userId);
             req.currentUser = user;
             res.locals.currentUser = user;
             next();
