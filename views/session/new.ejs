@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+
+<form action="/session" method="post">
+    <div>
+        <label for="username">Username or Email:</label> <br>
+        <input type="text" name="username" id="username">
+    </div>
+    <div>
+        <label for="username">Password:</label> <br>
+        <input type="password" name="password" id="password">
+    </div>
+    <input type="submit" value="Sign In">
+</form>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+
+<form action="/users" method="post">
+    <div>
+        <label for="username">Username:</label> <br>
+        <input type="text" name="username" id="username">
+    </div>
+    <div>
+        <label for="username">Email:</label> <br>
+        <input type="email" name="email" id="email">
+    </div>
+    <div>
+        <label for="username">Password:</label> <br>
+        <input type="password" name="password" id="password">
+    </div>
+    <div>
+        <label for="username">Password Confirmation:</label> <br>
+        <input type="password" name="passwordConfirmation" id="passwordConfirmation">
+    </div>
+    <input type="submit" value="Sign Up">
+</form>
+
+<%- include('../partials/footer') %>
