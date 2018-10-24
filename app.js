@@ -29,17 +29,17 @@ app.use(session({
 }));
 
 app.use(async (req, res, next) => {
-    const { userId } = req.session;
-    res.locals.currentUser = null;
-    if (userId) {
-        try {
+    try {
+        const { userId } = req.session;
+        res.locals.currentUser = null;
+        if (userId) {
             const user = await User.findById(userId);
             req.currentUser = user;
             res.locals.currentUser = user;
-            next();
-        } catch (err) {
-            next(err);
         }
+        next();
+    } catch (err) {
+        next(err);
     }
 });
 
@@ -47,4 +47,6 @@ const indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
 
-app.listen(3000);
+app.listen(3000, () => {
+    console.log('server up');
+});

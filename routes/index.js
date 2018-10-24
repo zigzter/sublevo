@@ -9,6 +9,7 @@ router.get('/', homeController.index);
 
 router.get('/users/new', usersController.new);
 router.post('/users', usersController.create);
+router.get('/users/:username', usersController.show);
 
 router.get('/session/new', sessionController.new);
 router.post('/session', sessionController.create);

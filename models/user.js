@@ -22,6 +22,10 @@ module.exports = class User {
         return new User(userRaw);
     }
 
+    static async fetchUser(username) {
+        return knex('users').where({ username }).first();
+    }
+
     async save() {
         const { email, username, name, password } = this;
         const [{ id }] = await knex('users').insert({

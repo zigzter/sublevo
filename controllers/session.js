@@ -26,6 +26,7 @@ module.exports = {
     },
     destroy(req, res) {
         req.session.userId = undefined;
+        console.log('signing out...');
         res.redirect('/');
     },
 };

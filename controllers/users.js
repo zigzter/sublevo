@@ -42,10 +42,19 @@ module.exports = {
                 const user = new User({ username, email, password });
                 await user.save();
                 req.session.userId = user.id;
-                res.redirect('/');
+                return res.redirect('/');
             } catch (err) {
-                next(err);
+                return next(err);
             }
         },
     ],
+    async show(req, res) {
+        const { username } = req.params;
+        const user = await User.fetchUser(username);
+        if (user) {
+            res.render('users/show', { user });
+        } else {
+            res.status(404).send("Page doesn't exist!");
+        }
+    },
 };
