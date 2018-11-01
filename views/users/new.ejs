@@ -3,15 +3,18 @@
 <form action="/users" method="post">
     <div>
         <label for="username">Username:</label> <br>
-        <input type="text" name="username" id="username">
+        <input type="text" value="<%= user.username %>" name="username" id="username">
+        <%- renderInputErrors(errors, 'username') %>
     </div>
     <div>
         <label for="username">Email:</label> <br>
-        <input type="email" name="email" id="email">
+        <input type="email" value="<%= user.email %>" name="email" id="email">
+        <%- renderInputErrors(errors, 'email') %>
     </div>
     <div>
         <label for="username">Password:</label> <br>
         <input type="password" name="password" id="password">
+        <%- renderInputErrors(errors, 'password') %>
     </div>
     <div>
         <label for="username">Password Confirmation:</label> <br>

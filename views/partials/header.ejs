@@ -5,15 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sublevo</title>
+    <style>
+        body {
+            background-color: lightslategray;
+        }
+    </style>
 </head>
 <body>
-<a href="/">Home</a>
-<% if (currentUser){ %>
-    <form action="/session" method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" value="Sign Out">
-    </form>
-<% } else { %>
-    <a href="/users/new">Sign Up</a>
-    <a href="/session/new">Sign In</a> 
-<% } %>
+<nav>
+    <a href="/">Home</a> |
+    <% if (currentUser){ %>
+        Welcome, <a href="/users/<%=currentUser.username%>"> <%= currentUser.username %></a> |
+        <a href="/settings">Edit Profile</a> |
+        <form style="display: inline" action="/session" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <a href="#" onclick="this.parentNode.submit()">Sign Out</a>
+        </form>
+    <% } else { %>
+        <a href="/users/new">Sign Up</a> | 
+        <a href="/session/new">Sign In</a> 
+    <% } %>
+</nav>
+
+

@@ -2,4 +2,25 @@
 
 <h1><%= user.username %>'s Profile</h1>
 
+<h2>Seen Live: </h2>
+<% for(let artist of artists) { %>
+    <p><a href="https://open.spotify.com/artist/<%= artist.spotifyId %>"><%= artist.name %></a>: <%= artist.seenCount %> time(s)</p>
+<% } %>
+
+<h2>Comments:</h2>
+<div id="comments">
+    <% for(let comment of comments) { %>
+        <strong><%= comment.author %> said:</strong> <br>
+        <p><%= comment.content %></p>
+    <% } %>
+</div>
+
+<form action="/users/<%=user.username%>/comments" method="post">
+    <div>
+        <textarea name="content" id="content" cols="40" rows="4"></textarea>
+    </div>
+    <input type="submit" value="Add Comment">
+</form>
+
+
 <%- include('../partials/footer') %>

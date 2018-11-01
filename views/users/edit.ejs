@@ -1,0 +1,21 @@
+<%- include('../partials/header') %>
+
+<h2>Add Artists:</h2>
+<input type="text" id="artist" name="artist" placeholder="Artist name">
+<input id="search" type="submit" value="Search">
+
+<div id="results"></div>
+
+<hr>
+
+<% for(let artist of artists) { %>
+    <div id="<%= artist.id %>">
+        <p style="display: inline"><%= artist.name %></p>
+        <input type="number" value="<%= artist.seenCount %>" name="seen" id="seen">
+        <button>Update</button>
+    </div>
+<% } %>
+
+<script src="/js/profile.js"></script>
+
+<%- include('../partials/footer') %>
