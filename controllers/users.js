@@ -1,6 +1,5 @@
 const { body, validationResult } = require('express-validator/check');
 const User = require('../models/user');
-const Artist = require('../models/artist');
 const Comment = require('../models/comment');
 const knex = require('../db/client');
 
@@ -50,15 +49,19 @@ module.exports = {
             }
         },
     ],
-    async show(req, res) {
-        const { username } = req.params;
-        const user = await User.fetch(username);
-        const comments = await Comment.fetch(user.username);
-        const artists = await User.fetchSeen(user.id);
-        if (user) {
-            res.render('users/show', { user, comments, artists });
-        } else {
-            res.status(404).send("Page doesn't exist!");
+    async show(req, res, next) {
+        try {
+            const { username } = req.params;
+            const user = await User.fetch(username);
+            const comments = await Comment.fetch(user.id);
+            const artists = await User.fetchSeen(user.id);
+            if (user) {
+                res.render('users/show', { user, comments, artists });
+            } else {
+                res.status(404).send("Page doesn't exist!");
+            }
+        } catch (err) {
+            next(err);
         }
     },
     async edit(req, res) {
@@ -66,27 +69,5 @@ module.exports = {
         const user = await User.fetch(username);
         const artists = await User.fetchSeen(user.id);
         res.render('users/edit', { artists });
-    },
-    async addArtist(req, res, next) {
-        try {
-            const { addedArtistName, addedArtistId, username } = req.body;
-            const dbUser = await User.fetch(username);
-            let dbArtist = await Artist.fetch(addedArtistId);
-            if (!dbArtist) {
-                [dbArtist] = await Artist.saveDb(addedArtistName, addedArtistId);
-            }
-            await User.addSeen(dbUser.id, dbArtist.id);
-        } catch (err) {
-            next(err);
-        }
-    },
-    async updateSeen(req, res, next) {
-        try {
-            const { id, username, seenCount } = req.body;
-            const dbUser = await User.fetch(username);
-            await User.updateSeenCount(id, dbUser.id, seenCount);
-        } catch (err) {
-            next(err);
-        }
     },
 };

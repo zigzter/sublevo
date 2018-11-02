@@ -9,6 +9,14 @@
         body {
             background-color: lightslategray;
         }
+        .comment form input[type="submit"]{
+            background: none;
+            border: none;
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -27,4 +35,13 @@
     <% } %>
 </nav>
 
+<hr>
 
+
+<% for (let type in flash) { %> 
+<% let msg; while (msg = flash[type].pop()) { %>
+  <div class="<%= `alert alert-${type}` %>">
+    <%= msg %>
+  </div>
+<% } %>
+<% } %>

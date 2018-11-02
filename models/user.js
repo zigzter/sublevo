@@ -41,6 +41,10 @@ module.exports = class User {
         return knex('seenlive').insert({ userId, artistId });
     }
 
+    static async removeSeen(userId, artistId) {
+        return knex('seenlive').where({ userId, artistId }).del();
+    }
+
     async save() {
         const { email, username, name, password } = this;
         const [{ id }] = await knex('users').insert({

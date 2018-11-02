@@ -16,9 +16,11 @@ module.exports = {
             }
             if (user && await user.authenticate(password)) {
                 req.session.userId = user.id;
+                req.flash('success', `Welcome back, ${ user.username }`);
                 res.redirect('/');
             } else {
-                res.render('session/new');
+                req.flash('warning', 'Invalid credentials');
+                res.redirect('session/new');
             }
         } catch (err) {
             next(err);

@@ -1,26 +1,37 @@
 const knex = require('../db/client');
 
 module.exports = class Comment {
-    constructor({ id, author, profile, content, createdAt }) {
+    constructor({ id, authorId, profileId, content, createdAt }) {
         this.id = id;
-        this.author = author;
-        this.profile = profile;
+        this.authorId = authorId;
+        this.profileId = profileId;
         this.content = content;
         this.createdAt = createdAt;
     }
 
-    static async fetch(profile) {
-        return knex('comments').where({ profile }).orderBy('createdAt', 'desc');
+    static async fetch(profileId) {
+        return knex('comments').where({ profileId }).join('users', { 'comments.authorId': 'users.id' }).orderBy('comments.createdAt', 'desc');
+    }
+
+    static async fetchById(id) {
+        const rawComment = await knex('comments').where({ id }).first();
+        return new Comment(rawComment);
     }
 
     async save() {
-        const { author, profile, content } = this;
+        const { authorId, profileId, content } = this;
         const [{ id }] = await knex('comments').insert({
-            author,
-            profile,
+            authorId,
+            profileId,
             content,
         }).returning('*');
         this.id = id;
+        return this;
+    }
+
+    async destroy() {
+        const { id } = this;
+        await knex('comments').where({ id }).del();
         return this;
     }
 };

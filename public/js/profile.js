@@ -1,7 +1,5 @@
 'use strict';
 
-const username = location.pathname.split('/')[2];
-
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('search').addEventListener('click', (e) => {
         const artist = document.getElementById('artist').value;
@@ -22,13 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 addBtn.addEventListener('click', (event) => {
                     const addedArtistName = event.currentTarget.previousSibling.innerText;
                     const addedArtistId = event.currentTarget.parentElement.id;
-                    fetch(`/users/${ username }/add`, {
+                    fetch('/artists/add', {
                         method: 'post',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                             addedArtistName,
                             addedArtistId,
-                            username,
                         }),
                     }).then();
                 });
@@ -45,12 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (event) => {
             const { id } = event.currentTarget.parentNode;
             const seenCount = event.currentTarget.previousSibling.previousSibling.value;
-            fetch(`/users/${ username }/seen`, {
+            fetch('/artists/update', {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id,
-                    username,
                     seenCount,
                 }),
             }).then();

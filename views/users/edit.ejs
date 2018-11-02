@@ -8,11 +8,17 @@
 
 <hr>
 
+
+
 <% for(let artist of artists) { %>
     <div id="<%= artist.id %>">
         <p style="display: inline"><%= artist.name %></p>
         <input type="number" value="<%= artist.seenCount %>" name="seen" id="seen">
         <button>Update</button>
+        <form style="display: inline" action="/artists/delete/<%= artist.id %>" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Remove">
+        </form>
     </div>
 <% } %>
 

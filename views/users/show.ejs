@@ -10,8 +10,14 @@
 <h2>Comments:</h2>
 <div id="comments">
     <% for(let comment of comments) { %>
-        <strong><%= comment.author %> said:</strong> <br>
-        <p><%= comment.content %></p>
+        <div class="comment" style="border: 1px solid black; margin: 5px; padding: 5px;">
+            <strong> <a href="/users/<%= comment.username %>"><%= comment.username %></a> said:</strong> <br>
+            <p style="margin: 0"><%= comment.content %></p>
+            <form action="/users/<%= user.username %>/comments/<%= comment.id %>" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete">
+            </form>
+        </div>
     <% } %>
 </div>
 
