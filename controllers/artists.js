@@ -32,4 +32,4 @@ module.exports = {
         User.removeSeen(userId, artistId);
         res.redirect('/settings');
     },
-}
+};

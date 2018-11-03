@@ -1,7 +1,7 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('search').addEventListener('click', (e) => {
+    document.getElementById('searchArtist').addEventListener('click', (e) => {
         const artist = document.getElementById('artist').value;
         fetch('/api', {
             method: 'POST',
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 artist,
             }),
         }).then(resp => resp.json()).then((data) => {
-            const results = document.getElementById('results');
+            const results = document.getElementById('artistResults');
             results.innerHTML = '';
             data.map((item) => {
                 const result = document.createElement('div');
@@ -51,5 +51,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 }),
             }).then();
         })
+    });
+    document.getElementById('searchVenue').addEventListener('click', (event) => {
+        const venueSearch = document.getElementById('venue').value;
+        fetch('/api/venue', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                venueSearch,
+            }),
+        }).then(resp => resp.json()).then((data) => {
+            const results = document.getElementById('venueResults');
+            results.innerHTML = '';
+            data.map((venue) => {
+                const p = document.createElement('p');
+                p.innerText = venue.displayName;
+                results.append(p);
+            });
+        });
     });
 });

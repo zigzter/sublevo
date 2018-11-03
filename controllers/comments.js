@@ -13,7 +13,7 @@ module.exports = {
         async (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.render('/users/show');
+                return res.redirect(`/users/${ req.params.username }`);
             }
             try {
                 const { content } = req.body;
@@ -29,16 +29,20 @@ module.exports = {
             }
         },
     ],
-    async destroy(req, res) {
-        const { id } = req.params;
-        const currentId = req.currentUser.id;
-        const comment = await Comment.fetchById(id);
-        if (currentId === comment.profileId || currentId === comment.authorId) {
-            comment.destroy();
-            res.redirect(`/users/${ req.params.username }`);
-        } else {
-            req.flash('danger', 'Access denied');
-            res.redirect(`/users/${ req.params.username }`);
+    async destroy(req, res, next) {
+        try {
+            const { id } = req.params;
+            const currentId = req.currentUser.id;
+            const comment = await Comment.fetchById(id);
+            if (currentId === comment.profileId || currentId === comment.authorId) {
+                comment.destroy();
+                res.redirect(`/users/${ req.params.username }`);
+            } else {
+                req.flash('danger', 'Access denied');
+                res.redirect(`/users/${ req.params.username }`);
+            }
+        } catch (err) {
+            next(err);
         }
     },
 };

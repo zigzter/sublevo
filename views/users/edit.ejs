@@ -2,13 +2,11 @@
 
 <h2>Add Artists:</h2>
 <input type="text" id="artist" name="artist" placeholder="Artist name">
-<input id="search" type="submit" value="Search">
+<input id="searchArtist" type="submit" value="Search">
 
-<div id="results"></div>
+<div id="artistResults"></div>
 
 <hr>
-
-
 
 <% for(let artist of artists) { %>
     <div id="<%= artist.id %>">
@@ -21,6 +19,21 @@
         </form>
     </div>
 <% } %>
+
+<hr>
+
+<h2>Subscriptions</h2>
+
+<h3>Artists</h3>
+
+<h3>Venues</h3>
+
+<input type="text" id="venue" name="venue" placeholder="Venue name">
+<input id="searchVenue" type="submit" value="Search">
+
+<div id="venueResults"></div>
+
+
 
 <script src="/js/profile.js"></script>
 

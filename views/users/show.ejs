@@ -8,8 +8,16 @@
 <% } %>
 
 <h2>Comments:</h2>
+
+<form action="/users/<%=user.username%>/comments" method="post">
+    <div>
+        <textarea name="content" id="content" cols="40" rows="4"></textarea>
+    </div>
+    <input type="submit" value="Add Comment">
+</form>
+
 <div id="comments">
-    <% for(let comment of comments) { %>
+    <% for (let comment of comments) { %>
         <div class="comment" style="border: 1px solid black; margin: 5px; padding: 5px;">
             <strong> <a href="/users/<%= comment.username %>"><%= comment.username %></a> said:</strong> <br>
             <p style="margin: 0"><%= comment.content %></p>
@@ -20,13 +28,5 @@
         </div>
     <% } %>
 </div>
-
-<form action="/users/<%=user.username%>/comments" method="post">
-    <div>
-        <textarea name="content" id="content" cols="40" rows="4"></textarea>
-    </div>
-    <input type="submit" value="Add Comment">
-</form>
-
 
 <%- include('../partials/footer') %>

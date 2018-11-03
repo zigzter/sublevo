@@ -10,7 +10,10 @@ module.exports = class Comment {
     }
 
     static async fetch(profileId) {
-        return knex('comments').where({ profileId }).join('users', { 'comments.authorId': 'users.id' }).orderBy('comments.createdAt', 'desc');
+        return knex('comments').where({ profileId })
+            .join('users', { 'comments.authorId': 'users.id' })
+            .select('comments.id', 'comments.content', 'users.username')
+            .orderBy('comments.createdAt', 'desc');
     }
 
     static async fetchById(id) {

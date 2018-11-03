@@ -3,19 +3,12 @@ const express = require('express');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const connectRedis = require('connect-redis');
-const SpotifyWebApi = require('spotify-web-api-node');
 const flash = require('connect-flash');
 const User = require('./models/user');
 
-const SpotifyClientId = process.env.SPOTIFY_CLIENT_ID;
-const SpotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-
-const spotify = new SpotifyWebApi({
-    clientId: SpotifyClientId,
-    clientSecret: SpotifyClientSecret,
-});
-
 const app = express();
+
+// APIPCONFIG =======================================================
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -31,6 +24,8 @@ app.use(methodOverride((req) => {
     }
 }));
 
+// SESSION CONFIG ===================================================
+
 const RedisStore = connectRedis(session);
 
 app.use(session({
@@ -40,6 +35,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 680000000 },
 }));
+
+// UTILITY ==========================================================
 
 app.use(flash());
 
@@ -68,36 +65,11 @@ app.use(async (req, res, next) => {
     }
 });
 
+// ROUTING ==========================================================
+
 const indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
-
-app.use('/api', (req, res, next) => {
-    spotify.clientCredentialsGrant().then(
-        (data) => {
-            spotify.setAccessToken(data.body['access_token']);
-            next();
-        },
-        (err) => {
-            next(err);
-        },
-    );
-});
-
-app.post('/api', (req, res, next) => {
-    try {
-        const { artist } = req.body;
-        spotify.searchArtists(artist, { limit: 5 })
-            .then((data) => {
-                const { items } = data.body.artists;
-                res.json(items);
-            }, (err) => {
-                next(err);
-            });
-    } catch (err) {
-        next(err);
-    }
-});
 
 app.listen(3000, () => {
     console.log('server up');

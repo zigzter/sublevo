@@ -1,13 +1,12 @@
 const { body, validationResult } = require('express-validator/check');
 const User = require('../models/user');
 const Comment = require('../models/comment');
-const knex = require('../db/client');
 
 const validateUser = [
     body('username').not().isEmpty()
         .withMessage('Please enter a username')
         .custom(async (username) => {
-            if (await knex('users').where({ username }).first()) {
+            if (await User.fetch(username)) {
                 throw new Error('Username is already taken');
             }
         }),
