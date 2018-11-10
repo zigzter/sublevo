@@ -71,6 +71,6 @@ const indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
 
-app.listen(3000, () => {
+app.listen(3030, () => {
     console.log('server up');
 });

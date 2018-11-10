@@ -8,12 +8,15 @@ const validateComment = [
 ];
 
 module.exports = {
+    async index (req, res, next) {
+
+    },
     create: [
         validateComment,
         async (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.redirect(`/users/${ req.params.username }`);
+                return res.redirect(`/users/${req.params.username}`);
             }
             try {
                 const { content } = req.body;
@@ -23,23 +26,23 @@ module.exports = {
                 const authorId = req.currentUser.id;
                 const comment = new Comment({ authorId, profileId, content });
                 await comment.save();
-                res.redirect(`/users/${ profile.username }`);
+                res.redirect(`/users/${profile.username}`);
             } catch (err) {
                 next(err);
             }
         },
     ],
-    async destroy(req, res, next) {
+    async destroy (req, res, next) {
         try {
             const { id } = req.params;
             const currentId = req.currentUser.id;
             const comment = await Comment.fetchById(id);
             if (currentId === comment.profileId || currentId === comment.authorId) {
                 comment.destroy();
-                res.redirect(`/users/${ req.params.username }`);
+                res.redirect(`/users/${req.params.username}`);
             } else {
                 req.flash('danger', 'Access denied');
-                res.redirect(`/users/${ req.params.username }`);
+                res.redirect(`/users/${req.params.username}`);
             }
         } catch (err) {
             next(err);

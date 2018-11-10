@@ -7,7 +7,8 @@
     "extends": "airbnb",
     "rules": {
         "indent": [ 2, 4 ],
-
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "no-console": "off",
         "template-curly-spacing": [ 2, "always" ],
         "object-curly-spacing": [ 2, "always" ],
         "no-multiple-empty-lines": [ 2, { "max": 1, "maxEOF": 0, "maxBOF": 0 } ]
