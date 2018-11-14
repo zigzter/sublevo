@@ -5,7 +5,7 @@ const SeenLive = (props) => (
         <ul>
             {
                 props.seen.map((artist, ind) => (
-                    <li key={ind}>{artist}</li>
+                    <li key={ind}>{artist.name}</li>
                 ))
             }
         </ul>

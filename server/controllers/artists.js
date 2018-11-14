@@ -2,6 +2,11 @@ const User = require('../models/user');
 const Artist = require('../models/artist');
 
 module.exports = {
+    async getSeen(req, res) {
+        const user = await User.fetch(req.params.username);
+        const artists = await User.fetchSeen(user.id);
+        res.json(artists);
+    },
     async addArtist(req, res, next) {
         try {
             const { addedArtistName, addedArtistId } = req.body;

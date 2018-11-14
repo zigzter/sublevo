@@ -18,6 +18,15 @@ a {
   margin: 8px;
 }
 
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  margin-bottom: 5px;
+}
+
 .App {
   max-width: 800px;
   margin: 0 auto;

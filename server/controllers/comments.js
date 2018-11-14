@@ -8,31 +8,33 @@ const validateComment = [
 ];
 
 module.exports = {
-    async index (req, res, next) {
-
+    async index(req, res) {
+        const { username } = req.params;
+        const user = await User.fetch(username);
+        const comments = await Comment.fetch(user.id);
+        if (comments) {
+            res.json(comments);
+        }
     },
     create: [
-        validateComment,
+        // validateComment,
         async (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.redirect(`/users/${req.params.username}`);
+                return res.json(errors.mapped());
             }
             try {
-                const { content } = req.body;
-                const { username } = req.params;
-                const profile = await User.fetch(username);
-                const profileId = profile.id;
+                const { content, profileId } = req.body;
                 const authorId = req.currentUser.id;
                 const comment = new Comment({ authorId, profileId, content });
                 await comment.save();
-                res.redirect(`/users/${profile.username}`);
+                res.send('ok');
             } catch (err) {
                 next(err);
             }
         },
     ],
-    async destroy (req, res, next) {
+    async destroy(req, res, next) {
         try {
             const { id } = req.params;
             const currentId = req.currentUser.id;

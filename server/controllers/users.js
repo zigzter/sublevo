@@ -52,12 +52,12 @@ module.exports = {
         try {
             const { username } = req.params;
             const user = await User.fetch(username);
-            const comments = await Comment.fetch(user.id);
-            const artists = await User.fetchSeen(user.id);
+            // const comments = await Comment.fetch(user.id);
+            // const artists = await User.fetchSeen(user.id);
             if (user) {
-                res.render('users/show', { user, comments, artists });
+                res.json(user);
             } else {
-                res.status(404).send("Page doesn't exist!");
+                res.json({});
             }
         } catch (err) {
             next(err);

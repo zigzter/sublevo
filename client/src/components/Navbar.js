@@ -1,11 +1,12 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => (
     <nav className="Navbar">
-        <a href="/">Home</a>
-        <a href="/">Edit Profile</a>
-        <a href="/">Sign Out</a>
-    </nav>
+        <NavLink to='/' activeClassName='active' exact={true}>Home</NavLink>
+        <NavLink to='/users/shteaz' activeClassName='active' exact={true}>Profile</NavLink>
+        <NavLink to='/settings' activeClassName='active' exact={true}>Settings</NavLink>
+    </nav >
 )
 
 export default Navbar;
