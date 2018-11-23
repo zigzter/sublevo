@@ -18,7 +18,10 @@ module.exports = class User {
     }
 
     static async find(type, input) {
-        const userRaw = await knex('users').where(`${ type }`, input).first();
+        const userRaw = await knex('users').where(`${type}`, input).first();
+        if (!userRaw) {
+            return undefined;
+        }
         return new User(userRaw);
     }
 
@@ -27,7 +30,7 @@ module.exports = class User {
     }
 
     static async fetchSeen(id) {
-        return knex('seenlive').where({ userId: id }).join('artists', { 'artists.id': 'seenlive.artistId' });
+        return knex('seenlive').where({ userId: id }).join('artists', { 'artists.id': 'seenlive.artistId' }).orderBy('seenCount', 'desc');
     }
 
     static async updateSeenCount(artistId, userId, seenCount) {

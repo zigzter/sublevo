@@ -36,8 +36,81 @@ li {
   padding: 12px;
   background: darkslategray;
   color: white;
+  margin-bottom: 25px;
 }
 
 .Navbar a {
   color: white;
+}
+
+.artistResult {
+  color: white;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+}
+
+.card-text > h2 {
+  background: rgba(0,0,0,.7);
+  width: 100%;
+}
+
+.card-img-overlay {
+  padding: 30px 5px;
+}
+
+.btn-link {
+  margin: 0;
+  padding: 0;
+}
+
+.Comment {
+  border-bottom: 1px solid darkgrey;
+  padding: 10px;
+  margin: 5px 0;
+  position: relative;
+}
+
+.Comment a {
+  margin: 0;
+}
+
+.commentTime {
+  font-size: .8rem;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.card img {
+  filter: brightness(50%);
+}
+
+.seenArtist {
+  border: 2px solid black;
+  margin: 4px 0;
+  padding: 5px;
+  border-radius: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: 100ms;
+}
+
+.seenArtist:hover {
+  transform: scaleY(1.1);
+}
+
+.seenArtist p {
+  font-weight: bold;
+  display: inline;
+  background: white;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.auth {
+  width: 500px;
+  margin: 0 auto;
 }

@@ -12,25 +12,25 @@ const spotify = new SpotifyWebApi({
 
 module.exports = {
     getToken(req, res, next) {
-        spotify.clientCredentialsGrant().then(
-            (data) => {
+        spotify.clientCredentialsGrant()
+            .then((data) => {
                 spotify.setAccessToken(data.body['access_token']);
                 next();
             },
-            (err) => {
-                next(err);
-            },
-        );
+                (err) => {
+                    next(err);
+                },
+            );
     },
     searchArtistSpotify(req, res, next) {
         try {
             const { artist } = req.body;
-            spotify.searchArtists(artist, { limit: 5 })
+            spotify.searchArtists(artist, { limit: 1 })
                 .then((data) => {
                     const { items } = data.body.artists;
                     res.json(items);
                 }, (err) => {
-                    next(err);
+                    res.json(err);
                 });
         } catch (err) {
             next(err);
@@ -39,7 +39,7 @@ module.exports = {
     async searchVenue(req, res, next) {
         try {
             const { venueSearch } = req.body;
-            const data = await axios.get(`https://api.songkick.com/api/3.0/search/venues.json?query=${ venueSearch }&apikey=${ SongkickKey }&per_page=5`);
+            const data = await axios.get(`https://api.songkick.com/api/3.0/search/venues.json?query=${venueSearch}&apikey=${SongkickKey}&per_page=5`);
             const { venue } = data.data.resultsPage.results; // 'venue' is an array of the results
             res.json(venue);
         } catch (err) {

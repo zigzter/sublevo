@@ -22,23 +22,22 @@ router.get('/', homeController.index);
 router.get('/users/new', usersController.new);
 router.post('/users', usersController.create);
 router.get('/users/:username', usersController.show);
+router.get('/currentuser', usersController.current);
 router.get('/settings', auth, usersController.edit);
 
-router.get('/artists/:username', auth, artistsController.getSeen);
-router.post('/artists/add', auth, artistsController.addArtist);
-router.post('/artists/update', auth, artistsController.updateSeen);
+router.post('/artists/add', artistsController.addArtist);
+router.post('/artists/update', artistsController.updateSeen);
 router.delete('/artists/delete/:id', auth, artistsController.destroySeen);
 
 router.get('/session/new', sessionController.new);
 router.post('/session', sessionController.create);
 router.delete('/session', sessionController.destroy);
 
-router.get('/users/:username/comments/', commentsController.index);
 router.post('/users/:username/comments/', commentsController.create);
-router.delete('/users/:username/comments/:id', auth, commentsController.destroy);
+router.delete('/users/:username/comments/:id', commentsController.destroy);
 
 router.use('/api', apiController.getToken);
-router.post('/api', apiController.searchArtistSpotify);
+router.post('/api/artists', apiController.searchArtistSpotify);
 router.post('/api/venue', apiController.searchVenue);
 
 module.exports = router;

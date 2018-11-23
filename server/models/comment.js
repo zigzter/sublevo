@@ -12,7 +12,7 @@ module.exports = class Comment {
     static async fetch(profileId) {
         return knex('comments').where({ profileId })
             .join('users', { 'comments.authorId': 'users.id' })
-            .select('comments.id', 'comments.content', 'users.username')
+            .select('comments.id', 'comments.content', 'users.username', 'comments.createdAt')
             .orderBy('comments.createdAt', 'desc');
     }
 
@@ -23,12 +23,13 @@ module.exports = class Comment {
 
     async save() {
         const { authorId, profileId, content } = this;
-        const [{ id }] = await knex('comments').insert({
+        const [{ id, createdAt }] = await knex('comments').insert({
             authorId,
             profileId,
-            content,
+            content
         }).returning('*');
         this.id = id;
+        this.createdAt = createdAt;
         return this;
     }
 

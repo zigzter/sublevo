@@ -52,10 +52,27 @@ module.exports = {
         try {
             const { username } = req.params;
             const user = await User.fetch(username);
-            // const comments = await Comment.fetch(user.id);
-            // const artists = await User.fetchSeen(user.id);
             if (user) {
-                res.json(user);
+                const comments = await Comment.fetch(user.id);
+                const seen = await User.fetchSeen(user.id);
+                res.json({
+                    user,
+                    comments,
+                    seen,
+                });
+            } else {
+                res.json({});
+            }
+        } catch (err) {
+            next(err);
+        }
+    },
+    async current(req, res, next) {
+        try {
+            if (req.currentUser) {
+                const { id, email, username } = req.currentUser;
+                const foundUser = { id, email, username };
+                res.json(foundUser);
             } else {
                 res.json({});
             }

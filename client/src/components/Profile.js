@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Loader from 'react-loader-spinner';
 import SeenLive from './SeenLive';
 import Comments from './Comments';
 
@@ -8,20 +9,43 @@ export default class Profile extends Component {
         this.state = {
             user: {},
             comments: [],
-            seen: []
+            seen: [],
+            loading: true
         }
     }
     async fetchUserData() {
-        const [user, comments, seen] = await Promise.all([
-            fetch(`/users/${this.props.match.params.username}`).then(res => res.json()),
-            fetch(`/users/${this.props.match.params.username}/comments`).then(res => res.json()),
-            fetch(`/artists/${this.props.match.params.username}`).then(res => res.json())
-
-        ]);
+        const { user, comments, seen } = await fetch(`/users/${this.props.match.params.username}`).then(res => res.json());
         this.setState({
             user,
             comments,
-            seen
+            seen,
+            loading: false
+        });
+    }
+    addComment = async (e) => {
+        e.persist();
+        e.preventDefault();
+        const { user, user: { username } } = this.state;
+        const content = e.target.elements.body.value.trim();
+        const profileId = user.id;
+        const { id, createdAt } = await fetch(`/users/${user.username}/comments`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                content,
+                profileId,
+            }),
+        }).then(res => res.json());
+        const comment = [{ content, username, id, createdAt }];
+        this.setState({
+            comments: comment.concat(this.state.comments)
+        });
+        e.target.elements.body.value = '';
+    }
+    deleteComment = (id) => {
+        fetch(`/users/${this.state.user.username}/comments/${id}`, { method: 'delete' });
+        this.setState({
+            comments: this.state.comments.filter(comment => comment.id !== id)
         });
     }
     componentDidMount() {
@@ -35,10 +59,11 @@ export default class Profile extends Component {
     render() {
         return (
             <div className="Profile">
+                {this.state.loading && <Loader type="TailSpin" color="#000" height={120} width={120} />}
                 <h2>{this.state.user.username}</h2>
                 <SeenLive seen={this.state.seen} />
                 <hr />
-                <Comments comments={this.state.comments} />
+                <Comments comments={this.state.comments} addComment={this.addComment} deleteComment={this.deleteComment} />
             </div>
         )
     }
