@@ -10,7 +10,7 @@ const VenuesResults = (props) => (
                         <h4>{venue.displayName}</h4>
                         <p>{venue.street}</p>
                         <p>{venue.city.displayName}</p>
-                        <button onClick={() => props.addVenue(venue.name, venue.id)}>Add Venue</button>
+                        <button onClick={() => props.addVenue(venue.id)}>Add Venue</button>
                     </li>
                 ))
             }

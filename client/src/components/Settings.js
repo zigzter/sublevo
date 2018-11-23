@@ -31,7 +31,7 @@ export default class Settings extends Component {
     }
     addArtist = async (addedArtistName, addedArtistId, artistImage) => {
         fetch('/artists/add', {
-            method: 'post',
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 addedArtistName,
@@ -55,8 +55,12 @@ export default class Settings extends Component {
         });
         console.log(this.state.venues)
     }
-    addVenue = async () => {
-        // jjjjjj
+    addVenue = async (venueId) => {
+        fetch('/venues', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ venueId })
+        });
     }
     render() {
         return (
@@ -66,7 +70,7 @@ export default class Settings extends Component {
                 {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
                 <hr />
                 <AddVenueForm searchVenues={this.searchVenues} />
-                {this.state.venues.length > 0 && <VenuesResults venues={this.state.venues} />}
+                {this.state.venues.length > 0 && <VenuesResults addVenue={this.addVenue} venues={this.state.venues} />}
             </div>
         );
     }
