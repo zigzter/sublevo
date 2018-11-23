@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import EventPreview from './EventPreview';
 
 export default class Home extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ export default class Home extends Component {
     getEvents = async () => {
         const events = await fetch('/venues', { method: 'GET' }).then(res => res.json());
         await this.setState({ events, loading: false });
-        console.log(this.state.events)
+        console.log(events);
     }
     componentDidMount() {
         this.getEvents();
@@ -22,12 +23,10 @@ export default class Home extends Component {
             return (
                 <div>
                     <h1>Events Feed</h1>
-                    <ul>
+                    <ul className='events'>
                         {
                             !!events[0] && events.map((event) => (
-                                <li key={event.id}>
-                                    {event.displayName}
-                                </li>
+                                <EventPreview key={event.id} {...event} />
                             ))
                         }
                     </ul>

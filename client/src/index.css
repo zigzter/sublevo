@@ -114,3 +114,7 @@ li {
   width: 500px;
   margin: 0 auto;
 }
+
+.events .card {
+  margin: 10px;
+}
