@@ -5,7 +5,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             loading: true,
-            events: []
+            events: undefined
         }
     }
     getEvents = async () => {
@@ -17,13 +17,14 @@ export default class Home extends Component {
         this.getEvents();
     }
     render() {
+        const { events } = this.state
         if (!this.state.loading) {
             return (
                 <div>
                     <h1>Events Feed</h1>
                     <ul>
                         {
-                            this.state.events[1].map((event) => (
+                            !!events[0] && events.map((event) => (
                                 <li key={event.id}>
                                     {event.displayName}
                                 </li>

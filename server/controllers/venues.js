@@ -21,11 +21,16 @@ module.exports = {
             const rawEvents = await Promise.all(subs.map((sub) => {
                 return axios.get(`https://api.songkick.com/api/3.0/venues/${sub.targetId}/calendar.json?apikey=${SongkickKey}`);
             }));
-            const events = rawEvents.map(obj => obj.data.resultsPage.results.event);
-            console.log(events.length);
+            const events = rawEvents.reduce((arr, elem) => {
+                for (const c of elem.data.resultsPage.results.event) {
+                    arr.push(c);
+                }
+                return arr;
+            }, []);
+            events.sort((a, b) => new Date(a.start.date) - new Date(b.start.date));
             res.json(events);
         } catch (err) {
-            next(err);
+            res.json({});
         }
     },
 };

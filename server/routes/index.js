@@ -1,5 +1,4 @@
 const express = require('express');
-const homeController = require('../controllers/home');
 const usersController = require('../controllers/users');
 const sessionController = require('../controllers/session');
 const commentsController = require('../controllers/comments');
@@ -17,8 +16,6 @@ function auth(req, res, next) {
         next();
     }
 }
-
-router.get('/', homeController.index);
 
 router.get('/users/new', usersController.new);
 router.post('/users', usersController.create);

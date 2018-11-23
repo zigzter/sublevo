@@ -6,7 +6,7 @@ const VenuesResults = (props) => (
         <ul>
             {
                 props.venues.map((venue) => (
-                    <li>
+                    <li key={venue.id}>
                         <h4>{venue.displayName}</h4>
                         <p>{venue.street}</p>
                         <p>{venue.city.displayName}</p>

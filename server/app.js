@@ -30,6 +30,7 @@ const RedisStore = connectRedis(session);
 
 app.use(session({
     secret: 'put super secret key here!',
+    name: 'sessionId',
     store: new RedisStore({ port: 6379, host: 'localhost' }),
     resave: true,
     saveUninitialized: false,
