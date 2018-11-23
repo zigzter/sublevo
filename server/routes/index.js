@@ -5,6 +5,7 @@ const sessionController = require('../controllers/session');
 const commentsController = require('../controllers/comments');
 const artistsController = require('../controllers/artists');
 const apiController = require('../controllers/api');
+const venuesController = require('../controllers/venues');
 
 const router = express.Router();
 
@@ -39,5 +40,8 @@ router.delete('/users/:username/comments/:id', commentsController.destroy);
 router.use('/api', apiController.getToken);
 router.post('/api/artists', apiController.searchArtistSpotify);
 router.post('/api/venue', apiController.searchVenue);
+
+router.post('/venues', venuesController.subscribeVenue);
+router.get('/venues', venuesController.venueEvents);
 
 module.exports = router;

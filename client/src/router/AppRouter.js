@@ -21,15 +21,21 @@ export default class AppRouter extends Component {
         }
         console.log(currentUser);
     }
+    destroySession = () => {
+        fetch('/session', {
+            method: 'DELETE'
+        });
+        this.setState({ currentUser: { id: undefined } })
+    }
     componentDidMount() {
         this.getUser();
     }
     render() {
-        const { id } = this.state.currentUser;
+        const { currentUser } = this.state;
         return (
             <BrowserRouter>
                 <Fragment>
-                    <Navbar userPresent={!!id} />
+                    <Navbar currentUser={currentUser} destroySession={this.destroySession} />
                     <div className='container'>
                         <Switch>
                             <Route path='/' component={Home} exact={true} />

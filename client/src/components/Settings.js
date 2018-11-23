@@ -40,9 +40,23 @@ export default class Settings extends Component {
             })
         }).then(console.log)
     }
-    searchVenues = (e) => {
+    searchVenues = async (e) => {
         e.preventDefault();
-        console.log('searching venues')
+        this.setState({ loading: true, venues: [] })
+        const venueSearch = e.currentTarget.elements.venueName.value;
+        const venueResults = await fetch('/api/venue', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ venueSearch })
+        }).then(res => res.json());
+        await this.setState({
+            venues: [...venueResults],
+            loading: false
+        });
+        console.log(this.state.venues)
+    }
+    addVenue = async () => {
+        // jjjjjj
     }
     render() {
         return (
@@ -52,7 +66,7 @@ export default class Settings extends Component {
                 {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
                 <hr />
                 <AddVenueForm searchVenues={this.searchVenues} />
-                {this.state.venues.length > 0 && <VenuesResults />}
+                {this.state.venues.length > 0 && <VenuesResults venues={this.state.venues} />}
             </div>
         );
     }

@@ -28,6 +28,6 @@ module.exports = {
     },
     destroy(req, res) {
         req.session.userId = undefined;
-        res.redirect('/');
+        res.json({});
     },
 };

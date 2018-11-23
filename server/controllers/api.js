@@ -39,7 +39,7 @@ module.exports = {
     async searchVenue(req, res, next) {
         try {
             const { venueSearch } = req.body;
-            const data = await axios.get(`https://api.songkick.com/api/3.0/search/venues.json?query=${venueSearch}&apikey=${SongkickKey}&per_page=5`);
+            const data = await axios.get(`https://api.songkick.com/api/3.0/search/venues.json?query=${venueSearch}&apikey=${SongkickKey}&per_page=3`);
             const { venue } = data.data.resultsPage.results; // 'venue' is an array of the results
             res.json(venue);
         } catch (err) {
