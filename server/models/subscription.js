@@ -11,4 +11,8 @@ module.exports = class Subscription {
     static async addSubscription(userId, type, targetId) {
         return knex('subscriptions').insert({ userId, type, targetId })
     }
+
+    static async get(userId, type) {
+        return knex('subscriptions').where({ userId, type });
+    }
 };
