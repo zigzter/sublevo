@@ -3,15 +3,15 @@ import { Card, Button, CardTitle, CardText } from 'reactstrap';
 
 const EventPreview = (props) => (
     <Card className='shadow' body outline color='primary'>
-        <CardTitle>{props.displayName}</CardTitle>
-        <CardText>
+        <CardTitle>
             {
-                props.performance.map((artist) => (
-                    <span key={artist.id}>
-                        {artist.displayName} <br />
-                    </span>
-                ))
+                props.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ')
             }
+            <hr />
+        </CardTitle>
+        <CardText>
+            {props.start.date} <br />
+            {props.venue.displayName}
         </CardText>
         <Button color='primary' outline>Details</Button>
     </Card>

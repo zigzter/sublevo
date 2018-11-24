@@ -11,7 +11,7 @@ const ArtistsResults = (props) => (
                         <CardTitle>
                             {artist.name}
                         </CardTitle>
-                        <Button onClick={() => props.addArtist(artist.name, artist.id, artist.images[0].url)} size='lg' color='success' block outline>Add Artist</Button>
+                        <Button id='addArtist' onClick={() => props.addArtist(artist.name, artist.id, artist.images[0].url)} size='lg' color='success' block outline>Add Artist</Button>
                     </CardImgOverlay>
                 </Card>
             ))

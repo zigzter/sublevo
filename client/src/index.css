@@ -98,10 +98,6 @@ li {
   transition: 100ms;
 }
 
-.seenArtist:hover {
-  transform: scaleY(1.1);
-}
-
 .seenArtist p {
   font-weight: bold;
   display: inline;

@@ -22,7 +22,6 @@ export default class Home extends Component {
         if (!this.state.loading) {
             return (
                 <div>
-                    <h1>Events Feed</h1>
                     <ul className='events'>
                         {
                             !!events[0] && events.map((event) => (

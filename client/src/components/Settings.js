@@ -4,6 +4,7 @@ import AddArtistForm from './AddArtistForm';
 import AddVenueForm from './AddVenueForm';
 import ArtistsResults from './ArtistsResults';
 import VenuesResults from './VenuesResults';
+import EditSeenForm from './EditSeenForm';
 
 export default class Settings extends Component {
     constructor(props) {
@@ -27,10 +28,12 @@ export default class Settings extends Component {
             artists: [...artistsResults],
             loading: false
         });
-        console.log(artistsResults);
     }
     addArtist = async (addedArtistName, addedArtistId, artistImage) => {
-        fetch('/artists/add', {
+        const btn = document.getElementById('addArtist');
+        btn.disabled = true;
+        btn.innerText = 'Adding artist...';
+        const addResult = await fetch('/artists/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -38,7 +41,8 @@ export default class Settings extends Component {
                 addedArtistId,
                 artistImage
             })
-        }).then(console.log)
+        }).then(res => res.json());
+        btn.innerText = (addResult.error) ? 'Arist added already!' : 'Artist added!';
     }
     searchVenues = async (e) => {
         e.preventDefault();
@@ -65,6 +69,7 @@ export default class Settings extends Component {
     render() {
         return (
             <div>
+                <EditSeenForm />
                 <AddArtistForm searchArtists={this.searchArtists} />
                 {this.state.loading && <Loader type="TailSpin" color="#000" height={200} width={200} />}
                 {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}

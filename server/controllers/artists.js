@@ -5,15 +5,16 @@ module.exports = {
     async addArtist(req, res, next) {
         try {
             const { addedArtistName, addedArtistId, artistImage } = req.body;
-            const username = 'shteaz';
+            const { username } = req.currentUser;
             const dbUser = await User.fetch(username);
             let dbArtist = await Artist.fetch(addedArtistId);
             if (!dbArtist) {
                 [dbArtist] = await Artist.saveDb(addedArtistName, addedArtistId, artistImage);
             }
             await User.addSeen(dbUser.id, dbArtist.id);
+            res.json({});
         } catch (err) {
-            next(err);
+            res.json({ error: 'Artist already added' })
         }
     },
     async updateSeen(req, res, next) {

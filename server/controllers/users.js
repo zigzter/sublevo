@@ -55,6 +55,7 @@ module.exports = {
             if (user) {
                 const comments = await Comment.fetch(user.id);
                 const seen = await User.fetchSeen(user.id);
+                console.log(seen);
                 res.json({
                     user,
                     comments,
