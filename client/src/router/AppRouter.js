@@ -6,12 +6,13 @@ import Profile from '../components/Profile';
 import Home from '../components/Home';
 import Settings from '../components/Settings';
 import SignInPage from '../components/SignInPage';
+import SignUpPage from '../components/SignUpPage';
 
 export default class AppRouter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: { id: undefined }
+            currentUser: {},
         }
     }
     getUser = async () => {
@@ -19,13 +20,13 @@ export default class AppRouter extends Component {
         if (currentUser) {
             this.setState({ currentUser });
         }
-        console.log(currentUser);
     }
     destroySession = () => {
         fetch('/session', {
             method: 'DELETE'
         });
-        this.setState({ currentUser: { id: undefined } })
+        this.setState({ currentUser: {} });
+        console.log('signed out')
     }
     componentDidMount() {
         this.getUser();
@@ -39,6 +40,7 @@ export default class AppRouter extends Component {
                     <div className='container'>
                         <Switch>
                             <Route path='/' component={Home} exact={true} />
+                            <Route path='/users/new' component={SignUpPage} />
                             <Route path='/users/:username' component={Profile} />
                             <Route path='/settings' component={Settings} />
                             <Route path='/session/new' render={(routeProps) => (

@@ -42,7 +42,7 @@ export default class SignInPage extends Component {
                     </FormGroup>
                     <Button color='primary' block>Sign In</Button>
                 </Form>
-                <Link to='users/new'>Create Account</Link>
+                <Link to='/users/new'>Create Account</Link>
             </Card>
         )
     }

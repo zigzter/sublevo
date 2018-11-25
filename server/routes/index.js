@@ -17,7 +17,6 @@ function auth(req, res, next) {
     }
 }
 
-router.get('/users/new', usersController.new);
 router.post('/users', usersController.create);
 router.get('/users/:username', usersController.show);
 router.get('/currentuser', usersController.current);

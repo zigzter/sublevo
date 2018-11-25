@@ -24,16 +24,13 @@ const validateUser = [
 ];
 
 module.exports = {
-    new(req, res) {
-        res.render('users/new', { user: {} });
-    },
     create: [
         validateUser,
         async (req, res, next) => {
             const { username, email, password } = req.body;
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return res.render('users/new', {
+                return res.json({
                     user: { username, email },
                     errors: errors.array(),
                 });
@@ -42,9 +39,11 @@ module.exports = {
                 const user = new User({ username, email, password });
                 await user.save();
                 req.session.userId = user.id;
-                return res.redirect('/');
+                const { id, email, username } = user;
+                const newUser = { id, email, username };
+                res.json(newUser);
             } catch (err) {
-                return next(err);
+                next(err);
             }
         },
     ],
@@ -55,7 +54,6 @@ module.exports = {
             if (user) {
                 const comments = await Comment.fetch(user.id);
                 const seen = await User.fetchSeen(user.id);
-                console.log(seen);
                 res.json({
                     user,
                     comments,
