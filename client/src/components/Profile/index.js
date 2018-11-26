@@ -36,7 +36,7 @@ export default class Profile extends Component {
                 profileId,
             }),
         }).then(res => res.json());
-        const comment = [{ content, username, id, createdAt }];
+        const comment = [{ content, username: this.props.currentUser.username, id, createdAt }];
         this.setState({
             comments: comment.concat(this.state.comments)
         });
