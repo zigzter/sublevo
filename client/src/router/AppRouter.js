@@ -26,7 +26,6 @@ export default class AppRouter extends Component {
             method: 'DELETE'
         });
         this.setState({ currentUser: {} });
-        console.log('signed out')
     }
     componentDidMount() {
         this.getUser();
@@ -40,7 +39,9 @@ export default class AppRouter extends Component {
                     <div className='container'>
                         <Switch>
                             <Route path='/' component={Home} exact={true} />
-                            <Route path='/users/new' component={SignUpPage} />
+                            <Route path='/users/new' render={(routeProps) => (
+                                <SignUpPage {...routeProps} onSignUp={this.getUser} />
+                            )} />
                             <Route path='/users/:username' component={Profile} />
                             <Route path='/settings' component={Settings} />
                             <Route path='/session/new' render={(routeProps) => (

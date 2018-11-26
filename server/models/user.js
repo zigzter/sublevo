@@ -29,6 +29,10 @@ module.exports = class User {
         return knex('users').where({ username }).first();
     }
 
+    static async fetchByEmail(email) {
+        return knex('users').where({ email }).first();
+    }
+
     static async fetchSeen(id) {
         return knex('seenlive').where({ userId: id }).join('artists', { 'artists.id': 'seenlive.artistId' }).orderBy('seenCount', 'desc');
     }

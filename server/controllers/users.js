@@ -11,7 +11,12 @@ const validateUser = [
             }
         }),
     body('email').not().isEmpty()
-        .withMessage('Please enter your email'),
+        .withMessage('Please enter your email')
+        .custom(async (email) => {
+            if (await User.fetchByEmail(email)) {
+                throw new Error('Email is already in use');
+            }
+        }),
     body('password').isLength({ min: 9 })
         .withMessage('Password must be at least 9 characters'),
     body('passwordConfirmation').custom((value, { req }) => {
@@ -39,7 +44,7 @@ module.exports = {
                 const user = new User({ username, email, password });
                 await user.save();
                 req.session.userId = user.id;
-                const { id, email, username } = user;
+                const { id } = user;
                 const newUser = { id, email, username };
                 res.json(newUser);
             } catch (err) {

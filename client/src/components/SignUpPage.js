@@ -1,35 +1,57 @@
 import React, { Component } from 'react';
-import { Card, Alert, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Card, Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 export default class SignUpPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: {}
+            user: {},
+            errors: [],
         }
     }
+    createUser = async (event) => {
+        event.preventDefault();
+        const { username: { value: username }, email: { value: email }, password: { value: password }, passwordConfirmation: { value: passwordConfirmation } } = event.currentTarget.elements;
+        const user = await fetch('/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password, passwordConfirmation }),
+        }).then(res => res.json());
+        if (user.errors) {
+            this.setState({ errors: user.errors })
+            return;
+        }
+        if (typeof this.props.onSignUp === "function") {
+            this.props.onSignUp();
+        }
+        this.props.history.push('/');
+    }
     render() {
+        const { errors } = this.state;
         return (
             <Card body className="text-center auth">
                 <h4>Sign Up</h4>
-                {this.state.errors && <Alert color='danger'>{this.state.errors}</Alert>}
-                <Form onSubmit={this.createSession}>
+                <Form onSubmit={this.createUser}>
                     <FormGroup>
                         <Label for='username'>Username</Label>
-                        <Input type='text' name='username' />
+                        <Input type='text' name='username' invalid={!!errors.length} />
+                        {errors.filter(k => k.param === 'username').map(e => <FormFeedback key={e.msg}>{e.msg}</FormFeedback>)}
                     </FormGroup>
                     <FormGroup>
                         <Label for='email'>Email</Label>
-                        <Input type='email' name='email' />
+                        <Input type='email' name='email' invalid={!!errors.length} />
+                        {errors.filter(k => k.param === 'email').map(e => <FormFeedback key={e.msg}>{e.msg}</FormFeedback>)}
                     </FormGroup>
                     <FormGroup>
                         <Label for='password'>Password</Label>
-                        <Input type='password' name='password' />
+                        <Input type='password' name='password' invalid={!!errors.length} />
+                        {errors.filter(k => k.param === 'password').map(e => <FormFeedback key={e.msg}>{e.msg}</FormFeedback>)}
                     </FormGroup>
                     <FormGroup>
                         <Label for='passwordConfirmation'>Password</Label>
-                        <Input type='password' name='passwordConfirmation' />
+                        <Input type='password' name='passwordConfirmation' invalid={!!errors.length} />
+                        {errors.filter(k => k.param === 'passwordConfirmation').map(e => <FormFeedback key={e.msg}>{e.msg}</FormFeedback>)}
                     </FormGroup>
                     <Button color='primary' block>Create account</Button>
                 </Form>
