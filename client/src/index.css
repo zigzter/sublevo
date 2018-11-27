@@ -88,10 +88,11 @@ li {
 }
 
 .seenArtist {
-  border: 2px solid black;
+  border: 1px solid black;
+  display: block;
   margin: 4px 0;
   padding: 5px;
-  border-radius: 10px;
+  border-radius: 4px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -101,10 +102,12 @@ li {
 .seenArtist p {
   font-weight: bold;
   display: inline;
+  color: black;
   background: white;
   border-radius: 3px;
   padding: 3px;
 }
+
 
 .auth {
   width: 500px;
@@ -113,4 +116,8 @@ li {
 
 .events .card {
   margin: 10px;
+}
+
+.updateSeen button {
+  transition: 200ms;
 }

@@ -23,6 +23,7 @@ router.get('/currentuser', usersController.current);
 router.get('/settings', auth, usersController.edit);
 
 router.post('/artists/add', artistsController.addArtist);
+router.get('/artists/fetch', artistsController.fetchSeen);
 router.post('/artists/update', artistsController.updateSeen);
 router.delete('/artists/delete/:id', auth, artistsController.destroySeen);
 

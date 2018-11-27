@@ -17,6 +17,11 @@ module.exports = {
             res.json({ error: 'Artist already added' })
         }
     },
+    async fetchSeen(req, res, next) {
+        const { id } = req.currentUser;
+        const seen = await User.fetchSeen(id);
+        res.json({ seen });
+    },
     async updateSeen(req, res, next) {
         try {
             const { id, seenCount } = req.body;

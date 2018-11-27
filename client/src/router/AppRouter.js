@@ -7,6 +7,7 @@ import Home from '../components/Home';
 import Settings from '../components/Settings';
 import SignInPage from '../components/SignInPage';
 import SignUpPage from '../components/SignUpPage';
+import EventPage from '../components/EventPage';
 
 export default class AppRouter extends Component {
     constructor(props) {
@@ -49,6 +50,7 @@ export default class AppRouter extends Component {
                             <Route path='/session/new' render={(routeProps) => (
                                 <SignInPage {...routeProps} onSignIn={this.getUser} />
                             )} />
+                            <Route path='/events/:id' component={EventPage} />
                         </Switch>
                     </div>
                 </Fragment>

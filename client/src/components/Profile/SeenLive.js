@@ -5,15 +5,15 @@ const SeenLive = (props) => (
         {
             props.seen.map((artist, ind) => {
                 if (ind === 0) {
-                    return <div style={{ height: '90px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></div>
+                    return <a href={`/artists/${artist.spotifyId}`} style={{ height: '120px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
                 } else if (ind === 1) {
-                    return <div style={{ height: '70px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></div>
+                    return <a href={`/artists/${artist.spotifyId}`} style={{ height: '90px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
                 } else if (ind === 2) {
-                    return <div style={{ height: '50px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></div>
+                    return <a href={`/artists/${artist.spotifyId}`} style={{ height: '70px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
                 } else {
-                    return <div style={{
+                    return <a href={`/artists/${artist.spotifyId}`} style={{
                         backgroundImage: `url(${artist.artistImage})`
-                    }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></div>
+                    }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
                 }
             })
         }

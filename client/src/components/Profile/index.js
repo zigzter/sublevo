@@ -25,7 +25,7 @@ export default class Profile extends Component {
     addComment = async (e) => {
         e.persist();
         e.preventDefault();
-        const { user, user: { username } } = this.state;
+        const { user } = this.state;
         const content = e.target.elements.body.value.trim();
         const profileId = user.id;
         const { id, createdAt } = await fetch(`/users/${user.username}/comments`, {
@@ -61,6 +61,7 @@ export default class Profile extends Component {
             <div className="Profile">
                 {this.state.loading && <Loader type="TailSpin" color="#000" height={120} width={120} />}
                 <h2>{this.state.user.username}</h2>
+                <h4>{this.state.user.name}</h4>
                 <SeenLive seen={this.state.seen} />
                 <hr />
                 <Comments comments={this.state.comments} addComment={this.addComment} deleteComment={this.deleteComment} />

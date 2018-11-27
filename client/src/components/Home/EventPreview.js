@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button, CardTitle, CardText } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const EventPreview = (props) => (
     <Card className='shadow' body outline color='primary'>
@@ -13,8 +14,8 @@ const EventPreview = (props) => (
             {props.start.date} <br />
             {props.venue.displayName}
         </CardText>
-        <Button color='primary' outline>Details</Button>
-    </Card>
+        <Link to={{ pathname: `events/${props.id}`, state: { ...props } }}>Details</Link>
+    </Card >
 );
 
 export default EventPreview;
