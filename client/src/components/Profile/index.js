@@ -60,9 +60,12 @@ export default class Profile extends Component {
         return (
             <div className="Profile">
                 {this.state.loading && <Loader type="TailSpin" color="#000" height={120} width={120} />}
-                <h2>{this.state.user.username}</h2>
-                <h4>{this.state.user.name}</h4>
+                <h1>{this.state.user.username}</h1>
+                <h4>{this.state.user.name}, {this.state.user.location}</h4>
                 <SeenLive seen={this.state.seen} />
+                <hr />
+                <h3>About Me</h3>
+                <p>{this.state.user.about}</p>
                 <hr />
                 <Comments comments={this.state.comments} addComment={this.addComment} deleteComment={this.deleteComment} />
             </div>

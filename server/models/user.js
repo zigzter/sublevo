@@ -2,11 +2,13 @@ const bcrypt = require('bcrypt');
 const knex = require('../db/client');
 
 module.exports = class User {
-    constructor({ id, email, username, name, isAdmin, password, passwordDigest, createdAt }) {
+    constructor({ id, email, username, name, about, location, isAdmin, password, passwordDigest, createdAt }) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.name = name;
+        this.about = about;
+        this.location = location;
         this.isAdmin = isAdmin;
         this.password = password;
         this.passwordDigest = passwordDigest;
@@ -50,6 +52,10 @@ module.exports = class User {
 
     static async removeSeen(userId, artistId) {
         return knex('seenlive').where({ userId, artistId }).del();
+    }
+
+    static async updateInfo(id, name, about, location) {
+        return knex('users').where({ id }).update({ name, about, location }).then();
     }
 
     async save() {

@@ -20,7 +20,8 @@ function auth(req, res, next) {
 router.post('/users', usersController.create);
 router.get('/users/:username', usersController.show);
 router.get('/currentuser', usersController.current);
-router.get('/settings', auth, usersController.edit);
+router.get('/currentuser/info', usersController.fetchInfo);
+router.patch('/settings', usersController.update);
 
 router.post('/artists/add', artistsController.addArtist);
 router.get('/artists/fetch', artistsController.fetchSeen);

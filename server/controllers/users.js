@@ -84,10 +84,15 @@ module.exports = {
             next(err);
         }
     },
-    async edit(req, res) {
-        const { username } = req.currentUser;
-        const user = await User.fetch(username);
-        const artists = await User.fetchSeen(user.id);
-        res.render('users/edit', { artists });
+    async update(req, res) {
+        const { id } = req.currentUser;
+        const { name, about, location } = req.body;
+        User.updateInfo(id, name, about, location);
+    },
+    async fetchInfo(req, res) {
+        const { id } = req.currentUser;
+        const user = await User.findById(id);
+        const userInfo = { about: user.about, location: user.location, name: user.name };
+        res.json(userInfo);
     },
 };

@@ -15,6 +15,7 @@ export default class Settings extends Component {
             artists: [],
             venues: [],
             seen: [],
+            userInfo: {},
         }
     }
     searchArtists = async (e) => {
@@ -79,14 +80,24 @@ export default class Settings extends Component {
         document.getElementById(`${id}`).innerText = 'Updated!';
         document.getElementById(`${id}`).disabled = true;
     }
+    updateInfo = async (event) => {
+        event.preventDefault();
+        const { name: { value: name }, location: { value: location }, about: { value: about } } = event.currentTarget.elements;
+        fetch('/settings', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, location, about })
+        })
+    }
     async componentDidMount() {
+        const { about, name, location } = await fetch('/currentuser/info').then(res => res.json());
         const { seen } = await fetch('/artists/fetch').then(res => res.json());
-        await this.setState({ seen });
+        await this.setState({ seen, userInfo: { about, name, location } });
     }
     render() {
         return (
             <div>
-                <PersonalInfo />
+                <PersonalInfo {...this.state.userInfo} updateInfo={this.updateInfo} />
                 <EditSeenForm updateSeen={this.updateSeen} seen={this.state.seen} />
                 <AddArtistForm searchArtists={this.searchArtists} />
                 {this.state.loading && <Loader type="TailSpin" color="#000" height={200} width={200} />}
