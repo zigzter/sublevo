@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Nav, NavItem, NavLink, TabPane, TabContent } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 import AddArtistForm from './AddArtistForm';
 import AddVenueForm from './AddVenueForm';
@@ -16,6 +17,7 @@ export default class Settings extends Component {
             venues: [],
             seen: [],
             userInfo: {},
+            activeTab: '1',
         }
     }
     searchArtists = async (e) => {
@@ -60,7 +62,6 @@ export default class Settings extends Component {
             venues: [...venueResults],
             loading: false
         });
-        console.log(this.state.venues)
     }
     addVenue = async (venueId) => {
         fetch('/venues', {
@@ -76,7 +77,7 @@ export default class Settings extends Component {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, seenCount })
-        }).then(console.log);
+        });
         document.getElementById(`${id}`).innerText = 'Updated!';
         document.getElementById(`${id}`).disabled = true;
     }
@@ -89,6 +90,11 @@ export default class Settings extends Component {
             body: JSON.stringify({ name, location, about })
         })
     }
+    toggle = (tab) => {
+        if (this.state.activeTab !== tab) {
+            this.setState({ activeTab: tab });
+        }
+    }
     async componentDidMount() {
         const { about, name, location } = await fetch('/currentuser/info').then(res => res.json());
         const { seen } = await fetch('/artists/fetch').then(res => res.json());
@@ -96,15 +102,39 @@ export default class Settings extends Component {
     }
     render() {
         return (
-            <div>
-                <PersonalInfo {...this.state.userInfo} updateInfo={this.updateInfo} />
-                <EditSeenForm updateSeen={this.updateSeen} seen={this.state.seen} />
-                <AddArtistForm searchArtists={this.searchArtists} />
-                {this.state.loading && <Loader type="TailSpin" color="#000" height={200} width={200} />}
-                {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
-                <hr />
-                <AddVenueForm searchVenues={this.searchVenues} />
-                {this.state.venues.length > 0 && <VenuesResults addVenue={this.addVenue} venues={this.state.venues} />}
+            <div className="settings">
+                <Nav tabs>
+                    <NavItem>
+                        <NavLink onClick={() => { this.toggle('1'); }} className={{ active: this.state.activeTab === '1' }}>
+                            Personal
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink onClick={() => { this.toggle('2'); }} className={{ active: this.state.activeTab === '2' }}>
+                            Update Seen
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink onClick={() => { this.toggle('3'); }} className={{ active: this.state.activeTab === '3' }}>
+                            Venues
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+                <TabContent activeTab={this.state.activeTab}>
+                    <TabPane tabId="1">
+                        <PersonalInfo {...this.state.userInfo} updateInfo={this.updateInfo} />
+                    </TabPane>
+                    <TabPane tabId="2">
+                        <EditSeenForm updateSeen={this.updateSeen} seen={this.state.seen} />
+                        <AddArtistForm searchArtists={this.searchArtists} />
+                        {this.state.loading && <Loader type="Audio" color="#000" height={200} width={200} />}
+                        {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
+                    </TabPane>
+                    <TabPane tabId="3">
+                        <AddVenueForm searchVenues={this.searchVenues} />
+                        {this.state.venues.length > 0 && <VenuesResults addVenue={this.addVenue} venues={this.state.venues} />}
+                    </TabPane>
+                </TabContent>
             </div>
         );
     }

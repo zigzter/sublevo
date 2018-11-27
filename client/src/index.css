@@ -90,7 +90,7 @@ li {
 .seenArtist {
   border: 1px solid black;
   display: block;
-  margin: 4px 0;
+  margin: 2px 0;
   padding: 5px;
   border-radius: 4px;
   background-position: center;
@@ -108,6 +108,16 @@ li {
   padding: 3px;
 }
 
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.username {
+  display: inline;
+}
+
 
 .auth {
   width: 500px;
@@ -120,4 +130,22 @@ li {
 
 .updateSeen button {
   transition: 200ms;
+}
+
+.settings {
+  background: white;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.nav-link {
+  margin-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+.tab-content {
+  padding: 25px;
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Loader from 'react-loader-spinner';
 import EventPreview from './EventPreview';
 
 export default class Home extends Component {
@@ -12,7 +13,6 @@ export default class Home extends Component {
     getEvents = async () => {
         const events = await fetch('/venues', { method: 'GET' }).then(res => res.json());
         await this.setState({ events, loading: false });
-        console.log(events);
     }
     componentDidMount() {
         this.getEvents();
@@ -34,7 +34,8 @@ export default class Home extends Component {
         }
         return (
             <div>
-                <h2>Loading...</h2>
+                <Loader type="Audio" color="#000" height={80} width={80} />
+                <h4>Loading...</h4>
             </div>
         )
     }

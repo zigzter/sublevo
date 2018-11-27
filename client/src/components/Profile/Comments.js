@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, FormGroup, Input } from 'reactstrap';
+import { Button, FormGroup, Input, FormText } from 'reactstrap';
 import Comment from './Comment';
 
 const Comments = (props) => {
@@ -10,6 +10,7 @@ const Comments = (props) => {
                 <FormGroup>
                     <label htmlFor="body">Add Comment:</label> <br />
                     <Input type="textarea" name="body" />
+                    <FormText>Be nice.</FormText>
                 </FormGroup>
                 <Button color='primary' outline>Add Comment</Button>
             </form>

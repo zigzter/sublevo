@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 import SeenLive from './SeenLive';
 import Comments from './Comments';
@@ -57,10 +58,15 @@ export default class Profile extends Component {
         }
     }
     render() {
+        const { user } = this.state;
+        const { currentUser } = this.props;
         return (
             <div className="Profile">
-                {this.state.loading && <Loader type="TailSpin" color="#000" height={120} width={120} />}
-                <h1>{this.state.user.username}</h1>
+                {this.state.loading && <Loader type="Audio" color="#000" height={120} width={120} />}
+                <div className='profileHeader'>
+                    <h1 className='username'>{this.state.user.username}</h1>
+                    {user.id !== currentUser.id && <Button color='success' outline>Add friend</Button>}
+                </div>
                 <h4>{this.state.user.name}, {this.state.user.location}</h4>
                 <SeenLive seen={this.state.seen} />
                 <hr />
