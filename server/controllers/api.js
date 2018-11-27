@@ -19,8 +19,7 @@ module.exports = {
             },
                 (err) => {
                     next(err);
-                },
-            );
+                });
     },
     searchArtistSpotify(req, res, next) {
         try {

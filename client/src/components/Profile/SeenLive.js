@@ -5,15 +5,23 @@ const SeenLive = (props) => (
         {
             props.seen.map((artist, ind) => {
                 if (ind === 0) {
-                    return <a href={`/artists/${artist.spotifyId}`} style={{ height: '120px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
-                } else if (ind === 1) {
-                    return <a href={`/artists/${artist.spotifyId}`} style={{ height: '90px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
-                } else if (ind === 2) {
-                    return <a href={`/artists/${artist.spotifyId}`} style={{ height: '70px', backgroundImage: `url(${artist.artistImage})` }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
+                    return (<a href={`/artists/${artist.spotifyId}`}
+                        style={{ backgroundImage: `url(${artist.artistImage})` }}
+                        className='seenLead seenArtist'
+                        key={ind}>
+                    </a>)
+                } else if (ind < 5) {
+                    return (<a href={`/artists/${artist.spotifyId}`}
+                        style={{ backgroundImage: `url(${artist.artistImage})` }}
+                        className='seenSecondary seenArtist'
+                        key={ind}>
+                    </a>)
                 } else {
-                    return <a href={`/artists/${artist.spotifyId}`} style={{
-                        backgroundImage: `url(${artist.artistImage})`
-                    }} className='seenArtist' key={ind}><p>{artist.name}: {artist.seenCount} time(s)</p></a>
+                    return (<a href={`/artists/${artist.spotifyId}`}
+                        style={{ backgroundImage: `url(${artist.artistImage})` }}
+                        className='seenRest seenArtist'
+                        key={ind}>
+                    </a>)
                 }
             })
         }

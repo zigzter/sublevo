@@ -27,6 +27,7 @@ export default class AppRouter extends Component {
             method: 'DELETE'
         });
         this.setState({ currentUser: {} });
+        this.props.history.push('/');
     }
     componentDidMount() {
         this.getUser();
