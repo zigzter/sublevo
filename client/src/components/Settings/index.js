@@ -126,10 +126,10 @@ export default class Settings extends Component {
                         <PersonalInfo {...this.state.userInfo} updateInfo={this.updateInfo} />
                     </TabPane>
                     <TabPane tabId="2">
-                        <EditSeenForm updateSeen={this.updateSeen} seen={this.state.seen} />
                         <AddArtistForm searchArtists={this.searchArtists} />
                         {this.state.loading && <Loader type="Audio" color="#000" height={200} width={200} />}
                         {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
+                        <EditSeenForm updateSeen={this.updateSeen} seen={this.state.seen} />
                     </TabPane>
                     <TabPane tabId="3">
                         <AddVenueForm searchVenues={this.searchVenues} />

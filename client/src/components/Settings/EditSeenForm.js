@@ -5,7 +5,7 @@ const EditSeenForm = (props) => (
         <h2>Edit seen</h2>
         {
             props.seen.map((artist) => (
-                <form onSubmit={props.updateSeen} key={artist.id} className="input-group mb-3 updateSeen">
+                <form onSubmit={props.updateSeen} key={artist.id} className="input-group mb-1 updateSeen">
                     <div className="input-group-prepend">
                         <input type="hidden" name="id" value={artist.id} />
                         <label className="input-group-text" htmlFor="inputGroupSelect01">{artist.name}</label>
