@@ -1,0 +1,33 @@
+.updateSeen button {
+  transition: 200ms;
+}
+
+.settings {
+  background: white;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.nav-link {
+  margin-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+  cursor: pointer;
+}
+
+.tab-content {
+  padding: 25px;
+}
+
+.artistResult {
+  color: white;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+}
+
+.card img {
+  filter: brightness(50%);
+}

@@ -3,6 +3,7 @@ import { Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 import SeenLive from './SeenLive';
 import Comments from './Comments';
+import './index.scss';
 
 export default class Profile extends Component {
     constructor(props) {
@@ -51,6 +52,7 @@ export default class Profile extends Component {
     }
     componentDidMount() {
         this.fetchUserData();
+        setTimeout(() => console.log(this.state.seen), 400);
     }
     componentDidUpdate(prevProps) {
         if (this.props.match.params.username !== prevProps.match.params.username) {
@@ -69,7 +71,6 @@ export default class Profile extends Component {
                 </div>
                 <h4>{this.state.user.name}, {this.state.user.location}</h4>
                 <SeenLive seen={this.state.seen} />
-                <hr />
                 <h3>About Me</h3>
                 <p>{this.state.user.about}</p>
                 <hr />

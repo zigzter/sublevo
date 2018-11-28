@@ -1,0 +1,77 @@
+.SeenLive {
+  display: grid;
+  row-gap: 0;
+  grid-template-columns: repeat(20, 5%);
+  grid-template-rows: repeat(6, calc(100% / 6));
+  grid-auto-flow: column;
+  height: 300px;
+  margin-bottom: 15px;
+}
+
+.seenArtist {
+  display: block;
+  margin: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: 80ms;
+  -webkit-box-shadow: inset 0px 0px 119px -43px rgba(0,0,0,1);
+  -moz-box-shadow: inset 0px 0px 119px -43px rgba(0,0,0,1);
+  box-shadow: inset 0px 0px 119px -43px rgba(0,0,0,1);
+}
+
+.seenArtist:hover {
+  transform: scale(1.05);
+  -webkit-box-shadow: 10px 10px 30px -8px rgba(0,0,0,0.67);
+  -moz-box-shadow: 10px 10px 30px -8px rgba(0,0,0,0.67);
+  box-shadow: 10px 10px 30px -8px rgba(0,0,0,0.67);
+  transition: 150ms;
+}
+
+.seenLead {
+  grid-column: 1 / 7;
+  grid-row: 1 / 7;
+}
+
+.seenSecondary {
+  grid-column: span 3;
+  grid-row: span 3;
+}
+
+.seenRest {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.username {
+  display: inline;
+}
+
+.seenDetails {
+    height: 50px;
+    text-align: center;
+}
+
+.Comment {
+  border-bottom: 1px solid darkgrey;
+  padding: 10px;
+  margin: 5px 0;
+  position: relative;
+}
+
+.Comment a {
+  margin: 0;
+}
+
+.commentTime {
+  font-size: .8rem;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}

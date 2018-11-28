@@ -7,6 +7,7 @@ import ArtistsResults from './ArtistsResults';
 import VenuesResults from './VenuesResults';
 import EditSeenForm from './EditSeenForm';
 import PersonalInfo from './PersonalInfo';
+import './index.scss';
 
 export default class Settings extends Component {
     constructor(props) {
