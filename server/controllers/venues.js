@@ -7,8 +7,8 @@ module.exports = {
     subscribeVenue(req, res, next) {
         try {
             const { id } = req.currentUser;
-            const { venueId } = req.body;
-            Subscription.addSubscription(id, 'venue', venueId);
+            const { venueId, name } = req.body;
+            Subscription.addSubscription(id, 'venue', venueId, name);
             res.json({});
         } catch (err) {
             next(err);
@@ -32,5 +32,10 @@ module.exports = {
         } catch (err) {
             res.json({});
         }
+    },
+    async remove(req, res) {
+        const { targetId } = req.body;
+        const userId = req.currentUser.id;
+        Subscription.remove(userId, targetId);
     },
 };

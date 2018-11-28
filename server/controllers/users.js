@@ -1,6 +1,7 @@
 const { body, validationResult } = require('express-validator/check');
 const User = require('../models/user');
 const Comment = require('../models/comment');
+const Subscription = require('../models/subscription');
 
 const validateUser = [
     body('username').not().isEmpty()
@@ -92,7 +93,8 @@ module.exports = {
     async fetchInfo(req, res) {
         const { id } = req.currentUser;
         const user = await User.findById(id);
-        const userInfo = { about: user.about, location: user.location, name: user.name };
+        const subs = await Subscription.get(user.id, 'venue');
+        const userInfo = { about: user.about, location: user.location, name: user.name, subs };
         res.json(userInfo);
     },
 };

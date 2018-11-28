@@ -8,8 +8,12 @@ module.exports = class Subscription {
         this.targetId = targetId;
     }
 
-    static async addSubscription(userId, type, targetId) {
-        return knex('subscriptions').insert({ userId, type, targetId })
+    static async addSubscription(userId, type, targetId, name) {
+        return knex('subscriptions').insert({ userId, type, targetId, name });
+    }
+
+    static async remove(userId, targetId) {
+        return knex('subscriptions').where({ userId, targetId }).del();
     }
 
     static async get(userId, type) {

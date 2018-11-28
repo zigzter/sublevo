@@ -40,6 +40,7 @@ router.post('/api/artists', apiController.searchArtistSpotify);
 router.post('/api/venue', apiController.searchVenue);
 
 router.post('/venues', venuesController.subscribeVenue);
+router.delete('/venues', venuesController.remove);
 router.get('/venues', venuesController.venueEvents);
 
 module.exports = router;

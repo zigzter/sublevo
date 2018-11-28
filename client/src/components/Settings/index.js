@@ -8,6 +8,7 @@ import VenuesResults from './VenuesResults';
 import EditSeenForm from './EditSeenForm';
 import PersonalInfo from './PersonalInfo';
 import './index.scss';
+import EditVenueForm from './EditVenueForm';
 
 export default class Settings extends Component {
     constructor(props) {
@@ -64,11 +65,11 @@ export default class Settings extends Component {
             loading: false
         });
     }
-    addVenue = async (venueId) => {
+    addVenue = async (venueId, name) => {
         fetch('/venues', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ venueId })
+            body: JSON.stringify({ venueId, name })
         });
     }
     updateSeen = async (event) => {
@@ -81,6 +82,10 @@ export default class Settings extends Component {
         });
         document.getElementById(`${id}`).innerText = 'Updated!';
         document.getElementById(`${id}`).disabled = true;
+    }
+    removeSub = async (targetId) => {
+        console.log(targetId);
+        fetch('/venues', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ targetId }) });
     }
     updateInfo = async (event) => {
         event.preventDefault();
@@ -97,9 +102,9 @@ export default class Settings extends Component {
         }
     }
     async componentDidMount() {
-        const { about, name, location } = await fetch('/currentuser/info').then(res => res.json());
+        const { about, name, location, subs } = await fetch('/currentuser/info').then(res => res.json());
         const { seen } = await fetch('/artists/fetch').then(res => res.json());
-        await this.setState({ seen, userInfo: { about, name, location } });
+        await this.setState({ seen, userInfo: { about, name, location }, subs });
     }
     render() {
         return (
@@ -134,6 +139,7 @@ export default class Settings extends Component {
                     <TabPane tabId="3">
                         <AddVenueForm searchVenues={this.searchVenues} />
                         {this.state.venues.length > 0 && <VenuesResults addVenue={this.addVenue} venues={this.state.venues} />}
+                        <EditVenueForm subscriptions={this.state.subs} removeSub={this.removeSub} />
                     </TabPane>
                 </TabContent>
             </div>

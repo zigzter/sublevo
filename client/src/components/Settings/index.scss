@@ -33,3 +33,10 @@
 .card img {
   filter: brightness(50%);
 }
+
+.EditVenueForm {
+  .input-group-prepend {
+    margin: 0 -15px;
+  }
+  margin: 10px 0;
+}
