@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const VenuesResults = (props) => (
     <div>
         <ul>

@@ -11,7 +11,7 @@ const EditVenueForm = (props) => {
                             <label className="input-group-text col">{venue.name}</label>
                         </div>
                         <div className="input-group-append">
-                            <button className="btn btn-outline-danger" onClick={() => props.removeSub(venue.targetId)}>Delete</button>
+                            <button id={venue.targetId} className="btn btn-outline-danger" onClick={() => props.removeSub(venue.targetId)}>Delete</button>
                         </div>
                     </div>
                 ))

@@ -84,8 +84,9 @@ export default class Settings extends Component {
         document.getElementById(`${id}`).disabled = true;
     }
     removeSub = async (targetId) => {
-        console.log(targetId);
         fetch('/venues', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ targetId }) });
+        document.getElementById(`${targetId}`).disabled = true;
+        document.getElementById(`${targetId}`).innerText = 'Deleted!';
     }
     updateInfo = async (event) => {
         event.preventDefault();
