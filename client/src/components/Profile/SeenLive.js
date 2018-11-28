@@ -16,7 +16,7 @@ const SeenLive = (props) => {
                         if (ind === 0) {
                             return (<Link onMouseOver={() => displayDetails(artist.name, artist.seenCount)}
                                 onMouseOut={resetSelected}
-                                to={`/artists/${artist.spotifyId}`}
+                                to={`/artist/${artist.spotifyId}`}
                                 style={{ backgroundImage: `url(${artist.artistImage})` }}
                                 className='seenLead seenArtist'
                                 key={ind}>
@@ -24,7 +24,7 @@ const SeenLive = (props) => {
                         } else if (ind < 5) {
                             return (<Link onMouseOver={() => displayDetails(artist.name, artist.seenCount)}
                                 onMouseOut={resetSelected}
-                                to={`/artists/${artist.spotifyId}`}
+                                to={`/artist/${artist.spotifyId}`}
                                 style={{ backgroundImage: `url(${artist.artistImage})` }}
                                 className='seenSecondary seenArtist'
                                 key={ind}>
@@ -32,7 +32,7 @@ const SeenLive = (props) => {
                         } else {
                             return (<Link onMouseOver={() => displayDetails(artist.name, artist.seenCount)}
                                 onMouseOut={resetSelected}
-                                to={`/artists/${artist.spotifyId}`}
+                                to={`/artist/${artist.spotifyId}`}
                                 style={{ backgroundImage: `url(${artist.artistImage})` }}
                                 className='seenRest seenArtist'
                                 key={ind}>

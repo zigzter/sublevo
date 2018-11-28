@@ -37,6 +37,7 @@ router.delete('/users/:username/comments/:id', commentsController.destroy);
 
 router.use('/api', apiController.getToken);
 router.post('/api/artists', apiController.searchArtistSpotify);
+router.get('/api/artists/:artistId', apiController.getArtistSpotify);
 router.post('/api/venue', apiController.searchVenue);
 
 router.post('/venues', venuesController.subscribeVenue);

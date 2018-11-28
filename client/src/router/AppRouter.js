@@ -48,7 +48,7 @@ export default class AppRouter extends Component {
                                 <SignInPage {...routeProps} onSignIn={this.getUser} />
                             )} />
                             <Route path='/events/:id' component={EventPage} />
-                            <Route path='/artists/:id' component={ArtistPage} />
+                            <Route path='/artist/:id' component={ArtistPage} />
                         </Switch>
                     </div>
                 </Fragment>

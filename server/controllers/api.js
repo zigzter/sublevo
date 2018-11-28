@@ -35,6 +35,15 @@ module.exports = {
             next(err);
         }
     },
+    async getArtistSpotify(req, res, next) {
+        try {
+            const { artistId } = req.params;
+            const { body: artist } = await spotify.getArtist(artistId);
+            res.json(artist);
+        } catch (err) {
+            next(err);
+        }
+    },
     async searchVenue(req, res, next) {
         try {
             const { venueSearch } = req.body;
