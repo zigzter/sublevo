@@ -8,6 +8,7 @@ import Settings from '../components/Settings';
 import SignInPage from '../components/SignInPage';
 import SignUpPage from '../components/SignUpPage';
 import EventPage from '../components/EventPage';
+import ArtistPage from '../components/ArtistPage';
 
 export default class AppRouter extends Component {
     constructor(props) {
@@ -18,16 +19,11 @@ export default class AppRouter extends Component {
     }
     getUser = async () => {
         const currentUser = await fetch('/currentuser').then(res => res.json());
-        if (currentUser) {
-            this.setState({ currentUser });
-        }
+        if (currentUser) this.setState({ currentUser });
     }
     destroySession = () => {
-        fetch('/session', {
-            method: 'DELETE'
-        });
+        fetch('/session', { method: 'DELETE' });
         this.setState({ currentUser: {} });
-        this.props.history.push('/');
     }
     componentDidMount() {
         this.getUser();
@@ -52,6 +48,7 @@ export default class AppRouter extends Component {
                                 <SignInPage {...routeProps} onSignIn={this.getUser} />
                             )} />
                             <Route path='/events/:id' component={EventPage} />
+                            <Route path='/artists/:id' component={ArtistPage} />
                         </Switch>
                     </div>
                 </Fragment>
