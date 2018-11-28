@@ -41,8 +41,7 @@ module.exports = {
     },
     async destroySeen(req, res) {
         const userId = req.currentUser.id;
-        const artistId = req.params.id;
+        const { artistId } = req.body;
         User.removeSeen(userId, artistId);
-        res.redirect('/settings');
     },
 };

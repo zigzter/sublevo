@@ -26,7 +26,7 @@ router.patch('/settings', usersController.update);
 router.post('/artists/add', artistsController.addArtist);
 router.get('/artists/fetch', artistsController.fetchSeen);
 router.post('/artists/update', artistsController.updateSeen);
-router.delete('/artists/delete/:id', auth, artistsController.destroySeen);
+router.delete('/artists', auth, artistsController.destroySeen);
 
 router.get('/session/new', sessionController.new);
 router.post('/session', sessionController.create);

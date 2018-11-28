@@ -2,12 +2,16 @@
   button {
     transition: 200ms;
   }
+  .input-group-text {
+    width: 400px;
+  }
 }
 
 .settings {
   background: white;
   padding: 0;
   border-radius: 4px;
+  margin-bottom: 20px;
 }
 
 .nav-link {

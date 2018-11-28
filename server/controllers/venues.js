@@ -14,7 +14,7 @@ module.exports = {
             next(err);
         }
     },
-    async venueEvents(req, res, next) {
+    async venueEvents(req, res) {
         try {
             const userId = req.currentUser.id;
             const subs = await Subscription.get(userId, 'venue');

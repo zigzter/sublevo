@@ -12,7 +12,7 @@ export default class Home extends Component {
     }
     getEvents = async () => {
         const cachedEvents = localStorage.getItem('events');
-        if (!cachedEvents.length === 0) return this.setState({ events: JSON.parse(cachedEvents), loading: false });
+        if (cachedEvents && cachedEvents.length !== 0) return this.setState({ events: JSON.parse(cachedEvents), loading: false });
         const events = await fetch('/venues', { method: 'GET' }).then(res => res.json());
         localStorage.setItem('events', JSON.stringify(events));
         this.setState({ events, loading: false });

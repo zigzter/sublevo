@@ -12,7 +12,8 @@ const EditSeenForm = (props) => (
                     </div>
                     <input type="text" className="form-control" name="seenCount" defaultValue={artist.seenCount} />
                     <div className="input-group-append">
-                        <button className="btn btn-outline-primary" type="submit" id={artist.id}>Update</button>
+                        <button style={{ width: '200px' }} className="btn btn-outline-primary" type="submit" id={artist.id}>Update</button>
+                        <button className="btn btn-outline-danger" onClick={() => props.removeSeen(artist.id)}>Delete</button>
                     </div>
                 </form>
             ))

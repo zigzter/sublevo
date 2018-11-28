@@ -71,6 +71,7 @@ export default class Settings extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ venueId, name })
         });
+        localStorage.removeItem('events');
     }
     updateSeen = async (event) => {
         event.preventDefault();
@@ -83,8 +84,18 @@ export default class Settings extends Component {
         document.getElementById(`${id}`).innerText = 'Updated!';
         document.getElementById(`${id}`).disabled = true;
     }
+    removeSeen = async (artistId) => {
+        fetch('/artists', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ artistId })
+        })
+        const filteredSeen = this.state.seen.filter(seen => seen.artistId !== artistId);
+        this.setState({ seen: filteredSeen })
+    }
     removeSub = async (targetId) => {
         fetch('/venues', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ targetId }) });
+        localStorage.removeItem('events');
         document.getElementById(`${targetId}`).disabled = true;
         document.getElementById(`${targetId}`).innerText = 'Deleted!';
     }
@@ -135,7 +146,7 @@ export default class Settings extends Component {
                         <AddArtistForm searchArtists={this.searchArtists} />
                         {this.state.loading && <Loader type="Audio" color="#000" height={200} width={200} />}
                         {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
-                        <EditSeenForm updateSeen={this.updateSeen} seen={this.state.seen} />
+                        <EditSeenForm removeSeen={this.removeSeen} updateSeen={this.updateSeen} seen={this.state.seen} />
                     </TabPane>
                     <TabPane tabId="3">
                         <AddVenueForm searchVenues={this.searchVenues} />
