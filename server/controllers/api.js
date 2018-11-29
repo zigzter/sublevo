@@ -39,7 +39,11 @@ module.exports = {
         try {
             const { artistId } = req.params;
             const { body: artist } = await spotify.getArtist(artistId);
-            res.json(artist);
+            const rawSKartist = await axios.get(`https://api.songkick.com/api/3.0/search/artists.json?apikey=${SongkickKey}&query=${artist.name}&per_page=1`);
+            const { id: songkickId } = rawSKartist.data.resultsPage.results.artist[0];
+            const rawSKevents = await axios.get(`https://api.songkick.com/api/3.0/artists/${songkickId}/calendar.json?apikey=${SongkickKey}`);
+            const events = rawSKevents.data.resultsPage.results.event;
+            res.json({ artist, events });
         } catch (err) {
             next(err);
         }
