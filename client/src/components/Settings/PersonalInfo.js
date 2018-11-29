@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const PersonalInfo = (props) => (
     <Form onSubmit={props.updateInfo}>
@@ -9,7 +10,7 @@ const PersonalInfo = (props) => (
         </FormGroup>
         <FormGroup>
             <Label htmlFor="about">About you</Label>
-            <Input key={`${Math.floor((Math.random() * 1000))}-min`} type='textarea' name='about' defaultValue={props.about}></Input>
+            <Input key={`${ Math.floor((Math.random() * 1000)) }-min`} type='textarea' name='about' defaultValue={props.about}></Input>
         </FormGroup>
         <FormGroup>
             <Label htmlFor="location">Location</Label>
@@ -20,3 +21,10 @@ const PersonalInfo = (props) => (
 );
 
 export default PersonalInfo;
+
+PersonalInfo.propTypes = {
+    updateInfo: PropTypes.func,
+    name: PropTypes.string,
+    about: PropTypes.string,
+    location: PropTypes.string,
+};

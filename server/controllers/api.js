@@ -29,7 +29,7 @@ module.exports = {
             next(err);
         }
     },
-    async getArtistSpotify(req, res, next) {
+    async getArtistSpotify(req, res) {
         try {
             const { artistId } = req.params;
             const { body: artist } = await spotify.getArtist(artistId);
@@ -39,17 +39,18 @@ module.exports = {
             const events = rawSKevents.data.resultsPage.results.event || [];
             res.json({ artist, events });
         } catch (err) {
-            next(err);
+            res.json(err);
         }
     },
-    async searchVenue(req, res, next) {
+    async searchVenue(req, res) {
         try {
             const { venueSearch } = req.body;
+            if (!venueSearch) return res.json({});
             const data = await axios.get(`https://api.songkick.com/api/3.0/search/venues.json?query=${ venueSearch }&apikey=${ SongkickKey }&per_page=3`);
-            const { venue } = data.data.resultsPage.results; // 'venue' is an array of the results
+            const { venue } = data.data.resultsPage.results;
             res.json(venue);
         } catch (err) {
-            next(err);
+            res.json(err);
         }
     },
 };

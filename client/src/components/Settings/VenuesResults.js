@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const VenuesResults = (props) => (
     <div>
@@ -9,7 +10,7 @@ const VenuesResults = (props) => (
                         <h4>{venue.displayName}</h4>
                         <p>{venue.street}</p>
                         <p>{venue.city.displayName}</p>
-                        <button onClick={() => props.addVenue(venue.id, venue.displayName)}>Add Venue</button>
+                        <button className='btn btn-primary' onClick={() => props.addVenue(venue.id, venue.displayName)}>Add Venue</button>
                     </li>
                 ))
             }
@@ -18,3 +19,8 @@ const VenuesResults = (props) => (
 );
 
 export default VenuesResults;
+
+VenuesResults.propTypes = {
+    venues: PropTypes.array,
+    addVenue: PropTypes.func,
+};

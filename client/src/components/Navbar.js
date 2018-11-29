@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const Navbar = (props) => {
     const userPresent = !!Object.keys(props.currentUser).length;
@@ -8,7 +9,7 @@ const Navbar = (props) => {
         <nav className="Navbar">
             <div className="container">
                 <NavLink to='/' activeClassName='active' exact={true}>Home</NavLink>
-                {userPresent && <NavLink to={`/users/${props.currentUser.username}`} activeClassName='active' exact={true}>Profile</NavLink>}
+                {userPresent && <NavLink to={`/users/${ props.currentUser.username }`} activeClassName='active' exact={true}>Profile</NavLink>}
                 {userPresent && <NavLink to='/settings' activeClassName='active' exact={true}>Settings</NavLink>}
                 {userPresent && <Button color='link' onClick={props.destroySession}>Logout</Button>}
                 {userPresent || <NavLink to='/session/new' activeClassName='active' exact={true}>Sign In</NavLink>}
@@ -19,3 +20,9 @@ const Navbar = (props) => {
 };
 
 export default Navbar;
+
+Navbar.propTypes = {
+    currentUser: PropTypes.object,
+    username: PropTypes.string,
+    destroySession: PropTypes.func,
+};

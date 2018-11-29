@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const EditSeenForm = (props) => (
     <div>
@@ -22,3 +23,9 @@ const EditSeenForm = (props) => (
 );
 
 export default EditSeenForm;
+
+EditSeenForm.propTypes = {
+    seen: PropTypes.array,
+    updateSeen: PropTypes.func,
+    removeSeen: PropTypes.func,
+};

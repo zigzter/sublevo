@@ -26,4 +26,5 @@ EventPreview.propTypes = {
     start: PropTypes.object,
     venue: PropTypes.object,
     displayName: PropTypes.string,
+    id: PropTypes.number,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const EditVenueForm = (props) => {
     return (
@@ -21,3 +22,8 @@ const EditVenueForm = (props) => {
 };
 
 export default EditVenueForm;
+
+EditVenueForm.propTypes = {
+    subscriptions: PropTypes.array,
+    removeSub: PropTypes.func,
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const EventPage = (props) => {
     const { state } = props.location;
@@ -12,3 +13,7 @@ const EventPage = (props) => {
 };
 
 export default EventPage;
+
+EventPage.propTypes = {
+    location: PropTypes.object,
+};

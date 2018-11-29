@@ -4,6 +4,9 @@
         "eslint:recommended",
         "plugin:react/recommended"
     ],
+    "env": {
+        "browser": true
+    },
     "rules": {
         "react/jsx-indent": [
             "error",

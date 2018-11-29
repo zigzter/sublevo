@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, NavItem, NavLink, TabPane, TabContent } from 'reactstrap';
+import { Nav, NavItem, TabPane, NavLink, TabContent } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 import AddArtistForm from './AddArtistForm';
 import AddVenueForm from './AddVenueForm';
@@ -7,8 +7,9 @@ import ArtistsResults from './ArtistsResults';
 import VenuesResults from './VenuesResults';
 import EditSeenForm from './EditSeenForm';
 import PersonalInfo from './PersonalInfo';
-import './index.scss';
 import EditVenueForm from './EditVenueForm';
+import './index.scss';
+import PropTypes from 'prop-types';
 
 export default class Settings extends Component {
     constructor(props) {
@@ -81,8 +82,8 @@ export default class Settings extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, seenCount })
         });
-        document.getElementById(`${id}`).innerText = 'Updated!';
-        document.getElementById(`${id}`).disabled = true;
+        document.getElementById(`${ id }`).innerText = 'Updated!';
+        document.getElementById(`${ id }`).disabled = true;
     }
     removeSeen = async (artistId) => {
         fetch('/artists', {
@@ -96,8 +97,8 @@ export default class Settings extends Component {
     removeSub = async (targetId) => {
         fetch('/venues', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ targetId }) });
         localStorage.removeItem('events');
-        document.getElementById(`${targetId}`).disabled = true;
-        document.getElementById(`${targetId}`).innerText = 'Deleted!';
+        document.getElementById(`${ targetId }`).disabled = true;
+        document.getElementById(`${ targetId }`).innerText = 'Deleted!';
     }
     updateInfo = async (event) => {
         event.preventDefault();
@@ -144,12 +145,13 @@ export default class Settings extends Component {
                     </TabPane>
                     <TabPane tabId="2">
                         <AddArtistForm searchArtists={this.searchArtists} />
-                        {this.state.loading && <Loader type="Audio" color="#000" height={200} width={200} />}
+                        {this.state.loading && <Loader type="Audio" color="#000" height={150} width={150} />}
                         {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
                         <EditSeenForm removeSeen={this.removeSeen} updateSeen={this.updateSeen} seen={this.state.seen} />
                     </TabPane>
                     <TabPane tabId="3">
                         <AddVenueForm searchVenues={this.searchVenues} />
+                        {this.state.loading && <Loader type="Audio" color="#000" height={150} width={150} />}
                         {this.state.venues.length > 0 && <VenuesResults addVenue={this.addVenue} venues={this.state.venues} />}
                         <EditVenueForm subscriptions={this.state.subs} removeSub={this.removeSub} />
                     </TabPane>
@@ -157,5 +159,8 @@ export default class Settings extends Component {
             </div>
         );
     }
-};
+}
 
+Settings.propTypes = {
+    className: PropTypes.object,
+}

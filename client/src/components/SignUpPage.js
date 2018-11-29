@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Form, FormGroup, Label, Input, Button, FormFeedback } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default class SignUpPage extends Component {
     constructor(props) {
@@ -59,4 +60,9 @@ export default class SignUpPage extends Component {
             </Card>
         )
     }
+}
+
+SignUpPage.propTypes = {
+    onSignUp: PropTypes.func,
+    history: PropTypes.object,
 };
