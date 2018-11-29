@@ -8,15 +8,6 @@ const venuesController = require('../controllers/venues');
 
 const router = express.Router();
 
-function auth(req, res, next) {
-    if (!req.currentUser) {
-        req.flash('danger', 'You must be logged in to do that');
-        res.redirect('/');
-    } else {
-        next();
-    }
-}
-
 router.post('/users', usersController.create);
 router.get('/users/:username', usersController.show);
 router.get('/currentuser', usersController.current);
@@ -26,9 +17,8 @@ router.patch('/settings', usersController.update);
 router.post('/artists/add', artistsController.addArtist);
 router.get('/artists/fetch', artistsController.fetchSeen);
 router.post('/artists/update', artistsController.updateSeen);
-router.delete('/artists', auth, artistsController.destroySeen);
+router.delete('/artists', artistsController.destroySeen);
 
-router.get('/session/new', sessionController.new);
 router.post('/session', sessionController.create);
 router.delete('/session', sessionController.destroy);
 

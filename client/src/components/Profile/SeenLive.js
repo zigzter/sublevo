@@ -42,7 +42,7 @@ const SeenLive = (props) => {
                 }
             </div>
             <div className='seenDetails'>
-                <h3 id='selectedArtist'></h3>
+                <h4 id='selectedArtist'></h4>
             </div>
         </Fragment>
     )

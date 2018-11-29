@@ -6,13 +6,21 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: gainsboro;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+$theme-colors: (
+  "primary": #c06c84,
+  "danger": #f67280
+);
+
+$body-bg: lighten(#6c5b7b, 60%);
+
+@import "node_modules/bootstrap/scss/bootstrap";
 
 a {
   margin: 8px;
@@ -34,7 +42,7 @@ li {
 
 .Navbar {
   padding: 12px;
-  background: darkslategray;
+  background: #355c7d;
   color: white;
   margin-bottom: 25px;
 }

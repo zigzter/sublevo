@@ -2,9 +2,6 @@ const validator = require('validator');
 const User = require('../models/user');
 
 module.exports = {
-    new(req, res) {
-        res.render('session/new');
-    },
     async create(req, res, next) {
         const { handle, password } = req.body;
         try {

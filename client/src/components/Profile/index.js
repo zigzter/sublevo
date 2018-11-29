@@ -52,7 +52,6 @@ export default class Profile extends Component {
     }
     componentDidMount() {
         this.fetchUserData();
-        setTimeout(() => console.log(this.state.seen), 400);
     }
     componentDidUpdate(prevProps) {
         if (this.props.match.params.username !== prevProps.match.params.username) {
