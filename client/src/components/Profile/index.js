@@ -50,6 +50,10 @@ export default class Profile extends Component {
             comments: this.state.comments.filter(comment => comment.id !== id)
         });
     }
+    addFriend = () => {
+        const { username } = this.props.match.params;
+        fetch(`/users/${ username }/addfriend`, { method: 'POST' });
+    }
     componentDidMount() {
         this.fetchUserData();
     }
@@ -66,7 +70,7 @@ export default class Profile extends Component {
                 {this.state.loading && <Loader type="Audio" color="#000" height={120} width={120} />}
                 <div className='profileHeader'>
                     <h1 className='username'>{user.username}</h1>
-                    {user.id !== currentUser.id && currentUser.id && <Button color='success' outline>Add friend</Button>}
+                    {user.id !== currentUser.id && currentUser.id && <Button onClick={this.addFriend} color='success' outline>Add friend</Button>}
                 </div>
                 <h4>{user.name}, {user.location}</h4>
                 <SeenLive seen={seen} />

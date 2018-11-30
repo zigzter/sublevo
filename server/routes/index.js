@@ -5,6 +5,7 @@ const commentsController = require('../controllers/comments');
 const artistsController = require('../controllers/artists');
 const apiController = require('../controllers/api');
 const venuesController = require('../controllers/venues');
+const friendsController = require('../controllers/friends');
 
 const router = express.Router();
 
@@ -33,5 +34,8 @@ router.post('/api/venue', apiController.searchVenue);
 router.post('/venues', venuesController.subscribeVenue);
 router.delete('/venues', venuesController.remove);
 router.get('/venues', venuesController.venueEvents);
+
+router.post('/users/:username/addfriend', friendsController.sendRequest);
+router.get('/friends', friendsController.getRequests);
 
 module.exports = router;

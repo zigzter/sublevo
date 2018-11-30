@@ -26,7 +26,7 @@ module.exports = class Comment {
         const [{ id, createdAt }] = await knex('comments').insert({
             authorId,
             profileId,
-            content
+            content,
         }).returning('*');
         this.id = id;
         this.createdAt = createdAt;
