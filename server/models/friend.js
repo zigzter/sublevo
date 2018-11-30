@@ -15,4 +15,9 @@ module.exports = class Friend {
             .join('users', { 'friends.actionUser': 'users.id' })
             .select('users.username', 'users.id');
     }
+
+    static async update(userOne, userTwo, actionUser, status) {
+        return knex('friends').where({ userOne, userTwo })
+            .update({ actionUser, status }).then();
+    }
 };

@@ -8,11 +8,12 @@ export default class NotificationsPage extends Component {
             friendRequests: [],
         }
     }
-    accept = async () => {
-        console.log('accepted');
-    }
-    reject = async () => {
-        console.log('rejected');
+    respond = async (response, userOne) => {
+        fetch('/friends', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ response, userOne }),
+        });
     }
     async componentDidMount() {
         const friendRequests = await fetch('/friends').then(res => res.json());
@@ -28,8 +29,8 @@ export default class NotificationsPage extends Component {
                         <Card key={req.username}>
                             <CardBody>
                                 <p>{req.username} sent you a friends request.</p>
-                                <Button onClick={this.accept} color='primary' outline>Accept</Button>
-                                <Button onClick={this.reject} color='danger' outline>Reject</Button>
+                                <Button onClick={() => this.respond('accepted', req.id)} color='primary' outline>Accept</Button>
+                                <Button onClick={() => this.respond('rejected', req.id)} color='danger' outline>Reject</Button>
                             </CardBody>
                         </Card>
                     ))

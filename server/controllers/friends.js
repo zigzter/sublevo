@@ -17,4 +17,9 @@ module.exports = {
         const friendRequests = await Friend.getRequests(id);
         res.json(friendRequests);
     },
+    async respond(req, res) {
+        const { response, userOne } = req.body;
+        const actionUser = req.currentUser.id;
+        Friend.update(userOne, actionUser, actionUser, response);
+    },
 };

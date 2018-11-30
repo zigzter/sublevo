@@ -37,5 +37,6 @@ router.get('/venues', venuesController.venueEvents);
 
 router.post('/users/:username/addfriend', friendsController.sendRequest);
 router.get('/friends', friendsController.getRequests);
+router.post('/friends', friendsController.respond);
 
 module.exports = router;
