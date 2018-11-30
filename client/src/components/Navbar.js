@@ -8,12 +8,17 @@ const Navbar = (props) => {
     return (
         <nav className="Navbar">
             <div className="container">
-                <NavLink to='/' activeClassName='active' exact={true}>Home</NavLink>
-                {userPresent && <NavLink to={`/users/${ props.currentUser.username }`} activeClassName='active' exact={true}>Profile</NavLink>}
-                {userPresent && <NavLink to='/settings' activeClassName='active' exact={true}>Settings</NavLink>}
-                {userPresent && <Button color='link' onClick={props.destroySession}>Logout</Button>}
-                {userPresent || <NavLink to='/session/new' activeClassName='active' exact={true}>Sign In</NavLink>}
-                {userPresent || <NavLink to='/users/new' activeClassName='active' exact={true}>Sign Up</NavLink>}
+                <div className='navSection'>
+                    <NavLink to='/' activeClassName='active' exact={true}>Home</NavLink>
+                    {userPresent && <NavLink to={`/users/${ props.currentUser.username }`} activeClassName='active' exact={true}>Profile</NavLink>}
+                    {userPresent && <NavLink to='/settings' activeClassName='active' exact={true}>Settings</NavLink>}
+                    {userPresent && <NavLink to='/notifications' activeClassName='active' exact={true}>Notifications</NavLink>}
+                </div>
+                <div className='navSection'>
+                    {userPresent && <Button color='link' onClick={props.destroySession}>Logout</Button>}
+                    {userPresent || <NavLink to='/session/new' activeClassName='active' exact={true}>Sign In</NavLink>}
+                    {userPresent || <NavLink to='/users/new' activeClassName='active' exact={true}>Sign Up</NavLink>}
+                </div>
             </div>
         </nav >
     )
