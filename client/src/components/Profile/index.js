@@ -4,6 +4,8 @@ import Loader from 'react-loader-spinner';
 import SeenLive from './SeenLive';
 import Comments from './Comments';
 import './index.scss';
+import FriendsList from './FriendsList';
+import FullSeen from './FullSeen';
 
 export default class Profile extends Component {
     constructor(props) {
@@ -12,18 +14,20 @@ export default class Profile extends Component {
             user: {},
             comments: [],
             seen: [],
+            friends: [],
             loading: true,
+            dropdownOpen: false,
             tab: 1,
         }
     }
     async fetchUserData() {
-        const { user, comments, seen } = await fetch(`/users/${ this.props.match.params.username }`).then(res => res.json());
+        const { user, comments, seen, friends } = await fetch(`/users/${ this.props.match.params.username }`).then(res => res.json());
         this.setState({
             user,
             comments,
             seen,
+            friends,
             loading: false,
-            dropdownOpen: false,
         });
     }
     addComment = async (e) => {
@@ -73,7 +77,7 @@ export default class Profile extends Component {
         }
     }
     render() {
-        const { user, comments, seen, tab } = this.state;
+        const { user, comments, seen, tab, friends } = this.state;
         const { currentUser } = this.props;
         return (
             <div className="Profile">
@@ -101,8 +105,8 @@ export default class Profile extends Component {
                 </div>
                 <hr />
                 {tab === 1 && <SeenLive seen={seen} />}
-                {tab === 2 && <h3>Full list here!!</h3>}
-                {tab === 3 && <h3>Friends list</h3>}
+                {tab === 2 && <FullSeen seen={seen} />}
+                {tab === 3 && <FriendsList friends={friends} />}
                 <h3>About Me</h3>
                 <p>{user.about}</p>
                 <hr />

@@ -1,5 +1,6 @@
 const { body, validationResult } = require('express-validator/check');
 const User = require('../models/user');
+const Friend = require('../models/friend');
 const Comment = require('../models/comment');
 const Subscription = require('../models/subscription');
 
@@ -58,12 +59,16 @@ module.exports = {
             const { username } = req.params;
             const user = await User.fetch(username);
             if (user) {
-                const comments = await Comment.fetch(user.id);
-                const seen = await User.fetchSeen(user.id);
+                const commentsP = Comment.fetch(user.id);
+                const seenP = User.fetchSeen(user.id);
+                const friendsP = Friend.get(user.id);
+                const [comments, seen, friends] = await Promise.all([commentsP, seenP, friendsP]);
+                console.log(friends);
                 res.json({
                     user,
                     comments,
                     seen,
+                    friends,
                 });
             } else {
                 res.json({});

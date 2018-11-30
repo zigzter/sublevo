@@ -20,4 +20,12 @@ module.exports = class Friend {
         return knex('friends').where({ userOne, userTwo })
             .update({ actionUser, status }).then();
     }
+
+    static async get(user) {
+        const subquery = knex('friends').select('userTwo as friendId').where({ userOne: user })
+            .union(function () {
+                return this.select('userOne as friendId').from('friends').where({ userTwo: user })
+            }).as('friendsIds');
+        return knex(subquery).join('users', { 'friendsIds.friendId': 'users.id' }).select('users.username');
+    }
 };

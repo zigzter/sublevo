@@ -1,6 +1,16 @@
 .Profile {
   hr {
-    margin-top: 0;
+    margin-top: -2px;
+  }
+}
+
+.FullSeen {
+  margin-bottom: 25px;
+}
+
+.indvArtist {
+  p {
+    margin: 0;
   }
 }
 
@@ -8,14 +18,30 @@
   display: flex;
   justify-content: center;
   button {
+    transition: 200ms;
+    &:hover {
+      text-decoration: none;
+      border-bottom: 3px solid lighten(gray, 20%);
+      transform: translateY(-2px);
+    }
     box-sizing: border-box;
     margin: 0 5px;
     border-radius: 0;
     padding: 0 4px;
   }
   .active {
-    border-bottom: 2px solid gray;
+    border-bottom: 3px solid gray;
   }
+}
+
+.friendsList {
+  display: flex;
+}
+
+.friend {
+  background: white;
+  border-radius: 4px;
+  padding: 20px;
 }
 
 .SeenLive {
