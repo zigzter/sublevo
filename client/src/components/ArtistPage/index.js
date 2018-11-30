@@ -37,7 +37,7 @@ export default class ArtistPage extends Component {
                 {events.length > 0 && <h2>Upcoming events</h2>}
                 {
                     events.map((event) => (
-                        <p>{event.displayName}</p>
+                        <p key={event.id}>{event.displayName}</p>
                     ))
                 }
             </div>

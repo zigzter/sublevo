@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 export default class NotificationsPage extends Component {
     constructor(props) {
@@ -22,13 +23,14 @@ export default class NotificationsPage extends Component {
     render() {
         const { friendRequests } = this.state;
         return (
-            <div>
+            <div className="NotificationsPage">
                 <h1>Notifications</h1>
                 {
                     friendRequests && friendRequests.map((req) => (
-                        <Card key={req.username}>
+                        <Card className='shadow-sm mb-2' key={req.username}>
                             <CardBody>
-                                <p>{req.username} sent you a friends request.</p>
+                                <p><Link to={`/users/${ req.username }`}>{req.username}</Link>sent you a friends request.</p>
+
                                 <Button onClick={() => this.respond('accepted', req.id)} color='primary' outline>Accept</Button>
                                 <Button onClick={() => this.respond('rejected', req.id)} color='danger' outline>Reject</Button>
                             </CardBody>

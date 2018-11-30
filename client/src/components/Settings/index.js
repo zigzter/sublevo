@@ -107,7 +107,9 @@ export default class Settings extends Component {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, location, about })
-        })
+        });
+        document.getElementById('personalInfo').innerText = 'Updated!';
+        document.getElementById('personalInfo').disabled = true;
     }
     toggle = (tab) => {
         if (this.state.activeTab !== tab) {
@@ -163,4 +165,4 @@ export default class Settings extends Component {
 
 Settings.propTypes = {
     className: PropTypes.object,
-}
+};

@@ -16,7 +16,7 @@ const PersonalInfo = (props) => (
             <Label htmlFor="location">Location</Label>
             <Input type='text' name='location' defaultValue={props.location} />
         </FormGroup>
-        <Button outline color='primary'>Update info</Button>
+        <Button id='personalInfo' outline color='primary'>Update info</Button>
     </Form>
 );
 

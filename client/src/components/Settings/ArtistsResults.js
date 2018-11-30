@@ -7,7 +7,7 @@ const ArtistsResults = (props) => (
         {
             props.artists.map((artist) => (
                 <Card className='text-center' style={{ width: '250px' }} key={artist.id} inverse>
-                    <CardImg width='100%' src={artist.images[2].url} />
+                    <CardImg width='100%' src={(artist.images[2]) ? artist.images[2].url : 'https://via.placeholder.com/248'} />
                     <CardImgOverlay>
                         <CardTitle>
                             {artist.name}
