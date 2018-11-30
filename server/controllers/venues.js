@@ -28,7 +28,7 @@ module.exports = {
             events.sort((a, b) => new Date(a.start.date) - new Date(b.start.date));
             res.json(events);
         } catch (err) {
-            res.json({});
+            res.json({ error: 'hi' });
         }
     },
     async remove(req, res) {

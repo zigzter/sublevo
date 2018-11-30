@@ -3,7 +3,7 @@ import { Button, FormGroup, Input, FormText } from 'reactstrap';
 import Comment from './Comment';
 
 const Comments = (props) => {
-    const { userPresent } = !!Object.keys(props.currentUser).length
+    const userPresent = !!Object.keys(props.currentUser).length;
     return (
         <div className="Comments">
             <h3>Comments</h3>

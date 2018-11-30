@@ -12,13 +12,13 @@ export default class ArtistPage extends Component {
     }
     async componentDidMount() {
         const { id } = this.props.match.params;
-        const cachedArtist = localStorage.getItem(id);
-        const cachedEvents = localStorage.getItem(`${id}-events`);
-        if (cachedArtist && cachedEvents) return this.setState({ artist: JSON.parse(cachedArtist), events: JSON.parse(cachedEvents), loading: false });
-        const { artist, events } = await fetch(`/api/artists/${id}`, { method: 'GET' }).then(res => res.json());
+        const cachedArtist = JSON.parse(localStorage.getItem(id));
+        const cachedEvents = JSON.parse(localStorage.getItem(`${ id }-events`));
+        if (cachedArtist && cachedEvents) return this.setState({ artist: cachedArtist, events: cachedEvents, loading: false });
+        const { artist, events } = await fetch(`/api/artists/${ id }`, { method: 'GET' }).then(res => res.json());
         this.setState({ artist, events, loading: false });
         localStorage.setItem(id, JSON.stringify(artist));
-        localStorage.setItem(`${id}-events`, JSON.stringify(events));
+        localStorage.setItem(`${ id }-events`, JSON.stringify(events));
     }
     render() {
         const { artist, events, loading } = this.state;
@@ -33,7 +33,7 @@ export default class ArtistPage extends Component {
         return (
             <div>
                 <h1>{artist.name}</h1>
-                <iframe src={`https://open.spotify.com/embed/artist/${artist.id}`} title='spotifyPlayer' width="400" height="200" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' width="400" height="200" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 {events.length > 0 && <h2>Upcoming events</h2>}
                 {
                     events.map((event) => (
