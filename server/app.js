@@ -1,8 +1,10 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const connectRedis = require('connect-redis');
 const User = require('./models/user');
+
+const { SESSION_KEY } = process.env;
 
 const app = express();
 
@@ -18,7 +20,7 @@ app.use(express.json());
 const RedisStore = connectRedis(session);
 
 app.use(session({
-    secret: 'put super secret key here!',
+    secret: SESSION_KEY,
     name: 'sessionId',
     store: new RedisStore({ port: 6379, host: 'localhost' }),
     resave: true,
@@ -47,6 +49,8 @@ const indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
 
-app.listen(3030, () => {
-    console.log('server up');
+const PORT = process.env.PORT || 3030;
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${ PORT }`);
 });
