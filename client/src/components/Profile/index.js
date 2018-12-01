@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, ButtonGroup, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 import SeenLive from './SeenLive';
-import Comments from './Comments';
+import Comments from '../Shared/Comments';
 import './index.scss';
 import FriendsList from './FriendsList';
 import FullSeen from './FullSeen';

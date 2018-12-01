@@ -22,9 +22,9 @@ module.exports = class Friend {
     }
 
     static async get(user) {
-        const subquery = knex('friends').select('userTwo as friendId').where({ userOne: user })
+        const subquery = knex('friends').select('userTwo as friendId').where({ userOne: user }).andWhere({ status: 'accepted' })
             .union(function () {
-                return this.select('userOne as friendId').from('friends').where({ userTwo: user })
+                return this.select('userOne as friendId').from('friends').where({ userTwo: user }).andWhere({ status: 'accepted' })
             }).as('friendsIds');
         return knex(subquery).join('users', { 'friendsIds.friendId': 'users.id' }).select('users.username');
     }
