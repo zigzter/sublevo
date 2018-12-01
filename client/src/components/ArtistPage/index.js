@@ -33,6 +33,12 @@ export default class ArtistPage extends Component {
         });
         e.target.elements.body.value = '';
     }
+    deleteComment = (id) => {
+        fetch(`/comments/${ id }`, { method: 'delete' });
+        this.setState({
+            comments: this.state.comments.filter(comment => comment.id !== id)
+        });
+    }
     getArtist = async () => {
         const { id } = this.props.match.params;
         const cachedArtist = JSON.parse(localStorage.getItem(id));
@@ -72,7 +78,7 @@ export default class ArtistPage extends Component {
                         <p key={event.id}>{event.displayName}</p>
                     ))
                 }
-                <Comments addComment={this.addComment} comments={comments} currentUser={currentUser} />
+                <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={comments} currentUser={currentUser} />
             </div>
         )
     }

@@ -27,7 +27,7 @@ router.get('/comments/:id', commentsController.fetch);
 router.post('/users/:username/comments', commentsController.create);
 router.post('/artists/:artist/comments', commentsController.create);
 router.post('/events/:event/comments', commentsController.create);
-router.delete('/users/:username/comments/:id', commentsController.destroy);
+router.delete('/comments/:id', commentsController.destroy);
 
 router.use('/api', apiController.getToken);
 router.post('/api/artists', apiController.searchArtistSpotify);

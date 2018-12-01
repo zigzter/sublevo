@@ -1,7 +1,6 @@
 const axios = require('axios');
 const User = require('../models/user');
 const Artist = require('../models/artist');
-const Comment = require('../models/comment');
 
 const { LASTFM_KEY } = process.env;
 

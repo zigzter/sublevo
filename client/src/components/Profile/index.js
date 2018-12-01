@@ -52,7 +52,7 @@ export default class Profile extends Component {
         e.target.elements.body.value = '';
     }
     deleteComment = (id) => {
-        fetch(`/users/${ this.state.user.username }/comments/${ id }`, { method: 'delete' });
+        fetch(`/comments/${ id }`, { method: 'delete' });
         this.setState({
             comments: this.state.comments.filter(comment => comment.id !== id)
         });

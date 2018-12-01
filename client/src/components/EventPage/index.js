@@ -31,6 +31,12 @@ export default class EventPage extends Component {
         });
         e.target.elements.body.value = '';
     }
+    deleteComment = (id) => {
+        fetch(`/comments/${ id }`, { method: 'delete' });
+        this.setState({
+            comments: this.state.comments.filter(comment => comment.id !== id)
+        });
+    }
     getComments = async () => {
         const comments = await fetch(`/comments/${ this.state.event.id }`).then(res => res.json());
         this.setState({ comments });
@@ -48,7 +54,7 @@ export default class EventPage extends Component {
                     <h1>{event.displayName}</h1>
                     <h2>{event.start.time} - {event.start.date}</h2>
                     <h2>{event.venue.displayName}</h2>
-                    <Comments addComment={this.addComment} comments={this.state.comments} currentUser={currentUser} />
+                    <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={this.state.comments} currentUser={currentUser} />
                 </div>
             )
         }
