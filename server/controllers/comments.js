@@ -1,6 +1,5 @@
 const { body, validationResult } = require('express-validator/check');
 const Comment = require('../models/comment');
-const User = require('../models/user');
 
 const validateComment = [
     body('content').not().isEmpty()
@@ -20,7 +19,6 @@ module.exports = {
                 const authorId = req.currentUser.id;
                 const comment = new Comment({ authorId, targetId, targetType, content });
                 await comment.save();
-                console.log(comment);
                 const { id, createdAt } = comment;
                 res.json({ id, createdAt });
             } catch (err) {
@@ -28,6 +26,15 @@ module.exports = {
             }
         },
     ],
+    async fetch(req, res, next) {
+        try {
+            const { id } = req.params;
+            const comments = await Comment.fetch(id);
+            res.json(comments);
+        } catch (err) {
+            next(err);
+        }
+    },
     async destroy(req, res, next) {
         try {
             const { id } = req.params;

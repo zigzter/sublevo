@@ -44,7 +44,7 @@ export default class ArtistPage extends Component {
         localStorage.setItem(`${ id }-events`, JSON.stringify(events));
     }
     getComments = async () => {
-        const comments = await fetch(`/artist/${ this.state.artist.id }/comments`).then(res => res.json());
+        const comments = await fetch(`/comments/${ this.state.artist.id }`).then(res => res.json());
         this.setState({ comments });
     }
     async componentDidMount() {

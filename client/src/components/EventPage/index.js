@@ -32,7 +32,7 @@ export default class EventPage extends Component {
         e.target.elements.body.value = '';
     }
     getComments = async () => {
-        const comments = await fetch(`/events/${ this.state.event.id }/comments`).then(res => res.json());
+        const comments = await fetch(`/comments/${ this.state.event.id }`).then(res => res.json());
         this.setState({ comments });
     }
     async componentDidMount() {

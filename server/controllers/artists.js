@@ -26,15 +26,6 @@ module.exports = {
             res.json({ error: 'Artist already added' })
         }
     },
-    async fetchComments(req, res, next) {
-        try {
-            const { artist } = req.params;
-            const comments = await Comment.fetch(artist);
-            res.json(comments);
-        } catch (err) {
-            next(err);
-        }
-    },
     async fetchSeen(req, res, next) {
         const { id } = req.currentUser;
         const seen = await User.fetchSeen(id);
