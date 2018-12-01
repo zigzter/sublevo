@@ -51,7 +51,9 @@ export default class AppRouter extends Component {
                                 <SignInPage {...routeProps} onSignIn={this.getUser} />
                             )} />
                             <Route path='/events/:id' component={EventPage} />
-                            <Route path='/artist/:id' component={ArtistPage} />
+                            <Route path='/artist/:id' render={(routeProps) => (
+                                <ArtistPage {...routeProps} currentUser={currentUser} />
+                            )} />
                             <Route path='/notifications' component={NotificationsPage} />
                             <Route component={NotFound} />
                         </Switch>

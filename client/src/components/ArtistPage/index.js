@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Loader from 'react-loader-spinner';
+import Comments from '../Shared/Comments';
 
 export default class ArtistPage extends Component {
     constructor(props) {
@@ -7,6 +8,7 @@ export default class ArtistPage extends Component {
         this.state = {
             artist: {},
             events: [],
+            comments: [],
             loading: true,
         }
     }
@@ -21,7 +23,8 @@ export default class ArtistPage extends Component {
         localStorage.setItem(`${ id }-events`, JSON.stringify(events));
     }
     render() {
-        const { artist, events, loading } = this.state;
+        const { artist, events, loading, comments } = this.state;
+        const { currentUser } = this.props;
         if (loading) {
             return (
                 <div>
@@ -40,6 +43,7 @@ export default class ArtistPage extends Component {
                         <p key={event.id}>{event.displayName}</p>
                     ))
                 }
+                <Comments comments={comments} currentUser={currentUser} />
             </div>
         )
     }
