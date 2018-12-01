@@ -15,7 +15,7 @@ const EventPreview = (props) => (
             {props.start.date} <br />
             {props.venue.displayName}
         </CardText>
-        <Link to={{ pathname: `events/${ props.id }`, state: { ...props } }}>Details</Link>
+        <Link to={{ pathname: `events/${ props.id }`, state: { event: { ...props } } }}>Details</Link>
     </Card >
 );
 

@@ -50,7 +50,9 @@ export default class AppRouter extends Component {
                             <Route path='/session/new' render={(routeProps) => (
                                 <SignInPage {...routeProps} onSignIn={this.getUser} />
                             )} />
-                            <Route path='/events/:id' component={EventPage} />
+                            <Route path='/events/:id' render={(routeProps) => (
+                                <EventPage {...routeProps} currentUser={currentUser} />
+                            )} />
                             <Route path='/artist/:id' render={(routeProps) => (
                                 <ArtistPage {...routeProps} currentUser={currentUser} />
                             )} />

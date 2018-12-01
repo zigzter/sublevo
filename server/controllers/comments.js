@@ -20,6 +20,7 @@ module.exports = {
                 const authorId = req.currentUser.id;
                 const comment = new Comment({ authorId, targetId, targetType, content });
                 await comment.save();
+                console.log(comment);
                 const { id, createdAt } = comment;
                 res.json({ id, createdAt });
             } catch (err) {
