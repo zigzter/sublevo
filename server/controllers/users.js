@@ -63,7 +63,6 @@ module.exports = {
                 const seenP = User.fetchSeen(user.id);
                 const friendsP = Friend.get(user.id);
                 const [comments, seen, friends] = await Promise.all([commentsP, seenP, friendsP]);
-                console.log(friends);
                 res.json({
                     user,
                     comments,

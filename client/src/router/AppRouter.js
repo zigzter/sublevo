@@ -10,6 +10,7 @@ import SignUpPage from '../components/SignUpPage';
 import EventPage from '../components/EventPage';
 import ArtistPage from '../components/ArtistPage';
 import NotificationsPage from '../components/NotificationsPage';
+import NotFound from '../components/NotFound';
 
 export default class AppRouter extends Component {
     constructor(props) {
@@ -52,6 +53,7 @@ export default class AppRouter extends Component {
                             <Route path='/events/:id' component={EventPage} />
                             <Route path='/artist/:id' component={ArtistPage} />
                             <Route path='/notifications' component={NotificationsPage} />
+                            <Route component={NotFound} />
                         </Switch>
                     </div>
                 </Fragment>
