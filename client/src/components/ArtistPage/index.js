@@ -18,7 +18,7 @@ export default class ArtistPage extends Component {
         const { artist } = this.state;
         const content = e.target.elements.body.value.trim();
         const targetId = artist.id;
-        const { id, createdAt } = await fetch(`/artists/${ artist.id }/comments`, {
+        const { id, createdAt } = await fetch('/comments', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

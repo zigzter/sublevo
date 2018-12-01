@@ -36,7 +36,7 @@ export default class Profile extends Component {
         const { user } = this.state;
         const content = e.target.elements.body.value.trim();
         const targetId = user.id;
-        const { id, createdAt } = await fetch(`/users/${ user.username }/comments`, {
+        const { id, createdAt } = await fetch('/comments', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -16,7 +16,7 @@ export default class EventPage extends Component {
         const { event } = this.state;
         const content = e.target.elements.body.value.trim();
         const targetId = event.id;
-        const { id, createdAt } = await fetch(`/events/${ event.id }/comments`, {
+        const { id, createdAt } = await fetch('/comments', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

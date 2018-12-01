@@ -11,7 +11,7 @@ const Comments = (props) => {
                 userPresent && <form onSubmit={props.addComment}>
                     <FormGroup>
                         <label htmlFor="body">Add Comment:</label> <br />
-                        <Input type="textarea" name="body" />
+                        <Input type="textarea" name="body" required />
                         <FormText>Be nice.</FormText>
                     </FormGroup>
                     <Button color='primary' outline>Add Comment</Button>
