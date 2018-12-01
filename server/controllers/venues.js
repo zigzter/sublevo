@@ -14,7 +14,7 @@ module.exports = {
             next(err);
         }
     },
-    async venueEvents(req, res) {
+    async venueEvents(req, res, next) {
         try {
             const userId = req.currentUser.id;
             const subs = await Subscription.get(userId, 'venue');
@@ -28,7 +28,7 @@ module.exports = {
             events.sort((a, b) => new Date(a.start.date) - new Date(b.start.date));
             res.json(events);
         } catch (err) {
-            res.json({ error: 'hi' });
+            next(err);
         }
     },
     async remove(req, res) {
