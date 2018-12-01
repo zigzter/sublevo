@@ -1,14 +1,16 @@
+const axios = require('axios');
 const User = require('../models/user');
 const Artist = require('../models/artist');
-const axios = require('axios');
-const LASTFM_KEY = process.env.LASTFM_KEY;
+const Comment = require('../models/comment');
+
+const { LASTFM_KEY } = process.env;
 
 module.exports = {
     async addArtist(req, res) {
         try {
             let { addedArtistName, addedArtistId, artistImage } = req.body;
             const { username } = req.currentUser;
-            const { data: { results: { artistmatches: { artist } } } } = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${addedArtistName}&api_key=${LASTFM_KEY}&format=json&limit=1`);
+            const { data: { results: { artistmatches: { artist } } } } = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${ addedArtistName }&api_key=${ LASTFM_KEY }&format=json&limit=1`);
             const { image } = artist[0];
             if (image[image.length - 1]['#text']) {
                 artistImage = image[image.length - 1]['#text'];
@@ -22,6 +24,15 @@ module.exports = {
             res.json({});
         } catch (err) {
             res.json({ error: 'Artist already added' })
+        }
+    },
+    async fetchComments(req, res, next) {
+        try {
+            const { artist } = req.params;
+            const comments = await Comment.fetch(artist);
+            res.json(comments);
+        } catch (err) {
+            next(err);
         }
     },
     async fetchSeen(req, res, next) {

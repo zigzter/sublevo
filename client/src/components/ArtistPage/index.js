@@ -12,7 +12,28 @@ export default class ArtistPage extends Component {
             loading: true,
         }
     }
-    async componentDidMount() {
+    addComment = async (e) => {
+        e.persist();
+        e.preventDefault();
+        const { artist } = this.state;
+        const content = e.target.elements.body.value.trim();
+        const targetId = artist.id;
+        const { id, createdAt } = await fetch(`/artists/${ artist.id }/comments`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                content,
+                targetId,
+                targetType: 'artist',
+            }),
+        }).then(res => res.json());
+        const comment = [{ content, username: this.props.currentUser.username, id, createdAt }];
+        this.setState({
+            comments: comment.concat(this.state.comments)
+        });
+        e.target.elements.body.value = '';
+    }
+    getArtist = async () => {
         const { id } = this.props.match.params;
         const cachedArtist = JSON.parse(localStorage.getItem(id));
         const cachedEvents = JSON.parse(localStorage.getItem(`${ id }-events`));
@@ -21,6 +42,14 @@ export default class ArtistPage extends Component {
         this.setState({ artist, events, loading: false });
         localStorage.setItem(id, JSON.stringify(artist));
         localStorage.setItem(`${ id }-events`, JSON.stringify(events));
+    }
+    getComments = async () => {
+        const comments = await fetch(`/artist/${ this.state.artist.id }/comments`).then(res => res.json());
+        this.setState({ comments });
+    }
+    async componentDidMount() {
+        await this.getArtist();
+        this.getComments();
     }
     render() {
         const { artist, events, loading, comments } = this.state;
@@ -36,14 +65,14 @@ export default class ArtistPage extends Component {
         return (
             <div>
                 <h1>{artist.name}</h1>
-                <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' width="400" height="200" frameBorder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' width="400" height="200" frameBorder="0" allow="encrypted-media"></iframe>
                 {events.length > 0 && <h2>Upcoming events</h2>}
                 {
                     events.map((event) => (
                         <p key={event.id}>{event.displayName}</p>
                     ))
                 }
-                <Comments comments={comments} currentUser={currentUser} />
+                <Comments addComment={this.addComment} comments={comments} currentUser={currentUser} />
             </div>
         )
     }

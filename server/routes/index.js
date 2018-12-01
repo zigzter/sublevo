@@ -17,6 +17,7 @@ router.patch('/settings', usersController.update);
 
 router.post('/artists/add', artistsController.addArtist);
 router.get('/artists/fetch', artistsController.fetchSeen);
+router.get('/artist/:artist/comments', artistsController.fetchComments);
 router.post('/artists/update', artistsController.updateSeen);
 router.delete('/artists', artistsController.destroySeen);
 
@@ -24,6 +25,7 @@ router.post('/session', sessionController.create);
 router.delete('/session', sessionController.destroy);
 
 router.post('/users/:username/comments/', commentsController.create);
+router.post('/artists/:artist/comments/', commentsController.create);
 router.delete('/users/:username/comments/:id', commentsController.destroy);
 
 router.use('/api', apiController.getToken);

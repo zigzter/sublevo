@@ -1,10 +1,11 @@
 const knex = require('../db/client');
 
 module.exports = class Comment {
-    constructor({ id, authorId, targetId, content, createdAt }) {
+    constructor({ id, authorId, targetId, targetType, content, createdAt }) {
         this.id = id;
         this.authorId = authorId;
         this.targetId = targetId;
+        this.targetType = targetType;
         this.content = content;
         this.createdAt = createdAt;
     }
