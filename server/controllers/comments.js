@@ -16,9 +16,9 @@ module.exports = {
                 return res.json(errors.mapped());
             }
             try {
-                const { content, profileId } = req.body;
+                const { content, targetId, targetType } = req.body;
                 const authorId = req.currentUser.id;
-                const comment = new Comment({ authorId, profileId, content });
+                const comment = new Comment({ authorId, targetId, targetType, content });
                 await comment.save();
                 const { id, createdAt } = comment;
                 res.json({ id, createdAt });

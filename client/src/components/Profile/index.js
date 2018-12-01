@@ -35,13 +35,14 @@ export default class Profile extends Component {
         e.preventDefault();
         const { user } = this.state;
         const content = e.target.elements.body.value.trim();
-        const profileId = user.id;
+        const targetId = user.id;
         const { id, createdAt } = await fetch(`/users/${ user.username }/comments`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 content,
-                profileId,
+                targetId,
+                targetType: 'user',
             }),
         }).then(res => res.json());
         const comment = [{ content, username: this.props.currentUser.username, id, createdAt }];
@@ -68,6 +69,9 @@ export default class Profile extends Component {
             dropdownOpen: !this.state.dropdownOpen
         });
     }
+    toggleNav = (tab) => {
+        this.setState({ tab });
+    }
     componentDidMount() {
         this.fetchUserData();
     }
@@ -77,18 +81,18 @@ export default class Profile extends Component {
         }
     }
     render() {
-        const { user, comments, seen, tab, friends } = this.state;
+        const { user, comments, seen, tab, friends, dropdownOpen, loading } = this.state;
         const { currentUser } = this.props;
         return (
             <div className="Profile">
-                {this.state.loading && <Loader type="Audio" color="#000" height={120} width={120} />}
+                {loading && <Loader type="Audio" color="#000" height={120} width={120} />}
                 <div className='profileHeader'>
                     <h1 className='username'>{user.username}</h1>
                     {
                         user.id !== currentUser.id && currentUser.id &&
                         <ButtonGroup>
                             <Button onClick={this.addFriend} color='success' outline>Add friend</Button>
-                            <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                            <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>
                                 <DropdownToggle color='success' outline caret></DropdownToggle>
                                 <DropdownMenu>
                                     <DropdownItem onClick={this.blockUser}>Block user</DropdownItem>
@@ -99,9 +103,9 @@ export default class Profile extends Component {
                 </div>
                 <h4>{user.name}, {user.location}</h4>
                 <div className='profileNav'>
-                    <Button color='link' className={(tab === 1 ? 'active' : '')} onClick={() => this.setState({ tab: 1 })}>Seen Grid</Button>
-                    <Button color='link' className={(tab === 2 ? 'active' : '')} onClick={() => this.setState({ tab: 2 })}>Full Seen List</Button>
-                    <Button color='link' className={(tab === 3 ? 'active' : '')} onClick={() => this.setState({ tab: 3 })}>{user.username}'s Friends</Button>
+                    <Button color='link' className={(tab === 1 ? 'active' : '')} onClick={() => this.toggleNav(1)}>Seen Grid</Button>
+                    <Button color='link' className={(tab === 2 ? 'active' : '')} onClick={() => this.toggleNav(2)}>Full Seen List</Button>
+                    <Button color='link' className={(tab === 3 ? 'active' : '')} onClick={() => this.toggleNav(3)}>{user.username}'s Friends</Button>
                 </div>
                 <hr />
                 {tab === 1 && <SeenLive seen={seen} />}
