@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Button, ButtonGroup } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Comments from '../Shared/Comments';
+import GOOGLE_MAPS_KEY from '../../keys';
 
 export default class EventPage extends Component {
     constructor(props) {
@@ -8,6 +10,7 @@ export default class EventPage extends Component {
         this.state = {
             event: {},
             comments: [],
+            attendees: [],
         }
     }
     addComment = async (e) => {
@@ -44,6 +47,7 @@ export default class EventPage extends Component {
     async componentDidMount() {
         await this.setState({ event: this.props.location.state.event });
         this.getComments();
+        console.log(GOOGLE_MAPS_KEY)
     }
     render() {
         const { event } = this.state;
@@ -51,9 +55,25 @@ export default class EventPage extends Component {
         if (event.start) {
             return (
                 <div>
-                    <h1>{event.displayName}</h1>
+                    <h1>{event.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || event.displayName}</h1>
+                    <h2>{event.performance.filter(a => a.billing === 'support').map((artist) => artist.displayName).join(', ') || ''}</h2>
                     <h2>{event.start.time} - {event.start.date}</h2>
-                    <h2>{event.venue.displayName}</h2>
+                    <div className='location'>
+                        <p>{event.venue.displayName}</p>
+                        <p>{event.venue.street}</p>
+                        <p>{(event.venue.city) ? event.venue.city.displayName : event.venue.metroArea.displayName}</p>
+                        <iframe
+                            title="googleMap"
+                            width="450"
+                            height="250"
+                            frameBorder="0" style={{ border: 0 }}
+                            src={`https://www.google.com/maps/embed/v1/search?key=${ GOOGLE_MAPS_KEY }&q=${ event.venue.displayName }`} allowFullScreen>
+                        </iframe>
+                    </div>
+                    <ButtonGroup>
+                        <Button color='success'>Going</Button>
+                        <Button color='primary' outline>Interested</Button>
+                    </ButtonGroup>
                     <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={this.state.comments} currentUser={currentUser} />
                 </div>
             )
