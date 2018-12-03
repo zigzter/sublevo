@@ -13,7 +13,7 @@ module.exports = class Comment {
     static async fetch(targetId) {
         return knex('comments').where({ targetId })
             .join('users', { 'comments.authorId': 'users.id' })
-            .select('comments.id', 'comments.content', 'users.username', 'comments.createdAt')
+            .select('comments.id', 'comments.content', 'users.username', 'users.avatar', 'comments.createdAt')
             .orderBy('comments.createdAt', 'desc');
     }
 
