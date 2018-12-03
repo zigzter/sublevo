@@ -11,7 +11,6 @@ const app = express();
 // APIPCONFIG =======================================================
 
 app.use(express.static('public'));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

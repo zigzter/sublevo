@@ -1,4 +1,7 @@
 const { body, validationResult } = require('express-validator/check');
+const multer = require('multer');
+
+const upload = multer({ dest: 'public/img/' });
 const User = require('../models/user');
 const Friend = require('../models/friend');
 const Comment = require('../models/comment');
@@ -89,11 +92,18 @@ module.exports = {
             next(err);
         }
     },
-    async update(req, res) {
-        const { id } = req.currentUser;
-        const { name, about, location } = req.body;
-        User.updateInfo(id, name, about, location);
-    },
+    update: [
+        upload.single('avatar'),
+        (req, res, next) => {
+            try {
+                const { id } = req.currentUser;
+                const { name, about, location } = req.body;
+                User.updateInfo(id, name, about, location);
+            } catch (err) {
+                next(err);
+            }
+        },
+    ],
     async fetchInfo(req, res) {
         const { id } = req.currentUser;
         const user = await User.findById(id);

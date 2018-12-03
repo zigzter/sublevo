@@ -102,11 +102,11 @@ export default class Settings extends Component {
     }
     updateInfo = async (event) => {
         event.preventDefault();
-        const { name: { value: name }, location: { value: location }, about: { value: about } } = event.currentTarget.elements;
+        const form = document.getElementById("infoUpdateForm");
+        const formData = new FormData(form);
         fetch('/settings', {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, location, about })
+            body: formData,
         });
         document.getElementById('personalInfo').innerText = 'Updated!';
         document.getElementById('personalInfo').disabled = true;

@@ -20,7 +20,7 @@ module.exports = class User {
     }
 
     static async find(type, input) {
-        const userRaw = await knex('users').where(`${type}`, input).first();
+        const userRaw = await knex('users').where(`${ type }`, input).first();
         if (!userRaw) {
             return undefined;
         }
