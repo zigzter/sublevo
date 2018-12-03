@@ -45,9 +45,15 @@
 }
 
 .friend {
-  background: white;
+  display: flex;
+  background: whitesmoke;
+  border: 1px solid gray;
   border-radius: 4px;
-  padding: 20px;
+  padding: 10px;
+  img {
+    margin-right: 5px;
+    border-radius: 4px;
+  }
 }
 
 .SeenLive {
@@ -91,6 +97,22 @@
   display: flex;
   justify-content: space-between;
   padding: 5px;
+  .btn-group {
+    height: 60px;
+  }
+  .userInfo {
+    img {
+      margin-right: 10px;
+      border-radius: 4px;
+    }
+    h1, h4 {
+      margin: 0;
+    }
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    height: 80px;
+  }
 }
 
 .username {
@@ -101,26 +123,6 @@
     height: 50px;
     text-align: center;
 }
-
-.Comment {
-  border-bottom: 1px solid darkgrey;
-  padding: 10px;
-  margin: 5px 0;
-  position: relative;
-}
-
-.Comment a {
-  margin: 0;
-}
-
-.commentTime {
-  font-size: .8rem;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-}
-
-
 
 @media only screen and (min-width: 768px) {
   .SeenLive {

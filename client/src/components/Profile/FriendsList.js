@@ -7,9 +7,10 @@ const FriendsList = (props) => (
         <div className='friendsList'>
             {
                 props.friends.map((friend) => (
-                    <Link className='friend' to={`/users/${ friend.username }`} key={Math.random()}>
+                    <Link className='friend shadow-sm' to={`/users/${ friend.username }`} key={Math.random()}>
+                        <img src={(friend.avatar) ? `/img/${ friend.avatar }` : '/img/default.jpg'} alt="avatar" width='80px' height='80px' />
                         <div>
-                            {friend.username}
+                            <h4>{friend.username}</h4>
                         </div>
                     </Link>
                 ))

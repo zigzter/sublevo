@@ -33,6 +33,7 @@ export default class Profile extends Component {
     addComment = async (e) => {
         e.persist();
         e.preventDefault();
+        const { currentUser } = this.props;
         const { user } = this.state;
         const content = e.target.elements.body.value.trim();
         const targetId = user.id;
@@ -45,7 +46,8 @@ export default class Profile extends Component {
                 targetType: 'user',
             }),
         }).then(res => res.json());
-        const comment = [{ content, username: this.props.currentUser.username, id, createdAt }];
+        console.log(currentUser.avatar);
+        const comment = [{ content, username: currentUser.username, avatar: currentUser.avatar, id, createdAt }];
         this.setState({
             comments: comment.concat(this.state.comments)
         });
@@ -87,7 +89,11 @@ export default class Profile extends Component {
             <div className="Profile">
                 {loading && <Loader type="Audio" color="#000" height={120} width={120} />}
                 <div className='profileHeader'>
-                    <h1 className='username'>{user.username}</h1>
+                    <div className="userInfo">
+                        <img src={(user.avatar) ? `/img/${ user.avatar }` : '/img/default.jpg'} alt="avatar" width='80px' height='80px' />
+                        <h1 className='username'>{user.username}</h1>
+                        <h4>{user.name}, {user.location}</h4>
+                    </div>
                     {
                         user.id !== currentUser.id && currentUser.id &&
                         <ButtonGroup>
@@ -101,7 +107,6 @@ export default class Profile extends Component {
                         </ButtonGroup>
                     }
                 </div>
-                <h4>{user.name}, {user.location}</h4>
                 <div className='profileNav'>
                     <Button color='link' className={(tab === 1 ? 'active' : '')} onClick={() => this.toggleNav(1)}>Seen Grid</Button>
                     <Button color='link' className={(tab === 2 ? 'active' : '')} onClick={() => this.toggleNav(2)}>Full Seen List</Button>
