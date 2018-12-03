@@ -79,6 +79,7 @@ export default class Profile extends Component {
     }
     componentDidUpdate(prevProps) {
         if (this.props.match.params.username !== prevProps.match.params.username) {
+            this.setState({ tab: 1 });
             this.fetchUserData();
         }
     }

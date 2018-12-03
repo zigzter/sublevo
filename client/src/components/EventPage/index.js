@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Comments from '../Shared/Comments';
 import GOOGLE_MAPS_KEY from '../../keys';
 import Attendees from './Attendees';
+import './index.scss';
 
 export default class EventPage extends Component {
     constructor(props) {
