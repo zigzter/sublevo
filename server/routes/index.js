@@ -6,6 +6,7 @@ const artistsController = require('../controllers/artists');
 const apiController = require('../controllers/api');
 const venuesController = require('../controllers/venues');
 const friendsController = require('../controllers/friends');
+const eventsController = require('../controllers/events');
 
 const router = express.Router();
 
@@ -19,6 +20,9 @@ router.post('/artists/add', artistsController.addArtist);
 router.get('/artists/fetch', artistsController.fetchSeen);
 router.post('/artists/update', artistsController.updateSeen);
 router.delete('/artists', artistsController.destroySeen);
+
+router.post('/events/:eventId', eventsController.attending);
+router.get('/events/:eventId', eventsController.fetchAttendees);
 
 router.post('/session', sessionController.create);
 router.delete('/session', sessionController.destroy);

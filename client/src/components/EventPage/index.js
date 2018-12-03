@@ -3,6 +3,7 @@ import { Button, ButtonGroup } from 'reactstrap';
 import PropTypes from 'prop-types';
 import Comments from '../Shared/Comments';
 import GOOGLE_MAPS_KEY from '../../keys';
+import Attendees from './Attendees';
 
 export default class EventPage extends Component {
     constructor(props) {
@@ -44,13 +45,24 @@ export default class EventPage extends Component {
         const comments = await fetch(`/comments/${ this.state.event.id }`).then(res => res.json());
         this.setState({ comments });
     }
+    getAttendees = async () => {
+        const attendees = await fetch(`/events/${ this.state.event.id }`).then(res => res.json());
+        this.setState({ attendees });
+    }
+    attend = (status) => {
+        fetch(`/events/${ this.state.event.id }`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status }),
+        });
+    }
     async componentDidMount() {
         await this.setState({ event: this.props.location.state.event });
         this.getComments();
-        console.log(GOOGLE_MAPS_KEY)
+        this.getAttendees();
     }
     render() {
-        const { event } = this.state;
+        const { event, attendees } = this.state;
         const { currentUser } = this.props;
         if (event.start) {
             return (
@@ -71,9 +83,10 @@ export default class EventPage extends Component {
                         </iframe>
                     </div>
                     <ButtonGroup>
-                        <Button color='success'>Going</Button>
-                        <Button color='primary' outline>Interested</Button>
+                        <Button onClick={() => this.attend('going')} color='success'>Going</Button>
+                        <Button onClick={() => this.attend('interested')} color='primary' outline>Interested</Button>
                     </ButtonGroup>
+                    <Attendees attendees={attendees} />
                     <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={this.state.comments} currentUser={currentUser} />
                 </div>
             )
