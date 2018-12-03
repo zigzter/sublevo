@@ -1,11 +1,24 @@
 const { body, validationResult } = require('express-validator/check');
 const multer = require('multer');
+const crypto = require('crypto');
+const path = require('path');
 
-const upload = multer({ dest: 'public/img/' });
 const User = require('../models/user');
 const Friend = require('../models/friend');
 const Comment = require('../models/comment');
 const Subscription = require('../models/subscription');
+
+const storage = multer.diskStorage({
+    destination: './public/img/',
+    filename: function (req, file, cb) {
+        crypto.pseudoRandomBytes(16, function (err, raw) {
+            if (err) return cb(err)
+            cb(null, raw.toString('hex') + path.extname(file.originalname))
+        })
+    }
+})
+
+const upload = multer({ dest: 'public/img/', storage });
 
 const validateUser = [
     body('username').not().isEmpty()
@@ -97,8 +110,9 @@ module.exports = {
         (req, res, next) => {
             try {
                 const { id } = req.currentUser;
+                const avatar = req.file.filename;
                 const { name, about, location } = req.body;
-                User.updateInfo(id, name, about, location);
+                User.updateInfo(id, name, about, location, avatar);
             } catch (err) {
                 next(err);
             }
@@ -108,7 +122,7 @@ module.exports = {
         const { id } = req.currentUser;
         const user = await User.findById(id);
         const subs = await Subscription.get(user.id, 'venue');
-        const userInfo = { about: user.about, location: user.location, name: user.name, subs };
+        const userInfo = { about: user.about, location: user.location, name: user.name, avatar: user.avatar, subs };
         res.json(userInfo);
     },
 };

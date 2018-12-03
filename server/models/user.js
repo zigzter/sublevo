@@ -54,8 +54,8 @@ module.exports = class User {
         return knex('seenlive').where({ userId, artistId }).del();
     }
 
-    static async updateInfo(id, name, about, location) {
-        return knex('users').where({ id }).update({ name, about, location }).then();
+    static async updateInfo(id, name, about, location, avatar) {
+        return knex('users').where({ id }).update({ name, about, location, avatar }).then();
     }
 
     async save() {
