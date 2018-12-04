@@ -91,7 +91,7 @@ export default class Profile extends Component {
                 {loading && <Loader type="Audio" color="#000" height={120} width={120} />}
                 <div className='profileHeader'>
                     <div className="userInfo">
-                        <img src={(user.avatar) ? `/img/${ user.avatar }` : '/img/default.jpg'} alt="avatar" width='80px' height='80px' />
+                        <img className='shadow-sm' src={(user.avatar) ? `/img/${ user.avatar }` : '/img/default.jpg'} alt="avatar" width='80px' height='80px' />
                         <h1 className='username'>{user.username}</h1>
                         <h4>{user.name}, {user.location}</h4>
                     </div>
@@ -114,7 +114,7 @@ export default class Profile extends Component {
                     <Button color='link' className={(tab === 3 ? 'active' : '')} onClick={() => this.toggleNav(3)}>{user.username}'s Friends</Button>
                 </div>
                 <hr />
-                {tab === 1 && <SeenLive seen={seen} />}
+                {tab === 1 && <SeenLive username={user.username} seen={seen} />}
                 {tab === 2 && <FullSeen seen={seen} />}
                 {tab === 3 && <FriendsList friends={friends} />}
                 <h3>About Me</h3>
