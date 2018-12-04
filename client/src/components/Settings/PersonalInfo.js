@@ -10,7 +10,7 @@ const PersonalInfo = (props) => (
         </FormGroup>
         <FormGroup>
             <Label htmlFor="about">About You</Label>
-            <Input key={`${ Math.floor((Math.random() * 1000)) }-min`} type='textarea' name='about' defaultValue={props.about}></Input>
+            <Input key={`${ Math.floor((Math.random() * 1000)) }-min`} type='textarea' name='about' defaultValue={props.about} style={{ height: '200px' }}></Input>
         </FormGroup>
         <FormGroup>
             <Label htmlFor="location">Location</Label>

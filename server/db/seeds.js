@@ -12,7 +12,7 @@ const attendUsers = async (length) => {
     const userIds = users.map(u => u.id);
     const statuses = ['going', 'interested'];
     eventIds.map(async (eId) => {
-        userIds.map(uId => {
+        userIds.map((uId) => {
             const status = statuses[Math.floor(Math.random() * 2)];
             Attendee.attend(status, eId, uId)
         })

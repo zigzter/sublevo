@@ -8,8 +8,8 @@ import VenuesResults from './VenuesResults';
 import EditSeenForm from './EditSeenForm';
 import PersonalInfo from './PersonalInfo';
 import EditVenueForm from './EditVenueForm';
-import './index.scss';
 import PropTypes from 'prop-types';
+import './index.scss';
 
 export default class Settings extends Component {
     constructor(props) {
@@ -122,40 +122,41 @@ export default class Settings extends Component {
         await this.setState({ seen, userInfo: { about, name, location }, subs });
     }
     render() {
+        const { activeTab, userInfo, loading, artists, venues, subs, seen } = this.state;
         return (
             <div className="settings">
                 <Nav tabs>
                     <NavItem>
-                        <NavLink onClick={() => { this.toggle('1'); }} className={{ active: this.state.activeTab === '1' }}>
+                        <NavLink onClick={() => { this.toggle('1'); }} className={{ active: activeTab === '1' }}>
                             Personal
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink onClick={() => { this.toggle('2'); }} className={{ active: this.state.activeTab === '2' }}>
+                        <NavLink onClick={() => { this.toggle('2'); }} className={{ active: activeTab === '2' }}>
                             Update Seen
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink onClick={() => { this.toggle('3'); }} className={{ active: this.state.activeTab === '3' }}>
+                        <NavLink onClick={() => { this.toggle('3'); }} className={{ active: activeTab === '3' }}>
                             Venues
                         </NavLink>
                     </NavItem>
                 </Nav>
-                <TabContent activeTab={this.state.activeTab}>
+                <TabContent activeTab={activeTab}>
                     <TabPane tabId="1">
-                        <PersonalInfo {...this.state.userInfo} updateInfo={this.updateInfo} />
+                        <PersonalInfo {...userInfo} updateInfo={this.updateInfo} />
                     </TabPane>
                     <TabPane tabId="2">
                         <AddArtistForm searchArtists={this.searchArtists} />
-                        {this.state.loading && <Loader type="Audio" color="#000" height={150} width={150} />}
-                        {this.state.artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={this.state.artists} />}
-                        <EditSeenForm removeSeen={this.removeSeen} updateSeen={this.updateSeen} seen={this.state.seen} />
+                        {loading && <Loader type="Audio" color="#000" height={150} width={150} />}
+                        {artists.length > 0 && <ArtistsResults addArtist={this.addArtist} artists={artists} />}
+                        <EditSeenForm removeSeen={this.removeSeen} updateSeen={this.updateSeen} seen={seen} />
                     </TabPane>
                     <TabPane tabId="3">
                         <AddVenueForm searchVenues={this.searchVenues} />
-                        {this.state.loading && <Loader type="Audio" color="#000" height={150} width={150} />}
-                        {this.state.venues.length > 0 && <VenuesResults addVenue={this.addVenue} venues={this.state.venues} />}
-                        <EditVenueForm subscriptions={this.state.subs} removeSub={this.removeSub} />
+                        {loading && <Loader type="Audio" color="#000" height={150} width={150} />}
+                        {venues.length > 0 && <VenuesResults addVenue={this.addVenue} venues={venues} />}
+                        <EditVenueForm subscriptions={subs} removeSub={this.removeSub} />
                     </TabPane>
                 </TabContent>
             </div>
