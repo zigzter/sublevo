@@ -71,6 +71,7 @@ export default class ArtistPage extends Component {
         return (
             <div>
                 <h1>{artist.name}</h1>
+                <p>{artist.bio}</p>
                 <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' width="400" height="200" frameBorder="0" allow="encrypted-media"></iframe>
                 {events.length > 0 && <h2>Upcoming events</h2>}
                 {
@@ -82,4 +83,4 @@ export default class ArtistPage extends Component {
             </div>
         )
     }
-};
+}

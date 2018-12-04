@@ -4,6 +4,7 @@ const axios = require('axios');
 const SpotifyClientId = process.env.SPOTIFY_CLIENT_ID;
 const SpotifyClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const SongkickKey = process.env.SONGKICK_KEY;
+const { LASTFM_KEY } = process.env;
 
 const spotify = new SpotifyWebApi({
     clientId: SpotifyClientId,
@@ -33,7 +34,10 @@ module.exports = {
         try {
             const { artistId } = req.params;
             const { body: artist } = await spotify.getArtist(artistId);
-            const rawSKartist = await axios.get(`https://api.songkick.com/api/3.0/search/artists.json?apikey=${ SongkickKey }&query=${ artist.name }&per_page=1`);
+            const rawSKartistPromise = axios.get(`https://api.songkick.com/api/3.0/search/artists.json?apikey=${ SongkickKey }&query=${ artist.name }&per_page=1`);
+            const artistBioRawPromise = axios.get(`https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${ artist.name }&api_key=${ LASTFM_KEY }&format=json&limit=1`);
+            const [rawSKartist, artistBioRaw] = await Promise.all([rawSKartistPromise, artistBioRawPromise]);
+            artist.bio = artistBioRaw.data.artist.bio.content;
             const { id: songkickId } = rawSKartist.data.resultsPage.results.artist[0];
             const rawSKevents = await axios.get(`https://api.songkick.com/api/3.0/artists/${ songkickId }/calendar.json?apikey=${ SongkickKey }`);
             const events = rawSKevents.data.resultsPage.results.event || [];
