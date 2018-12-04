@@ -13,6 +13,7 @@ export default class EventPage extends Component {
             event: {},
             comments: [],
             attendees: [],
+            currentUserStatus: undefined,
         }
     }
     addComment = async (e) => {
@@ -48,7 +49,8 @@ export default class EventPage extends Component {
     }
     getAttendees = async () => {
         const attendees = await fetch(`/events/${ this.state.event.id }`).then(res => res.json());
-        this.setState({ attendees });
+        const [{ status: currentUserStatus }] = attendees.filter(attendee => attendee.id === this.props.currentUser.id);
+        this.setState({ attendees, currentUserStatus });
     }
     attend = (status) => {
         fetch(`/events/${ this.state.event.id }`, {
@@ -56,6 +58,7 @@ export default class EventPage extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status }),
         });
+        this.setState({ currentUserStatus: status })
     }
     async componentDidMount() {
         await this.setState({ event: this.props.location.state.event });
@@ -63,11 +66,11 @@ export default class EventPage extends Component {
         this.getAttendees();
     }
     render() {
-        const { event, attendees } = this.state;
+        const { event, attendees, currentUserStatus } = this.state;
         const { currentUser } = this.props;
         if (event.start) {
             return (
-                <div>
+                <div className='EventPage'>
                     <h1>{event.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || event.displayName}</h1>
                     <h2>{event.performance.filter(a => a.billing === 'support').map((artist) => artist.displayName).join(', ') || ''}</h2>
                     <h2>{event.start.time} - {event.start.date}</h2>
@@ -84,8 +87,19 @@ export default class EventPage extends Component {
                         </iframe>
                     </div>
                     <ButtonGroup>
-                        <Button onClick={() => this.attend('going')} color='success'>Going</Button>
-                        <Button onClick={() => this.attend('interested')} color='primary' outline>Interested</Button>
+                        <Button
+                            onClick={() => this.attend('going')}
+                            color={(currentUserStatus === 'going') ? 'info' : 'success'}
+                        >
+                            Going {(currentUserStatus === 'going') ? '✓' : ''}
+                        </Button>
+                        <Button
+                            onClick={() => this.attend('interested')}
+                            color={(currentUserStatus === 'interested') ? 'info' : 'primary'}
+                            outline
+                        >
+                            Interested {(currentUserStatus === 'interested') ? '✓' : ''}
+                        </Button>
                     </ButtonGroup>
                     <Attendees attendees={attendees} />
                     <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={this.state.comments} currentUser={currentUser} />
@@ -98,8 +112,9 @@ export default class EventPage extends Component {
             </div>
         )
     }
-};
+}
 
 EventPage.propTypes = {
     location: PropTypes.object,
+    currentUser: PropTypes.object,
 };

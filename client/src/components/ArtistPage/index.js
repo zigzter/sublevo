@@ -75,12 +75,7 @@ export default class ArtistPage extends Component {
             <div className='ArtistPage'>
                 <h1>{artist.name}</h1>
                 <div className="bioPlayer">
-                    <ShowMore
-                        lines={10}
-                        more='Show more'
-                        less='Show less'
-                        anchorClass=''
-                    >
+                    <ShowMore lines={10} more='Show more' less='Show less' anchorClass=''>
                         {artist.bio}
                     </ShowMore>
                     <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' frameBorder="0" allow="encrypted-media"></iframe>

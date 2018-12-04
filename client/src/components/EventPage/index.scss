@@ -1,3 +1,16 @@
+.EventPage {
+    .btn-info {
+        &:focus {
+            box-shadow: none;
+        }
+    }
+    .btn-outline-info {
+        &:focus {
+            box-shadow: none;
+        }
+    }
+}
+
 .location {
     p {
         margin: 0;
