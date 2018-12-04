@@ -1,37 +1,63 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 import EventPreview from './EventPreview';
+import './index.scss';
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: true,
-            events: undefined
+            events: [],
+            filteredEvents: [],
+            filter: undefined,
+            venues: [],
         }
     }
     getEvents = async () => {
         const cachedEvents = JSON.parse(localStorage.getItem('events'));
-        if (cachedEvents && cachedEvents.length !== 0) return this.setState({ events: cachedEvents, loading: false });
+        if (cachedEvents && cachedEvents.length !== 0) {
+            const venues = [...new Set(cachedEvents.map(event => event.venue.displayName))];
+            return this.setState({ events: cachedEvents, venues, loading: false });
+        }
         const events = await fetch('/venues', { method: 'GET' }).then(res => res.json());
+        const venues = [...new Set(events.map(event => event.venue.displayName))];
         localStorage.setItem('events', JSON.stringify(events));
-        this.setState({ events, loading: false });
+        this.setState({ events, venues, loading: false });
+    }
+    filterVenues = (event) => {
+        const venue = event.target.textContent;
+        const filteredEvents = this.state.events.filter(event => event.venue.displayName === venue);
+        this.setState({ filteredEvents, filter: venue });
+    }
+    clearFilter = () => {
+        this.setState({ filteredEvents: [], filter: undefined });
     }
     componentDidMount() {
         this.getEvents();
     }
     render() {
-        const { events } = this.state
+        const { events, venues, filteredEvents, filter } = this.state
         if (!this.state.loading) {
             return (
                 <div>
-                    <ul className='events'>
+                    <div className="venueFilter">
+                        <Button color='success' onClick={this.clearFilter} outline={filter}>All Venues</Button>
+                        {venues.map(venue => <Button color='success' key={venue} onClick={this.filterVenues} outline={filter !== venue}>{venue}</Button>)}
+                    </div>
+                    <div className='events'>
                         {
-                            !!events[0] && events.map((event) => (
+                            !!filteredEvents.length || events.map((event) => (
                                 <EventPreview key={event.id} {...event} />
                             ))
                         }
-                    </ul>
+                        {
+                            !!filteredEvents.length && filteredEvents.map((event) => (
+                                <EventPreview key={event.id} {...event} />
+                            ))
+                        }
+                    </div>
                 </div>
             );
         }

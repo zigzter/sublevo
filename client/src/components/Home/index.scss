@@ -1,0 +1,9 @@
+.venueFilter {
+    padding: 5px 20px;
+    button {
+        margin: 4px;
+        &:focus {
+            box-shadow: none;
+        }
+    }
+}
