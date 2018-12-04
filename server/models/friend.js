@@ -26,6 +26,6 @@ module.exports = class Friend {
             .union(function () {
                 return this.select('userOne as friendId').from('friends').where({ userTwo: user }).andWhere({ status: 'accepted' })
             }).as('friendsIds');
-        return knex(subquery).join('users', { 'friendsIds.friendId': 'users.id' }).select('users.username', 'users.avatar');
+        return knex(subquery).join('users', { 'friendsIds.friendId': 'users.id' }).select('users.username', 'users.avatar', 'users.id');
     }
 };

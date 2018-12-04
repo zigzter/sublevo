@@ -6,6 +6,7 @@ module.exports = {
         const { id: userId } = req.currentUser;
         const { status } = req.body;
         Attendee.attend(status, eventId, userId);
+        res.status(204).send();
     },
     async fetchAttendees(req, res) {
         const { eventId } = req.params;

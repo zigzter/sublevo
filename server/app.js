@@ -42,11 +42,19 @@ app.use(async (req, res, next) => {
     }
 });
 
+const errorCatch = fn = (req, res, next) => {
+    fn(req, res).catch(err => next(err));
+};
+
 // ROUTING ==========================================================
 
 const indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
+
+app.use((err, req, res, next) => {
+    res.status(500).send(err);
+});
 
 const PORT = process.env.PORT || 3030;
 

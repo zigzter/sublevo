@@ -15,6 +15,7 @@ export default class Profile extends Component {
             comments: [],
             seen: [],
             friends: [],
+            friend: false,
             loading: true,
             dropdownOpen: false,
             tab: 1,
@@ -22,11 +23,13 @@ export default class Profile extends Component {
     }
     async fetchUserData() {
         const { user, comments, seen, friends } = await fetch(`/users/${ this.props.match.params.username }`).then(res => res.json());
+        const friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
         this.setState({
             user,
             comments,
             seen,
             friends,
+            friend,
             loading: false,
         });
     }
@@ -83,7 +86,7 @@ export default class Profile extends Component {
         }
     }
     render() {
-        const { user, comments, seen, tab, friends, dropdownOpen, loading } = this.state;
+        const { user, comments, seen, tab, friends, dropdownOpen, loading, friend } = this.state;
         const { currentUser } = this.props;
         return (
             <div className="Profile">
@@ -97,7 +100,7 @@ export default class Profile extends Component {
                     {
                         user.id !== currentUser.id && currentUser.id &&
                         <ButtonGroup>
-                            <Button onClick={this.addFriend} color='success' outline>Add friend</Button>
+                            <Button onClick={this.addFriend} color='success' outline disabled={friend}>{(friend) ? 'Friends' : 'Add Friend'}</Button>
                             <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>
                                 <DropdownToggle color='success' outline caret></DropdownToggle>
                                 <DropdownMenu>
