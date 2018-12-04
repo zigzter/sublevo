@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Loader from 'react-loader-spinner';
+import ShowMore from 'react-show-more';
 import Comments from '../Shared/Comments';
+import './index.scss';
 
 export default class ArtistPage extends Component {
     constructor(props) {
@@ -69,16 +72,31 @@ export default class ArtistPage extends Component {
             )
         }
         return (
-            <div>
+            <div className='ArtistPage'>
                 <h1>{artist.name}</h1>
-                <p>{artist.bio}</p>
-                <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' width="400" height="200" frameBorder="0" allow="encrypted-media"></iframe>
-                {events.length > 0 && <h2>Upcoming events</h2>}
-                {
-                    events.map((event) => (
-                        <p key={event.id}>{event.displayName}</p>
-                    ))
-                }
+                <div className="bioPlayer">
+                    <ShowMore
+                        lines={10}
+                        more='Show more'
+                        less='Show less'
+                        anchorClass=''
+                    >
+                        {artist.bio}
+                    </ShowMore>
+                    <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' frameBorder="0" allow="encrypted-media"></iframe>
+                </div>
+                <hr />
+                <div className="events">
+                    {events.length > 0 && <h2>Upcoming events</h2>}
+                    {
+                        events.map((event) => (
+                            <div key={event.id} >
+                                <Link to={{ pathname: `/events/${ event.id }`, state: { event: { ...event } } }}>{event.displayName}</Link>
+                            </div>
+                        ))
+                    }
+                </div>
+                <hr />
                 <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={comments} currentUser={currentUser} />
             </div>
         )

@@ -46,7 +46,6 @@ export default class Profile extends Component {
                 targetType: 'user',
             }),
         }).then(res => res.json());
-        console.log(currentUser.avatar);
         const comment = [{ content, username: currentUser.username, avatar: currentUser.avatar, id, createdAt }];
         this.setState({
             comments: comment.concat(this.state.comments)
