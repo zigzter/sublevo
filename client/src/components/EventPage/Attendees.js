@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Attendees = (props) => {
     return (
         <div className='Attendees'>
-            <div className='userList'>
+            <div className='userList shadow-sm'>
                 <h3>Going</h3>
                 {
                     props.attendees.filter(a => a.status === 'going').map(user => {
@@ -18,7 +18,7 @@ const Attendees = (props) => {
                     })
                 }
             </div>
-            <div className='userList'>
+            <div className='userList shadow-sm'>
                 <h3>Interested</h3>
                 {
                     props.attendees.filter(a => a.status === 'interested').map(user => {

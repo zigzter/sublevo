@@ -66,12 +66,13 @@ export default class Settings extends Component {
             loading: false
         });
     }
-    addVenue = async (venueId, name) => {
-        fetch('/venues', {
+    addVenue = async (currentTarget, venueId, name) => {
+        await fetch('/venues', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ venueId, name })
         });
+        currentTarget.textContent = 'Subscribed!';
         localStorage.removeItem('events');
     }
     updateSeen = async (event) => {

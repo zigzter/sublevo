@@ -9,9 +9,17 @@
             box-shadow: none;
         }
     }
+    .btn-group {
+        margin: 5px;
+    }
 }
 
 .location {
+    padding: 10px;
+    border: 1px solid darkgray;
+    background: whitesmoke;
+    border-radius: 4px;
+    margin: 10px 4px;
     p {
         margin: 0;
     }
@@ -22,12 +30,29 @@
     justify-content: space-around;
     img {
         border-radius: 50%;
+        border: 1px solid darkgray;
+        margin: 2px;
     }
 }
 
 .userList {
     border: 1px solid darkgray;
+    background: whitesmoke;
     border-radius: 4px;
-    padding: 10px;
+    padding: 12px;
     margin: 5px;
+}
+
+.venue {
+    cursor: pointer;
+}
+
+.googleMap {
+    transition: height 150ms linear;
+    height: 0;
+}
+
+.open {
+    transition: height 150ms linear;
+    height: 200px;
 }

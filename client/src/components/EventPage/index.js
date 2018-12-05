@@ -14,6 +14,7 @@ export default class EventPage extends Component {
             comments: [],
             attendees: [],
             currentUserStatus: undefined,
+            mapOpen: false,
         }
     }
     addComment = async (e) => {
@@ -50,7 +51,8 @@ export default class EventPage extends Component {
     }
     getAttendees = async () => {
         const attendees = await fetch(`/events/${ this.state.event.id }`).then(res => res.json());
-        const [{ status: currentUserStatus }] = attendees.filter(attendee => attendee.id === this.props.currentUser.id);
+        const [status] = attendees.filter(attendee => attendee.id === this.props.currentUser.id);
+        const currentUserStatus = (status) ? status.status : undefined;
         this.setState({ attendees, currentUserStatus });
     }
     attend = (status) => {
@@ -61,13 +63,16 @@ export default class EventPage extends Component {
         });
         this.setState({ currentUserStatus: status })
     }
+    toggleMap = () => {
+        this.setState({ mapOpen: !this.state.mapOpen });
+    }
     async componentDidMount() {
         await this.setState({ event: this.props.location.state.event });
         this.getComments();
         this.getAttendees();
     }
     render() {
-        const { event, attendees, currentUserStatus } = this.state;
+        const { event, attendees, currentUserStatus, mapOpen } = this.state;
         const { currentUser } = this.props;
         if (event.start) {
             return (
@@ -75,14 +80,16 @@ export default class EventPage extends Component {
                     <h1>{event.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || event.displayName}</h1>
                     <h2>{event.performance.filter(a => a.billing === 'support').map((artist) => artist.displayName).join(', ') || ''}</h2>
                     <h2>{event.start.time} - {event.start.date}</h2>
-                    <div className='location'>
-                        <p>{event.venue.displayName}</p>
-                        <p>{event.venue.street}</p>
-                        <p>{(event.venue.city) ? event.venue.city.displayName : event.venue.metroArea.displayName}</p>
+                    <div className='location shadow-sm'>
+                        <div onClick={this.toggleMap} className="venue">
+                            <p>{event.venue.displayName}</p>
+                            <p>{event.venue.street}</p>
+                            <p>{(event.venue.city) ? event.venue.city.displayName : event.venue.metroArea.displayName}</p>
+                        </div>
                         <iframe
+                            className={(mapOpen) ? 'googleMap open' : 'googleMap'}
                             title="googleMap"
                             width="450"
-                            height="250"
                             frameBorder="0" style={{ border: 0 }}
                             src={`https://www.google.com/maps/embed/v1/search?key=${ GOOGLE_MAPS_KEY }&q=${ event.venue.displayName }`} allowFullScreen>
                         </iframe>
@@ -91,20 +98,21 @@ export default class EventPage extends Component {
                         <Button
                             onClick={() => this.attend('going')}
                             color={(currentUserStatus === 'going') ? 'info' : 'success'}
+                            outline={currentUserStatus === 'interested'}
                         >
                             Going {(currentUserStatus === 'going') ? '✓' : ''}
                         </Button>
                         <Button
                             onClick={() => this.attend('interested')}
                             color={(currentUserStatus === 'interested') ? 'info' : 'primary'}
-                            outline
+                            outline={currentUserStatus !== 'interested'}
                         >
                             Interested {(currentUserStatus === 'interested') ? '✓' : ''}
                         </Button>
                     </ButtonGroup>
                     <Attendees attendees={attendees} />
                     <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={this.state.comments} currentUser={currentUser} />
-                </div>
+                </div >
             )
         }
         return (
