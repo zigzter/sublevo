@@ -3,6 +3,7 @@ const faker = require('faker');
 
 const knex = require('../db/client');
 // const User = require('../models/user');
+// const Friend = require('../models/friend');
 const Attendee = require('../models/attendee');
 
 const attendUsers = async (length) => {
@@ -14,8 +15,8 @@ const attendUsers = async (length) => {
     eventIds.map(async (eId) => {
         userIds.map((uId) => {
             const status = statuses[Math.floor(Math.random() * 2)];
-            Attendee.attend(status, eId, uId)
-        })
+            Attendee.attend(status, eId, uId);
+        });
     });
 };
 
@@ -29,6 +30,7 @@ const seedUsers = async (length) => {
             name: faker.name.firstName(),
             location: faker.address.city(),
             about: faker.lorem.paragraph(),
+            avatar: faker.internet.avatar(),
             passwordDigest: await bcrypt.hash('longpassword', 10),
         }).returning('*');
     });

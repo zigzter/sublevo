@@ -19,6 +19,7 @@ export default class ArtistPage extends Component {
         e.persist();
         e.preventDefault();
         const { artist } = this.state;
+        const { currentUser } = this.props;
         const content = e.target.elements.body.value.trim();
         const targetId = artist.id;
         const { id, createdAt } = await fetch('/comments', {
@@ -30,7 +31,7 @@ export default class ArtistPage extends Component {
                 targetType: 'artist',
             }),
         }).then(res => res.json());
-        const comment = [{ content, username: this.props.currentUser.username, id, createdAt }];
+        const comment = [{ content, username: this.props.currentUser.username, avatar: currentUser.avatar, id, createdAt }];
         this.setState({
             comments: comment.concat(this.state.comments)
         });
@@ -75,7 +76,7 @@ export default class ArtistPage extends Component {
             <div className='ArtistPage'>
                 <h1>{artist.name}</h1>
                 <div className="bioPlayer">
-                    <ShowMore lines={10} more='Show more' less='Show less' anchorClass=''>
+                    <ShowMore lines={8} more='Show more' less='Show less' anchorClass=''>
                         {artist.bio}
                     </ShowMore>
                     <iframe src={`https://open.spotify.com/embed/artist/${ artist.id }`} title='spotifyPlayer' frameBorder="0" allow="encrypted-media"></iframe>

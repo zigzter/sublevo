@@ -1,9 +1,13 @@
 .venueFilter {
     padding: 5px 20px;
     button {
-        margin: 4px;
+        transition: 220ms;
+        margin: 6px;
         &:focus {
             box-shadow: none;
         }
+    }
+    .btn-success {
+        transform: scale(1.1);
     }
 }

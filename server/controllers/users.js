@@ -92,17 +92,13 @@ module.exports = {
             next(err);
         }
     },
-    async current(req, res, next) {
-        try {
-            if (req.currentUser) {
-                const { id, email, username, avatar } = req.currentUser;
-                const foundUser = { id, email, username, avatar };
-                res.json(foundUser);
-            } else {
-                res.json({});
-            }
-        } catch (err) {
-            next(err);
+    current(req, res) {
+        if (req.currentUser) {
+            const { id, email, username, avatar } = req.currentUser;
+            const foundUser = { id, email, username, avatar };
+            res.json(foundUser);
+        } else {
+            res.json({});
         }
     },
     update: [

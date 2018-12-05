@@ -41,8 +41,10 @@ export default class Home extends Component {
         const { events, venues, filteredEvents, filter } = this.state
         if (!this.state.loading) {
             return (
-                <div>
+                <div className='HomePage'>
                     <div className="venueFilter">
+                        <small className='text-muted'>Filter by venue</small>
+                        <br />
                         <Button color='success' onClick={this.clearFilter} outline={filter}>All Venues</Button>
                         {venues.map(venue => <Button color='success' key={venue} onClick={this.filterVenues} outline={filter !== venue}>{venue}</Button>)}
                     </div>
@@ -68,4 +70,4 @@ export default class Home extends Component {
             </div>
         )
     }
-};
+}

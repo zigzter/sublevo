@@ -24,6 +24,8 @@ export default class Profile extends Component {
     async fetchUserData() {
         const { user, comments, seen, friends } = await fetch(`/users/${ this.props.match.params.username }`).then(res => res.json());
         const friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
+        const avatarCheck = user.avatar.slice(0, 5);
+        this.avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
         this.setState({
             user,
             comments,
@@ -93,7 +95,7 @@ export default class Profile extends Component {
                 {loading && <Loader type="Audio" color="#000" height={120} width={120} />}
                 <div className='profileHeader'>
                     <div className="userInfo">
-                        <img className='shadow-sm' src={(user.avatar) ? `/img/${ user.avatar }` : '/img/default.jpg'} alt="avatar" width='80px' height='80px' />
+                        <img className='shadow-sm' src={this.avatar} alt="avatar" width='80px' height='80px' />
                         <h1 className='username'>{user.username}</h1>
                         <h4>{user.name}, {user.location}</h4>
                     </div>

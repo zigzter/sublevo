@@ -20,15 +20,19 @@ module.exports = {
                 [dbArtist] = await Artist.saveDb(addedArtistName, addedArtistId, artistImage);
             }
             await User.addSeen(dbUser.id, dbArtist.id);
-            res.json({});
+            res.status(200).json({});
         } catch (err) {
-            res.json({ error: 'Artist already added' })
+            res.json({ error: 'Artist already added' });
         }
     },
     async fetchSeen(req, res, next) {
-        const { id } = req.currentUser;
-        const seen = await User.fetchSeen(id);
-        res.json({ seen });
+        try {
+            const { id } = req.currentUser;
+            const seen = await User.fetchSeen(id);
+            res.json({ seen });
+        } catch (err) {
+            next(err);
+        }
     },
     async updateSeen(req, res, next) {
         try {
@@ -36,13 +40,15 @@ module.exports = {
             const { username } = req.currentUser;
             const dbUser = await User.fetch(username);
             await User.updateSeenCount(id, dbUser.id, seenCount);
+            res.status(204).send();
         } catch (err) {
             next(err);
         }
     },
-    async destroySeen(req, res) {
+    destroySeen(req, res) {
         const userId = req.currentUser.id;
         const { artistId } = req.body;
         User.removeSeen(userId, artistId);
+        res.status(204).send();
     },
 };

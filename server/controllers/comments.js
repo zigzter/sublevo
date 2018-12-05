@@ -8,7 +8,7 @@ const validateComment = [
 
 module.exports = {
     create: [
-        // validateComment,
+        validateComment,
         async (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -40,7 +40,7 @@ module.exports = {
             const { id } = req.params;
             const comment = await Comment.fetchById(id);
             comment.destroy();
-            res.send('ok');
+            res.status(204).send();
         } catch (err) {
             next(err);
         }

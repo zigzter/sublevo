@@ -8,6 +8,7 @@ module.exports = {
             const friender = User.fetch(req.currentUser.username);
             const [{ id: userOne }, { id: userTwo }] = await Promise.all([friender, friendee]);
             Friend.sendRequest(userOne, userTwo);
+            res.status(204).send();
         } catch (err) {
             res.json(err);
         }
@@ -21,5 +22,6 @@ module.exports = {
         const { response, userOne } = req.body;
         const actionUser = req.currentUser.id;
         Friend.update(userOne, actionUser, actionUser, response);
+        res.status(204).send();
     },
 };

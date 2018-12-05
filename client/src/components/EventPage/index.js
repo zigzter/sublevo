@@ -20,6 +20,7 @@ export default class EventPage extends Component {
         e.persist();
         e.preventDefault();
         const { event } = this.state;
+        const { currentUser } = this.props;
         const content = e.target.elements.body.value.trim();
         const targetId = event.id;
         const { id, createdAt } = await fetch('/comments', {
@@ -31,7 +32,7 @@ export default class EventPage extends Component {
                 targetType: 'event',
             }),
         }).then(res => res.json());
-        const comment = [{ content, username: this.props.currentUser.username, id, createdAt }];
+        const comment = [{ content, username: this.props.currentUser.username, avatar: currentUser.avatar, id, createdAt }];
         this.setState({
             comments: comment.concat(this.state.comments)
         });

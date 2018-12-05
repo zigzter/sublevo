@@ -14,7 +14,7 @@ const Comment = (props) => {
                 <p>{props.content}</p>
                 <button className='btn btn-link' onClick={() => props.deleteComment(props.id)}>Delete</button>
             </div>
-            <span className='commentTime'>{date.toLocaleString()}</span>
+            <span className='commentTime text-muted'>{date.toLocaleString()}</span>
         </div>
     );
 };

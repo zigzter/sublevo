@@ -7,21 +7,29 @@ const Attendees = (props) => {
             <div className='userList'>
                 <h3>Going</h3>
                 {
-                    props.attendees.filter(a => a.status === 'going').map(user => (
-                        <Link to={`/users/${ user.username }`} key={user.username} >
-                            <img width='50px' height='50px' src={(user.avatar) ? `/img/${ user.avatar }` : '/img/default.jpg'} />
-                        </Link>
-                    ))
+                    props.attendees.filter(a => a.status === 'going').map(user => {
+                        const avatarCheck = user.avatar.slice(0, 5);
+                        let avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
+                        return (
+                            <Link to={`/users/${ user.username }`} key={user.username} >
+                                <img width='50px' height='50px' src={avatar} />
+                            </Link>
+                        )
+                    })
                 }
             </div>
             <div className='userList'>
                 <h3>Interested</h3>
                 {
-                    props.attendees.filter(a => a.status === 'interested').map(user => (
-                        <Link to={`/users/${ user.username }`} key={user.username} >
-                            <img width='50px' height='50px' src={(user.avatar) ? `/img/${ user.avatar }` : '/img/default.jpg'} />
-                        </Link>
-                    ))
+                    props.attendees.filter(a => a.status === 'interested').map(user => {
+                        const avatarCheck = user.avatar.slice(0, 5);
+                        let avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
+                        return (
+                            <Link to={`/users/${ user.username }`} key={user.username} >
+                                <img width='50px' height='50px' src={avatar} />
+                            </Link>
+                        )
+                    })
                 }
             </div>
         </div>
