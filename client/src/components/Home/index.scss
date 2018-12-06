@@ -1,5 +1,14 @@
+.HomePage {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    grid-template-areas: 'events filter'
+}
+
+.filter {
+    grid-area: filter;
+}
+
 .venueFilter {
-    padding: 5px 20px;
     button {
         transition: 220ms;
         margin: 6px;
@@ -8,6 +17,13 @@
         }
     }
     .btn-success {
-        transform: scale(1.1);
+        transform: scaleX(1.03) scaleY(1.1);
+    }
+}
+
+.events {
+    grid-area: events;
+    .card {
+        border: 3px solid rgba(0, 0, 0, 0.125);
     }
 }

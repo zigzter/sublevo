@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const EventPreview = (props) => (
-    <Card className='shadow' body outline color='primary'>
+    <Card className='shadow' body outline color={(props.type === 'Festival') ? 'primary' : 'success'}>
         <CardTitle>
             {
                 props.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || props.displayName
