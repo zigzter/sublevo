@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
+import PropTypes from 'prop-types';
 import './index.scss';
 
 const Comment = (props) => {
@@ -21,3 +22,12 @@ const Comment = (props) => {
 };
 
 export default Comment;
+
+Comment.propTypes = {
+    createdAt: PropTypes.string,
+    username: PropTypes.string,
+    avatar: PropTypes.string,
+    content: PropTypes.string,
+    deleteComment: PropTypes.func,
+    id: PropTypes.number,
+};

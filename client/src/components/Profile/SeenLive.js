@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const SeenLive = (props) => {
     const displayDetails = (name, count) => {
@@ -51,3 +52,8 @@ const SeenLive = (props) => {
 };
 
 export default SeenLive;
+
+SeenLive.propTypes = {
+    seen: PropTypes.array,
+    username: PropTypes.string,
+};

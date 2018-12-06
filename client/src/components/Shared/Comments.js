@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, FormGroup, Input, FormText } from 'reactstrap';
+import PropTypes from 'prop-types';
 import Comment from './Comment';
 
 const Comments = (props) => {
@@ -25,3 +26,10 @@ const Comments = (props) => {
 };
 
 export default Comments;
+
+Comments.propTypes = {
+    currentUser: PropTypes.object,
+    addComment: PropTypes.func,
+    comments: PropTypes.array,
+    deleteComment: PropTypes.func,
+};

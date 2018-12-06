@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import Loader from 'react-loader-spinner';
+import PropTypes from 'prop-types';
 import SeenLive from './SeenLive';
 import Comments from '../Shared/Comments';
 import './index.scss';
@@ -129,3 +130,8 @@ export default class Profile extends Component {
         )
     }
 }
+
+Profile.propTypes = {
+    match: PropTypes.object,
+    currentUser: PropTypes.object,
+};

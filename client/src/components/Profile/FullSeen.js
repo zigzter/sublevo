@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const FullSeen = (props) => (
     <div className='FullSeen'>
@@ -13,3 +14,7 @@ const FullSeen = (props) => (
 );
 
 export default FullSeen;
+
+FullSeen.propTypes = {
+    seen: PropTypes.array,
+};

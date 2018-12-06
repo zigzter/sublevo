@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const FriendsList = (props) => (
     <div className='FriendsList'>
@@ -20,3 +21,7 @@ const FriendsList = (props) => (
 );
 
 export default FriendsList;
+
+FriendsList.propTypes = {
+    friends: PropTypes.array,
+};

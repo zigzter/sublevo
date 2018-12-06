@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
+import PropTypes from 'prop-types';
 import EventPreview from './EventPreview';
 import './index.scss';
 
