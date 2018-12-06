@@ -67,3 +67,17 @@
     padding: 12px;
     margin: 5px;
 }
+
+.venue {
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.performers {
+    padding: 10px;
+    border: 1px solid #138496;
+    border-radius: 4px;
+    margin: 4px;
+    background: whitesmoke;
+}

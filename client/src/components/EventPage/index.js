@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
 import Loader from 'react-loader-spinner';
+import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 import Comments from '../Shared/Comments';
 import GOOGLE_MAPS_KEY from '../../keys';
@@ -80,15 +81,21 @@ export default class EventPage extends Component {
         if (!loading) {
             return (
                 <div className='EventPage'>
-                    <h1>{event.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || event.displayName}</h1>
-                    <h2>{event.performance.filter(a => a.billing === 'support').map((artist) => artist.displayName).join(', ') || ''}</h2>
-                    <h2>{event.start.time} - {event.start.date}</h2>
+                    <div className="performers shadow-sm">
+                        <h2>{event.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || event.displayName}</h2>
+                        <h2>{event.performance.filter(a => a.billing === 'support').map((artist) => artist.displayName).join(', ') || ''}</h2>
+                    </div>
                     <div className="details">
                         <div className='location shadow-sm'>
                             <div className="venue">
-                                <p>{event.venue.displayName}</p>
-                                <p>{event.venue.street}</p>
-                                <p>{(event.venue.city) ? event.venue.city.displayName : event.venue.metroArea.displayName}</p>
+                                <div>
+                                    <p>{event.venue.displayName}</p>
+                                    <p>{event.venue.street}</p>
+                                    <p>{(event.venue.city) ? event.venue.city.displayName : event.venue.metroArea.displayName}</p>
+                                </div>
+                                <div>
+                                    <Moment format='h:mm A - dddd MMMM Do, YYYY' date={event.start.datetime} />
+                                </div>
                             </div>
                             <iframe
                                 title="googleMap"

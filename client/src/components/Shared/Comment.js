@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
 import './index.scss';
 
 const Comment = (props) => {
@@ -14,7 +15,7 @@ const Comment = (props) => {
                 <p>{props.content}</p>
                 <button className='btn btn-link' onClick={() => props.deleteComment(props.id)}>Delete</button>
             </div>
-            <span className='commentTime text-muted'>{date.toLocaleString()}</span>
+            <span className='commentTime text-muted'><Moment format='MMM Do, YYYY - h:mm A'>{date}</Moment></span>
         </div>
     );
 };

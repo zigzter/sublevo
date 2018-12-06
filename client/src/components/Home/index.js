@@ -80,13 +80,13 @@ export default class Home extends Component {
                         <div className="venueFilter">
                             <small className='text-muted'>Filter by venue</small>
                             <br />
-                            <Button color='success' onClick={this.clearVenueFilter} block outline={venueFilter}>All Venues</Button>
+                            <Button color='success' onClick={this.clearVenueFilter} block outline={!!venueFilter}>All Venues</Button>
                             {venues.map(venue => <Button color='success' key={venue} onClick={this.filterVenues} block outline={venueFilter !== venue}>{venue}</Button>)}
                         </div>
                         <div className='typeFilter'>
                             <small className='text-muted'>Filter by event type</small>
                             <br />
-                            <Button color='success' onClick={this.clearTypeFilter} block outline={typeFilter}>All Types</Button>
+                            <Button color='success' onClick={this.clearTypeFilter} block outline={!!typeFilter}>All Types</Button>
                             {types.map(type => <Button color={(type === 'Festival') ? 'primary' : 'success'} key={type} onClick={this.filterTypes} block outline={typeFilter !== type}>{type}</Button>)}
                         </div>
                     </div>

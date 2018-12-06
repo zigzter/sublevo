@@ -109,6 +109,7 @@ module.exports = {
                 const avatar = req.file.filename;
                 const { name, about, location } = req.body;
                 User.updateInfo(id, name, about, location, avatar);
+                res.status(204).send();
             } catch (err) {
                 next(err);
             }
