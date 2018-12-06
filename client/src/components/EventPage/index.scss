@@ -14,14 +14,39 @@
     }
 }
 
+.details {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-areas: 'location player';
+    height: 300px;
+}
+
 .location {
+    grid-area: location;
     padding: 10px;
     border: 1px solid darkgray;
     background: whitesmoke;
     border-radius: 4px;
     margin: 10px 4px;
+    iframe {
+        width: 100%;
+        height: 80%;
+    }
     p {
         margin: 0;
+    }
+}
+
+.player {
+    grid-area: player;
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+    iframe {
+        border: 1px solid darkgray;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
     }
 }
 
@@ -41,18 +66,4 @@
     border-radius: 4px;
     padding: 12px;
     margin: 5px;
-}
-
-.venue {
-    cursor: pointer;
-}
-
-.googleMap {
-    transition: height 150ms linear;
-    height: 0;
-}
-
-.open {
-    transition: height 150ms linear;
-    height: 200px;
 }

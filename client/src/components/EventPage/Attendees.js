@@ -12,7 +12,7 @@ const Attendees = (props) => {
                         let avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
                         return (
                             <Link to={`/users/${ user.username }`} key={user.username} >
-                                <img width='50px' height='50px' src={avatar} />
+                                <img width='50px' height='50px' src={avatar} alt={user.avatar} />
                             </Link>
                         )
                     })
@@ -26,7 +26,7 @@ const Attendees = (props) => {
                         let avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
                         return (
                             <Link to={`/users/${ user.username }`} key={user.username} >
-                                <img width='50px' height='50px' src={avatar} />
+                                <img width='50px' height='50px' src={avatar} alt={user.avatar} />
                             </Link>
                         )
                     })

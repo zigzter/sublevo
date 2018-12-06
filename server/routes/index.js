@@ -35,6 +35,7 @@ router.use('/api', apiController.getToken);
 router.post('/api/artists', apiController.searchArtistSpotify);
 router.get('/api/artists/:artistId', apiController.getArtistSpotify);
 router.post('/api/venue', apiController.searchVenue);
+router.get('/api/spotifyId/:artist', apiController.getSpotifyId);
 
 router.post('/venues', venuesController.subscribeVenue);
 router.delete('/venues', venuesController.remove);

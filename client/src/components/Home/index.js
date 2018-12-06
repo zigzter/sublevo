@@ -72,7 +72,7 @@ export default class Home extends Component {
         this.getEvents();
     }
     render() {
-        const { events, venues, filteredEvents, venueFilter, types, typeFilter } = this.state
+        const { venues, filteredEvents, venueFilter, types, typeFilter } = this.state
         if (!this.state.loading) {
             return (
                 <div className='HomePage'>
@@ -87,7 +87,7 @@ export default class Home extends Component {
                             <small className='text-muted'>Filter by event type</small>
                             <br />
                             <Button color='success' onClick={this.clearTypeFilter} block outline={typeFilter}>All Types</Button>
-                            {types.map(type => <Button color='success' key={type} onClick={this.filterTypes} block outline={typeFilter !== type}>{type}</Button>)}
+                            {types.map(type => <Button color={(type === 'Festival') ? 'primary' : 'success'} key={type} onClick={this.filterTypes} block outline={typeFilter !== type}>{type}</Button>)}
                         </div>
                     </div>
                     <div className='events'>
@@ -96,11 +96,7 @@ export default class Home extends Component {
                                 <EventPreview key={event.id} {...event} />
                             ))
                         }
-                        {/* {
-                            !!filteredEvents.length && filteredEvents.map((event) => (
-                                <EventPreview key={event.id} {...event} />
-                            ))
-                        } */}
+                        {filteredEvents.length < 1 && <h3>No events listed</h3>}
                     </div>
                 </div>
             );

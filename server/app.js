@@ -52,9 +52,9 @@ const indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
 
-app.use((err, req, res, next) => {
-    res.status(500).send(err);
-});
+// app.use((err, req, res, next) => {
+//     res.status(500).send(err);
+// });
 
 const PORT = process.env.PORT || 3030;
 

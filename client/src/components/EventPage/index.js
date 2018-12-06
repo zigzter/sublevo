@@ -11,10 +11,10 @@ export default class EventPage extends Component {
         super(props);
         this.state = {
             event: {},
+            spotifyId: undefined,
             comments: [],
             attendees: [],
             currentUserStatus: undefined,
-            mapOpen: false,
         }
     }
     addComment = async (e) => {
@@ -63,16 +63,15 @@ export default class EventPage extends Component {
         });
         this.setState({ currentUserStatus: status })
     }
-    toggleMap = () => {
-        this.setState({ mapOpen: !this.state.mapOpen });
-    }
     async componentDidMount() {
         await this.setState({ event: this.props.location.state.event });
+        const spotifyId = await fetch(`/api/spotifyId/${ this.state.event.performance[0].displayName }`, { method: 'GET' }).then(res => res.json());
+        this.setState({ spotifyId });
         this.getComments();
         this.getAttendees();
     }
     render() {
-        const { event, attendees, currentUserStatus, mapOpen } = this.state;
+        const { event, attendees, currentUserStatus, mapOpen, spotifyId } = this.state;
         const { currentUser } = this.props;
         if (event.start) {
             return (
@@ -80,20 +79,24 @@ export default class EventPage extends Component {
                     <h1>{event.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || event.displayName}</h1>
                     <h2>{event.performance.filter(a => a.billing === 'support').map((artist) => artist.displayName).join(', ') || ''}</h2>
                     <h2>{event.start.time} - {event.start.date}</h2>
-                    <div className='location shadow-sm'>
-                        <div onClick={this.toggleMap} className="venue">
-                            <p>{event.venue.displayName}</p>
-                            <p>{event.venue.street}</p>
-                            <p>{(event.venue.city) ? event.venue.city.displayName : event.venue.metroArea.displayName}</p>
+                    <div className="details">
+                        <div className='location shadow-sm'>
+                            <div className="venue">
+                                <p>{event.venue.displayName}</p>
+                                <p>{event.venue.street}</p>
+                                <p>{(event.venue.city) ? event.venue.city.displayName : event.venue.metroArea.displayName}</p>
+                            </div>
+                            <iframe
+                                title="googleMap"
+                                frameBorder="0" style={{ border: 0 }}
+                                src={`https://www.google.com/maps/embed/v1/search?key=${ GOOGLE_MAPS_KEY }&q=${ event.venue.displayName }`} allowFullScreen>
+                            </iframe>
                         </div>
-                        <iframe
-                            className={(mapOpen) ? 'googleMap open' : 'googleMap'}
-                            title="googleMap"
-                            width="450"
-                            frameBorder="0" style={{ border: 0 }}
-                            src={`https://www.google.com/maps/embed/v1/search?key=${ GOOGLE_MAPS_KEY }&q=${ event.venue.displayName }`} allowFullScreen>
-                        </iframe>
+                        <div className="player">
+                            <iframe src={`https://open.spotify.com/embed/artist/${ spotifyId }`} height='200px' title='spotifyPlayer' frameBorder="0" allow="encrypted-media"></iframe>
+                        </div>
                     </div>
+                    <Attendees attendees={attendees} />
                     <ButtonGroup>
                         <Button
                             onClick={() => this.attend('going')}
@@ -110,7 +113,6 @@ export default class EventPage extends Component {
                             Interested {(currentUserStatus === 'interested') ? '✓' : ''}
                         </Button>
                     </ButtonGroup>
-                    <Attendees attendees={attendees} />
                     <Comments addComment={this.addComment} deleteComment={this.deleteComment} comments={this.state.comments} currentUser={currentUser} />
                 </div >
             )

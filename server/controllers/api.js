@@ -30,6 +30,16 @@ module.exports = {
             next(err);
         }
     },
+    async getSpotifyId(req, res, next) {
+        try {
+            const { artist } = req.params;
+            const { body } = await spotify.searchArtists(artist, { limit: 1 });
+            const { id } = body.artists.items[0];
+            res.json(id);
+        } catch (err) {
+            next(err);
+        }
+    },
     async getArtistSpotify(req, res) {
         try {
             const { artistId } = req.params;

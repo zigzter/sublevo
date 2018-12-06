@@ -6,9 +6,6 @@
 
 .filter {
     grid-area: filter;
-}
-
-.venueFilter {
     button {
         transition: 220ms;
         margin: 6px;
@@ -17,6 +14,9 @@
         }
     }
     .btn-success {
+        transform: scaleX(1.03) scaleY(1.1);
+    }
+    .btn-primary {
         transform: scaleX(1.03) scaleY(1.1);
     }
 }
