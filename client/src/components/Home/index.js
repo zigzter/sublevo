@@ -53,7 +53,7 @@ export default class Home extends Component {
     clearVenueFilter = () => {
         let filteredEvents
         if (this.state.typeFilter) {
-            filteredEvents = this.state.filteredEvents.filter(event => event.type === this.state.typeFilter);
+            filteredEvents = this.state.events.filter(event => event.type === this.state.typeFilter);
         } else {
             filteredEvents = this.state.events;
         }
@@ -72,7 +72,7 @@ export default class Home extends Component {
         this.getEvents();
     }
     render() {
-        const { venues, filteredEvents, venueFilter, types, typeFilter } = this.state
+        const { venues, filteredEvents, venueFilter, types, typeFilter } = this.state;
         if (!this.state.loading) {
             return (
                 <div className='HomePage'>

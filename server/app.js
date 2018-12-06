@@ -42,8 +42,10 @@ app.use(async (req, res, next) => {
     }
 });
 
-const errorCatch = fn = (req, res, next) => {
-    fn(req, res).catch(err => next(err));
+const asyncErrorHandler = (fn) => {
+    return (req, res, next) => {
+        fn(req, res, next).catch(next);
+    };
 };
 
 // ROUTING ==========================================================
@@ -52,9 +54,12 @@ const indexRouter = require('./routes/index');
 
 app.use('/', indexRouter);
 
-// app.use((err, req, res, next) => {
-//     res.status(500).send(err);
-// });
+app.use((err, req, res, next) => {
+    if (process.env.NODE_ENV !== 'production') {
+        return res.status(500).json(err.message);
+    }
+    next(err);
+});
 
 const PORT = process.env.PORT || 3030;
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup } from 'reactstrap';
+import Loader from 'react-loader-spinner';
 import PropTypes from 'prop-types';
 import Comments from '../Shared/Comments';
 import GOOGLE_MAPS_KEY from '../../keys';
@@ -15,6 +16,7 @@ export default class EventPage extends Component {
             comments: [],
             attendees: [],
             currentUserStatus: undefined,
+            loading: true,
         }
     }
     addComment = async (e) => {
@@ -66,14 +68,16 @@ export default class EventPage extends Component {
     async componentDidMount() {
         await this.setState({ event: this.props.location.state.event });
         const spotifyId = await fetch(`/api/spotifyId/${ this.state.event.performance[0].displayName }`, { method: 'GET' }).then(res => res.json());
-        this.setState({ spotifyId });
-        this.getComments();
-        this.getAttendees();
+        await Promise.all([
+            this.getComments(),
+            this.getAttendees()
+        ])
+        this.setState({ spotifyId, loading: false });
     }
     render() {
-        const { event, attendees, currentUserStatus, mapOpen, spotifyId } = this.state;
+        const { event, attendees, currentUserStatus, loading, spotifyId } = this.state;
         const { currentUser } = this.props;
-        if (event.start) {
+        if (!loading) {
             return (
                 <div className='EventPage'>
                     <h1>{event.performance.filter(a => a.billing === 'headline').map((artist) => artist.displayName).join(', ') || event.displayName}</h1>
@@ -120,6 +124,7 @@ export default class EventPage extends Component {
         return (
             <div>
                 <h1>Loading...</h1>
+                <Loader type="Audio" color="#000" height={120} width={120} />
             </div>
         )
     }
