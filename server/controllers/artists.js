@@ -1,10 +1,11 @@
 const axios = require('axios');
 const User = require('../models/user');
 const Artist = require('../models/artist');
+const asyncCatch = require('../errorHandler');
 
 const { LASTFM_KEY } = process.env;
 
-module.exports = {
+const artists = {
     async addArtist(req, res) {
         try {
             let { addedArtistName, addedArtistId, artistImage } = req.body;
@@ -26,13 +27,9 @@ module.exports = {
         }
     },
     async fetchSeen(req, res, next) {
-        try {
-            const { id } = req.currentUser;
-            const seen = await User.fetchSeen(id);
-            res.json({ seen });
-        } catch (err) {
-            next(err);
-        }
+        const { id } = req.currentUser;
+        const seen = await User.fetchSeen(id);
+        res.json({ seen });
     },
     async updateSeen(req, res, next) {
         try {
@@ -52,3 +49,7 @@ module.exports = {
         res.status(204).send();
     },
 };
+
+asyncCatch(artists);
+
+module.exports = artists;

@@ -35,5 +35,6 @@ module.exports = {
         const { targetId } = req.body;
         const userId = req.currentUser.id;
         Subscription.remove(userId, targetId);
+        res.status(204).send();
     },
 };

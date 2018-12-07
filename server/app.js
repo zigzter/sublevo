@@ -42,12 +42,6 @@ app.use(async (req, res, next) => {
     }
 });
 
-const asyncErrorHandler = (fn) => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(next);
-    };
-};
-
 // ROUTING ==========================================================
 
 const indexRouter = require('./routes/index');
