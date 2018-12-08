@@ -1,17 +1,14 @@
 const User = require('../models/user');
 const Friend = require('../models/friend');
+const asyncCatch = require('../errorHandler');
 
-module.exports = {
+const friends = {
     async sendRequest(req, res) {
-        try {
-            const friendee = User.fetch(req.params.username);
-            const friender = User.fetch(req.currentUser.username);
-            const [{ id: userOne }, { id: userTwo }] = await Promise.all([friender, friendee]);
-            Friend.sendRequest(userOne, userTwo);
-            res.status(204).send();
-        } catch (err) {
-            res.json(err);
-        }
+        const friendee = User.fetch(req.params.username);
+        const friender = User.fetch(req.currentUser.username);
+        const [{ id: userOne }, { id: userTwo }] = await Promise.all([friender, friendee]);
+        Friend.sendRequest(userOne, userTwo);
+        res.status(204).send();
     },
     async getRequests(req, res) {
         const { id } = req.currentUser;
@@ -25,3 +22,7 @@ module.exports = {
         res.status(204).send();
     },
 };
+
+asyncCatch(friends);
+
+module.exports = friends;

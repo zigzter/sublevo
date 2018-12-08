@@ -1,9 +1,10 @@
 const axios = require('axios');
 const Subscription = require('../models/subscription');
+const asyncCatch = require('../errorHandler');
 
 const SongkickKey = process.env.SONGKICK_KEY;
 
-module.exports = {
+const venues = {
     subscribeVenue(req, res, next) {
         try {
             const { id } = req.currentUser;
@@ -38,3 +39,7 @@ module.exports = {
         res.status(204).send();
     },
 };
+
+asyncCatch(venues);
+
+module.exports = venues;

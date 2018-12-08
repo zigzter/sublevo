@@ -1,6 +1,7 @@
 const Attendee = require('../models/attendee');
+const asyncCatch = require('../errorHandler');
 
-module.exports = {
+const events = {
     attending(req, res) {
         const { eventId } = req.params;
         const { id: userId } = req.currentUser;
@@ -14,3 +15,7 @@ module.exports = {
         res.json(attendees);
     },
 };
+
+asyncCatch(events);
+
+module.exports = events;

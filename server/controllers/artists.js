@@ -26,21 +26,17 @@ const artists = {
             res.json({ error: 'Artist already added' });
         }
     },
-    async fetchSeen(req, res, next) {
+    async fetchSeen(req, res) {
         const { id } = req.currentUser;
         const seen = await User.fetchSeen(id);
         res.json({ seen });
     },
-    async updateSeen(req, res, next) {
-        try {
-            const { id, seenCount } = req.body;
-            const { username } = req.currentUser;
-            const dbUser = await User.fetch(username);
-            await User.updateSeenCount(id, dbUser.id, seenCount);
-            res.status(204).send();
-        } catch (err) {
-            next(err);
-        }
+    async updateSeen(req, res) {
+        const { id, seenCount } = req.body;
+        const { username } = req.currentUser;
+        const dbUser = await User.fetch(username);
+        await User.updateSeenCount(id, dbUser.id, seenCount);
+        res.status(204).send();
     },
     destroySeen(req, res) {
         const userId = req.currentUser.id;

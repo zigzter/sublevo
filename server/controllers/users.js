@@ -2,6 +2,7 @@ const { body, validationResult } = require('express-validator/check');
 const multer = require('multer');
 const crypto = require('crypto');
 const path = require('path');
+const asyncCatch = require('../errorHandler');
 
 const User = require('../models/user');
 const Friend = require('../models/friend');
@@ -46,10 +47,10 @@ const validateUser = [
     }),
 ];
 
-module.exports = {
+const users = {
     create: [
         validateUser,
-        async (req, res, next) => {
+        async (req, res) => {
             const { username, email, password } = req.body;
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -58,38 +59,30 @@ module.exports = {
                     errors: errors.array(),
                 });
             }
-            try {
-                const user = new User({ username, email, password });
-                await user.save();
-                req.session.userId = user.id;
-                const { id } = user;
-                const newUser = { id, email, username };
-                res.json(newUser);
-            } catch (err) {
-                next(err);
-            }
+            const user = new User({ username, email, password });
+            await user.save();
+            req.session.userId = user.id;
+            const { id } = user;
+            const newUser = { id, email, username };
+            res.json(newUser);
         },
     ],
-    async show(req, res, next) {
-        try {
-            const { username } = req.params;
-            const user = await User.fetch(username);
-            if (user) {
-                const commentsP = Comment.fetch(user.id);
-                const seenP = User.fetchSeen(user.id);
-                const friendsP = Friend.get(user.id);
-                const [comments, seen, friends] = await Promise.all([commentsP, seenP, friendsP]);
-                res.json({
-                    user,
-                    comments,
-                    seen,
-                    friends,
-                });
-            } else {
-                res.json({});
-            }
-        } catch (err) {
-            next(err);
+    async show(req, res) {
+        const { username } = req.params;
+        const user = await User.fetch(username);
+        if (user) {
+            const commentsP = Comment.fetch(user.id);
+            const seenP = User.fetchSeen(user.id);
+            const friendsP = Friend.get(user.id);
+            const [comments, seen, friends] = await Promise.all([commentsP, seenP, friendsP]);
+            res.json({
+                user,
+                comments,
+                seen,
+                friends,
+            });
+        } else {
+            res.json({});
         }
     },
     current(req, res) {
@@ -103,16 +96,12 @@ module.exports = {
     },
     update: [
         upload.single('avatar'),
-        (req, res, next) => {
-            try {
-                const { id } = req.currentUser;
-                const avatar = req.file.filename;
-                const { name, about, location } = req.body;
-                User.updateInfo(id, name, about, location, avatar);
-                res.status(204).send();
-            } catch (err) {
-                next(err);
-            }
+        (req, res) => {
+            const { id } = req.currentUser;
+            const avatar = req.file.filename;
+            const { name, about, location } = req.body;
+            User.updateInfo(id, name, about, location, avatar);
+            res.status(204).send();
         },
     ],
     async fetchInfo(req, res) {
@@ -123,3 +112,7 @@ module.exports = {
         res.json(userInfo);
     },
 };
+
+asyncCatch(users);
+
+module.exports = users;
