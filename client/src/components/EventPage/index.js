@@ -68,11 +68,14 @@ export default class EventPage extends Component {
     }
     async componentDidMount() {
         await this.setState({ event: this.props.location.state.event });
-        const spotifyId = await fetch(`/api/spotifyId/${ this.state.event.performance[0].displayName }`, { method: 'GET' }).then(res => res.json());
+        let spotifyId;
+        if (this.state.event.type === 'Concert') {
+            spotifyId = await fetch(`/api/spotifyId/${ this.state.event.performance[0].displayName }`, { method: 'GET' }).then(res => res.json());
+        }
         await Promise.all([
             this.getComments(),
             this.getAttendees()
-        ])
+        ]);
         this.setState({ spotifyId, loading: false });
     }
     render() {
@@ -103,9 +106,9 @@ export default class EventPage extends Component {
                                 src={`https://www.google.com/maps/embed/v1/search?key=${ GOOGLE_MAPS_KEY }&q=${ event.venue.displayName }`} allowFullScreen>
                             </iframe>
                         </div>
-                        <div className="player">
+                        {event.type === 'Concert' && <div className="player">
                             <iframe src={`https://open.spotify.com/embed/artist/${ spotifyId }`} height='200px' title='spotifyPlayer' frameBorder="0" allow="encrypted-media"></iframe>
-                        </div>
+                        </div>}
                     </div>
                     <Attendees attendees={attendees} />
                     <ButtonGroup>
