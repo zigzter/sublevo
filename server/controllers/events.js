@@ -2,11 +2,11 @@ const Attendee = require('../models/attendee');
 const asyncCatch = require('../errorHandler');
 
 const events = {
-    attending(req, res) {
+    async attending(req, res) {
         const { eventId } = req.params;
         const { id: userId } = req.currentUser;
         const { status } = req.body;
-        Attendee.attend(status, eventId, userId);
+        await Attendee.attend(status, eventId, userId);
         res.status(204).send();
     },
     async fetchAttendees(req, res) {

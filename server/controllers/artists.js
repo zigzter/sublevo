@@ -38,10 +38,10 @@ const artists = {
         await User.updateSeenCount(id, dbUser.id, seenCount);
         res.status(204).send();
     },
-    destroySeen(req, res) {
+    async destroySeen(req, res) {
         const userId = req.currentUser.id;
         const { artistId } = req.body;
-        User.removeSeen(userId, artistId);
+        await User.removeSeen(userId, artistId);
         res.status(204).send();
     },
 };

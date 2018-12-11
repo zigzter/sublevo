@@ -96,7 +96,7 @@ const users = {
     },
     update: [
         upload.single('avatar'),
-        (req, res) => {
+        async (req, res) => {
             const { id } = req.currentUser;
             const avatar = req.file.filename;
             const { name, about, location } = req.body;

@@ -20,7 +20,7 @@ const session = {
             res.json({ error: 'Invalid credentials' });
         }
     },
-    destroy(req, res) {
+    async destroy(req, res) {
         req.session.userId = undefined;
         res.json({});
     },
