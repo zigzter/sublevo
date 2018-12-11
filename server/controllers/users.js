@@ -85,7 +85,7 @@ const users = {
             res.json({});
         }
     },
-    current(req, res) {
+    async current(req, res) {
         if (req.currentUser) {
             const { id, email, username, avatar } = req.currentUser;
             const foundUser = { id, email, username, avatar };
@@ -110,6 +110,11 @@ const users = {
         const subs = await Subscription.get(user.id, 'venue');
         const userInfo = { about: user.about, location: user.location, name: user.name, avatar: user.avatar, subs };
         res.json(userInfo);
+    },
+    async fetchNotifications(req, res) {
+        const { id } = req.currentUser;
+        const notes = await User.fetchNotifications(id);
+        res.status(200).json(notes);
     },
 };
 

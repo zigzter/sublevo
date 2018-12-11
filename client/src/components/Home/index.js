@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
-import PropTypes from 'prop-types';
 import EventPreview from './EventPreview';
 import './index.scss';
 
@@ -73,8 +72,8 @@ export default class Home extends Component {
         this.getEvents();
     }
     render() {
-        const { venues, filteredEvents, venueFilter, types, typeFilter } = this.state;
-        if (!this.state.loading) {
+        const { venues, filteredEvents, venueFilter, types, typeFilter, loading } = this.state;
+        if (!loading) {
             return (
                 <div className='HomePage'>
                     <div className="filter">

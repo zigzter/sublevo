@@ -8,7 +8,7 @@ const { SESSION_KEY } = process.env;
 
 const app = express();
 
-// APIPCONFIG =======================================================
+// API CONFIG =======================================================
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -50,8 +50,9 @@ app.use('/', indexRouter);
 
 app.use((err, req, res, next) => {
     if (process.env.NODE_ENV !== 'production') {
+        console.log('=============== ERRORS AAAAA =============');
         console.log('ERROR MESSAGE', err.message);
-        console.log('ERROR STACK', err.stack);
+        // console.log('ERROR STACK', err.stack);
         return res.status(500).json({ error: err.message });
     }
     next(err);

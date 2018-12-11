@@ -30,6 +30,11 @@ module.exports = class Comment {
             targetType,
             content,
         }).returning('*');
+        await knex('notifications').insert({
+            type: 'comment',
+            userId: authorId,
+            targetId,
+        });
         this.id = id;
         this.createdAt = createdAt;
         return this;

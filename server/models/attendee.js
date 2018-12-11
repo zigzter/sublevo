@@ -4,9 +4,15 @@ module.exports = class Attendee {
     static async attend(status, eventId, userId) {
         const attending = await knex('attendees').where({ eventId, userId }).first();
         if (attending) {
-            return knex('attendees').where({ eventId, userId }).update({ status });
+            return Promise.all([
+                knex('attendees').where({ eventId, userId }).update({ status }),
+                knex('notifications').insert({ userId, type: 'attend', targetId: eventId }),
+            ]);
         }
-        return knex('attendees').insert({ status, eventId, userId });
+        return Promise.all([
+            knex('attendees').insert({ status, eventId, userId }),
+            knex('notifications').insert({ userId, type: 'attend', targetId: eventId }),
+        ]);
     }
 
     static async fetchAll(eventId) {

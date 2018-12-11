@@ -7,6 +7,7 @@ export default class NotificationsPage extends Component {
         super(props);
         this.state = {
             friendRequests: [],
+            notifications: [],
         }
     }
     respond = async (response, userOne) => {
@@ -16,21 +17,28 @@ export default class NotificationsPage extends Component {
             body: JSON.stringify({ response, userOne }),
         });
     }
+    getNotifications = async () => {
+        const notifications = await fetch('/users/notifications', { method: 'GET' }).then(res => res.json());
+        this.setState({ notifications });
+    }
     async componentDidMount() {
         const friendRequests = await fetch('/friends').then(res => res.json());
+        this.getNotifications();
         this.setState({ friendRequests });
     }
     render() {
-        const { friendRequests } = this.state;
+        const { friendRequests, notifications } = this.state;
         return (
             <div className="NotificationsPage">
                 <h1>Notifications</h1>
+                {
+                    notifications.filter(n => n.type === 'comment').map(n => <p>{n.username} left a comment on your profile.</p>)
+                }
                 {
                     friendRequests && friendRequests.map((req) => (
                         <Card className='shadow-sm mb-2' key={req.username}>
                             <CardBody>
                                 <p><Link to={`/users/${ req.username }`}>{req.username}</Link>sent you a friends request.</p>
-
                                 <Button onClick={() => this.respond('accepted', req.id)} color='primary' outline>Accept</Button>
                                 <Button onClick={() => this.respond('rejected', req.id)} color='danger' outline>Reject</Button>
                             </CardBody>

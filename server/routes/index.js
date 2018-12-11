@@ -11,6 +11,7 @@ const eventsController = require('../controllers/events');
 const router = express.Router();
 
 router.post('/users', usersController.create);
+router.get('/users/notifications', usersController.fetchNotifications);
 router.get('/users/:username', usersController.show);
 router.get('/currentuser', usersController.current);
 router.get('/currentuser/info', usersController.fetchInfo);

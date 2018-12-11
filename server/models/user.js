@@ -58,6 +58,13 @@ module.exports = class User {
         return knex('users').where({ id }).update({ name, about, location, avatar }).then();
     }
 
+    static async fetchNotifications(targetId) {
+        return knex('notifications').where({ type: 'comment', targetId, isRead: false })
+            .join('users', { 'notifications.userId': 'users.id' })
+            .select('users.username', 'notifications.type', 'notifications.createdAt')
+            .orderBy('notifications.createdAt', 'desc');
+    }
+
     async save() {
         const { email, username, name, password } = this;
         const [{ id }] = await knex('users').insert({
