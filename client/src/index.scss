@@ -1,6 +1,5 @@
 $theme-colors: (
   "primary": #c06c84,
-  "danger": #f67280
 );
 
 @import "node_modules/bootstrap/scss/bootstrap";
@@ -41,6 +40,7 @@ code {
     transition: 200ms;
     &:hover {
       background: lighten(#355c7d, 10%);
+      text-decoration: none;
     }
   }
   .btn-link {
@@ -56,6 +56,9 @@ code {
 
 .navSection {
   display: flex;
+  .badge {
+    margin-left: 3px;
+  }
 }
 
 .card-text > h2 {

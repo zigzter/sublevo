@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Card, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
+import './index.scss';
 
 export default class NotificationsPage extends Component {
     constructor(props) {
@@ -35,8 +36,9 @@ export default class NotificationsPage extends Component {
                 <h1>Notifications</h1>
                 {
                     notifications.filter(n => n.type === 'comment').map(n => (
-                        <HashLink className='card' key={n.commentId} to={`/users/${ currentUser.username }#c${ n.commentId }`} >
-                            {n.username} left a comment on your profile
+                        <HashLink className='notification shadow-sm' key={n.commentId} to={`/users/${ currentUser.username }#c${ n.commentId }`} >
+                            <img width='50px' height='50px' src={`/img/${ n.avatar }`} alt="" />
+                            <strong>{n.username}</strong> left a comment on your profile
                         </HashLink>
                     ))
                 }
