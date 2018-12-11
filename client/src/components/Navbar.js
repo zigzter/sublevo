@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 const Navbar = (props) => {
     const userPresent = !!Object.keys(props.currentUser).length;
+    const { notificationCount } = props;
     return (
         <nav className="Navbar">
             <div className="container">
@@ -12,7 +13,7 @@ const Navbar = (props) => {
                     <NavLink to='/' activeClassName='active' exact={true}>Home</NavLink>
                     {userPresent && <NavLink to={`/users/${ props.currentUser.username }`} activeClassName='active' exact={true}>Profile</NavLink>}
                     {userPresent && <NavLink to='/settings' activeClassName='active' exact={true}>Settings</NavLink>}
-                    {userPresent && <NavLink to='/notifications' activeClassName='active' exact={true}>Notifications <span className="badge badge-danger">{props.notifications}</span></NavLink>}
+                    {userPresent && <NavLink to='/notifications' activeClassName='active' exact={true}>Notifications {!!notificationCount && <span className="badge badge-danger">{notificationCount}</span>}</NavLink>}
                 </div>
                 <div className='navSection'>
                     {userPresent && <Button color='link' onClick={props.destroySession}>Logout</Button>}

@@ -18,19 +18,34 @@ export default class NotificationsPage extends Component {
             body: JSON.stringify({ response, userOne }),
         });
     }
+    markAllRead = async () => {
+        const notificationIds = this.props.notifications.filter(n => !n.isRead).map(n => n.id);
+        fetch('/notifications/mark', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ notificationIds })
+        }).then(console.log);
+    }
     async componentDidMount() {
         const friendRequests = await fetch('/friends').then(res => res.json());
         this.setState({ friendRequests });
+    }
+    componentDidUpdate() {
+        this.props.notifications.length > 0 && this.markAllRead();
     }
     render() {
         const { friendRequests } = this.state;
         const { currentUser, notifications } = this.props;
         return (
             <div className="NotificationsPage">
-                <h1>Notifications</h1>
+                <h2>Notifications</h2>
                 {
                     notifications.filter(n => n.type === 'comment').map(n => (
-                        <HashLink className='notification shadow-sm' key={n.commentId} to={`/users/${ currentUser.username }#c${ n.commentId }`} >
+                        <HashLink
+                            className={(n.isRead) ? 'notification read shadow-sm' : 'notification shadow-sm'}
+                            key={n.commentId}
+                            to={`/users/${ currentUser.username }#c${ n.commentId }`}
+                        >
                             <img width='50px' height='50px' src={`/img/${ n.avatar }`} alt="" />
                             <strong>{n.username}</strong> left a comment on your profile
                         </HashLink>

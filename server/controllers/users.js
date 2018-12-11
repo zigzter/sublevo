@@ -116,6 +116,11 @@ const users = {
         const notes = await User.fetchNotifications(id);
         res.status(200).json(notes);
     },
+    async markNotifications(req, res) {
+        const { notificationIds } = req.body;
+        await User.markNotifications(notificationIds);
+        res.status(204).send();
+    },
 };
 
 asyncCatch(users);

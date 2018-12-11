@@ -59,10 +59,14 @@ module.exports = class User {
     }
 
     static async fetchNotifications(targetId) {
-        return knex('notifications').where({ type: 'comment', targetId, isRead: false })
+        return knex('notifications').where({ type: 'comment', targetId })
             .join('users', { 'notifications.userId': 'users.id' })
-            .select('users.username', 'users.avatar', 'notifications.type', 'notifications.createdAt', 'notifications.commentId')
+            .select('users.username', 'users.avatar', 'notifications.type', 'notifications.createdAt', 'notifications.commentId', 'notifications.isRead', 'notifications.id')
             .orderBy('notifications.createdAt', 'desc');
+    }
+
+    static async markNotifications(arr) {
+        return arr.map(id => knex('notifications').update({ isRead: true }).where({ id }).then());
     }
 
     async save() {

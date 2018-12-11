@@ -18,6 +18,7 @@ export default class AppRouter extends Component {
         this.state = {
             currentUser: {},
             notifications: [],
+            notificationCount: 0,
         }
     }
     getUser = async () => {
@@ -30,19 +31,20 @@ export default class AppRouter extends Component {
         this.setState({ currentUser: {} });
     }
     getNotifications = async () => {
-        const notifications = await fetch('/users/notifications', { method: 'GET' }).then(res => res.json());
-        this.setState({ notifications });
+        const notifications = await fetch('/notifications', { method: 'GET' }).then(res => res.json());
+        const notificationCount = notifications.filter(n => !n.isRead).length;
+        this.setState({ notifications, notificationCount });
     }
     componentDidMount() {
         this.getUser();
         this.getNotifications();
     }
     render() {
-        const { currentUser, notifications } = this.state;
+        const { currentUser, notifications, notificationCount } = this.state;
         return (
             <BrowserRouter>
                 <Fragment>
-                    <Navbar currentUser={currentUser} notifications={notifications.length} destroySession={this.destroySession} />
+                    <Navbar currentUser={currentUser} notificationCount={notificationCount} destroySession={this.destroySession} />
                     <div className='container'>
                         <Switch>
                             <Route path='/' component={Home} exact={true} />
