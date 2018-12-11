@@ -35,7 +35,7 @@ export default class NotificationsPage extends Component {
                 <h1>Notifications</h1>
                 {
                     notifications.filter(n => n.type === 'comment').map(n => (
-                        <HashLink key={n.commentId} to={`/users/${ currentUser.username }#c${ n.commentId }`}>
+                        <HashLink className='card' key={n.commentId} to={`/users/${ currentUser.username }#c${ n.commentId }`} >
                             {n.username} left a comment on your profile
                         </HashLink>
                     ))
@@ -51,7 +51,7 @@ export default class NotificationsPage extends Component {
                         </Card>
                     ))
                 }
-            </div>
+            </div >
         )
     }
 }

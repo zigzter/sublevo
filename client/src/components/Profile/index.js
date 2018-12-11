@@ -82,10 +82,15 @@ export default class Profile extends Component {
     componentDidMount() {
         this.fetchUserData();
     }
-    componentDidUpdate(prevProps) {
+    async componentDidUpdate(prevProps) {
         if (this.props.match.params.username !== prevProps.match.params.username) {
             this.setState({ tab: 1 });
-            this.fetchUserData();
+            await this.fetchUserData();
+        }
+        const hash = this.props.location.hash.replace('#', '');
+        if (hash) {
+            const comment = document.getElementById(hash);
+            comment && comment.classList.add('hashLink');
         }
     }
     render() {

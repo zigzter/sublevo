@@ -31,3 +31,14 @@
 .avatar {
     height: 100%;
 }
+
+.hashLink {
+  animation: highlight 2s;  
+}
+
+@keyframes highlight {
+    0% { background: none; }
+    30% { background: lemonchiffon; }
+    100% { background: none; }
+}
+
