@@ -17,12 +17,15 @@ const venues = {
         const rawEvents = await Promise.all(subs.map((sub) => {
             return axios.get(`https://api.songkick.com/api/3.0/venues/${ sub.targetId }/calendar.json?apikey=${ SongkickKey }`);
         }));
+        const venueNames = subs.map(v => v.name);
         const events = rawEvents.reduce((arr, elem) => {
-            elem.data.resultsPage.results.event.map(c => arr.push(c));
+            if (elem.data.resultsPage.totalEntries > 1) {
+                elem.data.resultsPage.results.event.map(c => arr.push(c));
+            }
             return arr;
         }, []);
         events.sort((a, b) => new Date(a.start.date) - new Date(b.start.date));
-        res.json(events);
+        res.json({ events, venues: venueNames });
     },
     async remove(req, res) {
         const { targetId } = req.body;

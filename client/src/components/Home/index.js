@@ -19,15 +19,15 @@ export default class Home extends Component {
     }
     getEvents = async () => {
         const cachedEvents = JSON.parse(localStorage.getItem('events'));
+        const cachedVenues = JSON.parse(localStorage.getItem('venues'));
         if (cachedEvents && cachedEvents.length !== 0) {
-            const venues = [...new Set(cachedEvents.map(event => event.venue.displayName))];
             const types = [...new Set(cachedEvents.map(event => event.type))];
-            return this.setState({ events: cachedEvents, filteredEvents: cachedEvents, venues, types, loading: false });
+            return this.setState({ events: cachedEvents, filteredEvents: cachedEvents, venues: cachedVenues, types, loading: false });
         }
-        const events = await fetch('/venues', { method: 'GET' }).then(res => res.json());
-        const venues = [...new Set(events.map(event => event.venue.displayName))];
+        const { events, venues } = await fetch('/venues', { method: 'GET' }).then(res => res.json());
         const types = [...new Set(events.map(event => event.type))];
         localStorage.setItem('events', JSON.stringify(events));
+        localStorage.setItem('venues', JSON.stringify(venues));
         this.setState({ events, filteredEvents: events, venues, types, loading: false });
     }
     filterVenues = (event) => {

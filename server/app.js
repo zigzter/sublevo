@@ -51,7 +51,7 @@ app.use('/', indexRouter);
 app.use((err, req, res, next) => {
     if (process.env.NODE_ENV !== 'production') {
         console.log('ERROR MESSAGE', err.message);
-        // console.log('ERROR STACK', err.stack);
+        console.log('ERROR STACK', err.stack);
         return res.status(500).json({ error: err.message });
     }
     next(err);
