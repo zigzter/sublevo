@@ -7,7 +7,7 @@ import './index.scss';
 const Comment = (props) => {
     const date = new Date(props.createdAt);
     return (
-        <div className='Comment'>
+        <div id={`c${ props.id }`} className='Comment'>
             <div className="avatar">
                 <img className="shadow-sm" src={(props.avatar) ? `/img/${ props.avatar }` : '/img/default.jpg'} alt="avatar" width='80px' height='80px' />
             </div>

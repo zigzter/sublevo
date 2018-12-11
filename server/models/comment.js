@@ -34,6 +34,7 @@ module.exports = class Comment {
             type: 'comment',
             userId: authorId,
             targetId,
+            commentId: id,
         });
         this.id = id;
         this.createdAt = createdAt;

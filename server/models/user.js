@@ -61,7 +61,7 @@ module.exports = class User {
     static async fetchNotifications(targetId) {
         return knex('notifications').where({ type: 'comment', targetId, isRead: false })
             .join('users', { 'notifications.userId': 'users.id' })
-            .select('users.username', 'notifications.type', 'notifications.createdAt')
+            .select('users.username', 'notifications.type', 'notifications.createdAt', 'notifications.commentId')
             .orderBy('notifications.createdAt', 'desc');
     }
 

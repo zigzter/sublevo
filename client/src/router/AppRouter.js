@@ -56,7 +56,9 @@ export default class AppRouter extends Component {
                             <Route path='/artist/:id' render={(routeProps) => (
                                 <ArtistPage {...routeProps} currentUser={currentUser} />
                             )} />
-                            <Route path='/notifications' component={NotificationsPage} />
+                            <Route path='/notifications' render={(routeProps) => (
+                                <NotificationsPage {...routeProps} currentUser={currentUser} />
+                            )} />
                             <Route component={NotFound} />
                         </Switch>
                     </div>

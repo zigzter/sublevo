@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 export default class NotificationsPage extends Component {
     constructor(props) {
@@ -28,11 +29,16 @@ export default class NotificationsPage extends Component {
     }
     render() {
         const { friendRequests, notifications } = this.state;
+        const { currentUser } = this.props;
         return (
             <div className="NotificationsPage">
                 <h1>Notifications</h1>
                 {
-                    notifications.filter(n => n.type === 'comment').map(n => <p>{n.username} left a comment on your profile.</p>)
+                    notifications.filter(n => n.type === 'comment').map(n => (
+                        <HashLink key={n.commentId} to={`/users/${ currentUser.username }#c${ n.commentId }`}>
+                            {n.username} left a comment on your profile
+                        </HashLink>
+                    ))
                 }
                 {
                     friendRequests && friendRequests.map((req) => (
