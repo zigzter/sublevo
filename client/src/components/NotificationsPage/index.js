@@ -9,7 +9,6 @@ export default class NotificationsPage extends Component {
         super(props);
         this.state = {
             friendRequests: [],
-            notifications: [],
         }
     }
     respond = async (response, userOne) => {
@@ -19,18 +18,13 @@ export default class NotificationsPage extends Component {
             body: JSON.stringify({ response, userOne }),
         });
     }
-    getNotifications = async () => {
-        const notifications = await fetch('/users/notifications', { method: 'GET' }).then(res => res.json());
-        this.setState({ notifications });
-    }
     async componentDidMount() {
         const friendRequests = await fetch('/friends').then(res => res.json());
-        this.getNotifications();
         this.setState({ friendRequests });
     }
     render() {
-        const { friendRequests, notifications } = this.state;
-        const { currentUser } = this.props;
+        const { friendRequests } = this.state;
+        const { currentUser, notifications } = this.props;
         return (
             <div className="NotificationsPage">
                 <h1>Notifications</h1>

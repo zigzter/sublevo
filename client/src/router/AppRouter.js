@@ -63,7 +63,7 @@ export default class AppRouter extends Component {
                                 <ArtistPage {...routeProps} currentUser={currentUser} />
                             )} />
                             <Route path='/notifications' render={(routeProps) => (
-                                <NotificationsPage {...routeProps} currentUser={currentUser} />
+                                <NotificationsPage {...routeProps} notifications={notifications} currentUser={currentUser} />
                             )} />
                             <Route component={NotFound} />
                         </Switch>
