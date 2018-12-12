@@ -91,7 +91,7 @@ const users = {
             const foundUser = { id, email, username, avatar };
             res.json(foundUser);
         } else {
-            res.json({});
+            res.json(null);
         }
     },
     update: [

@@ -4,9 +4,9 @@ import Loader from 'react-loader-spinner';
 import PropTypes from 'prop-types';
 import SeenLive from './SeenLive';
 import Comments from '../Shared/Comments';
-import './index.scss';
 import FriendsList from './FriendsList';
 import FullSeen from './FullSeen';
+import './index.scss';
 
 export default class Profile extends Component {
     constructor(props) {
@@ -79,8 +79,12 @@ export default class Profile extends Component {
     toggleNav = (tab) => {
         this.setState({ tab });
     }
-    componentDidMount() {
+    async componentDidMount() {
+        await console.log('profile mount firing');
         this.fetchUserData();
+    }
+    componentWillUnmount() {
+        console.log('UNMOUNTING');
     }
     async componentDidUpdate(prevProps) {
         if (this.props.match.params.username !== prevProps.match.params.username) {
@@ -96,6 +100,7 @@ export default class Profile extends Component {
     render() {
         const { user, comments, seen, tab, friends, dropdownOpen, loading, friend } = this.state;
         const { currentUser } = this.props;
+        if (loading) return <div>Loading...</div>
         return (
             <div className="Profile">
                 {loading && <Loader type="Audio" color="#000" height={120} width={120} />}

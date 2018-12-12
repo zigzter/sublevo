@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Route, Switch } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Profile from '../components/Profile';
 import Home from '../components/Home';
@@ -11,50 +10,59 @@ import EventPage from '../components/EventPage';
 import ArtistPage from '../components/ArtistPage';
 import NotificationsPage from '../components/NotificationsPage';
 import NotFound from '../components/NotFound';
+import AuthRoute from './AuthRoute';
 
 export default class AppRouter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: {},
+            currentUser: null,
             notifications: [],
             notificationCount: 0,
         }
     }
     getUser = async () => {
         const currentUser = await fetch('/currentuser').then(res => res.json());
-        if (currentUser) this.setState({ currentUser });
+        if (currentUser) {
+            this.setState({ currentUser });
+            localStorage.setItem('currentUser', true);
+        }
     }
     destroySession = () => {
         fetch('/session', { method: 'DELETE' });
         localStorage.removeItem('events');
-        this.setState({ currentUser: {} });
+        localStorage.removeItem('currentUser');
+        this.setState({ currentUser: null });
     }
     getNotifications = async () => {
         const notifications = await fetch('/notifications', { method: 'GET' }).then(res => res.json());
         const notificationCount = notifications.filter(n => !n.isRead).length;
         this.setState({ notifications, notificationCount });
     }
-    componentDidMount() {
-        this.getUser();
-        this.getNotifications();
+    async componentDidMount() {
+        console.log('app router mount firing')
+        await this.getUser();
+        if (this.state.currentUser) {
+            this.getNotifications();
+        }
     }
     render() {
         const { currentUser, notifications, notificationCount } = this.state;
+        const userPresent = localStorage.getItem('currentUser');
         return (
             <BrowserRouter>
                 <Fragment>
                     <Navbar currentUser={currentUser} notificationCount={notificationCount} destroySession={this.destroySession} />
                     <div className='container'>
                         <Switch>
-                            <Route path='/' component={Home} exact={true} />
+                            <AuthRoute isAuth={userPresent} path='/' component={Home} exact={true} />
                             <Route path='/users/new' render={(routeProps) => (
                                 <SignUpPage {...routeProps} onSignUp={this.getUser} />
                             )} />
                             <Route path='/users/:username' render={(routeProps) => (
                                 <Profile {...routeProps} currentUser={currentUser} />
                             )} />
-                            <Route path='/settings' component={Settings} />
+                            <AuthRoute isAuth={userPresent} path='/settings' component={Settings} />
                             <Route path='/session/new' render={(routeProps) => (
                                 <SignInPage {...routeProps} onSignIn={this.getUser} />
                             )} />
@@ -64,9 +72,7 @@ export default class AppRouter extends Component {
                             <Route path='/artist/:id' render={(routeProps) => (
                                 <ArtistPage {...routeProps} currentUser={currentUser} />
                             )} />
-                            <Route path='/notifications' render={(routeProps) => (
-                                <NotificationsPage {...routeProps} notifications={notifications} currentUser={currentUser} />
-                            )} />
+                            <AuthRoute isAuth={userPresent} path='/notifications' component={NotificationsPage} notifications={notifications} currentUser={currentUser} />
                             <Route component={NotFound} />
                         </Switch>
                     </div>

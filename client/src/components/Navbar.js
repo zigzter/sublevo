@@ -4,7 +4,7 @@ import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 const Navbar = (props) => {
-    const userPresent = !!Object.keys(props.currentUser).length;
+    const userPresent = !!props.currentUser;
     const { notificationCount } = props;
     return (
         <nav className="Navbar">
