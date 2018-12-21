@@ -47,5 +47,8 @@
   "bugs": {
     "url": "https://github.com/zigzter/sublevo/issues"
   },
-  "homepage": "https://github.com/zigzter/sublevo#readme"
+  "homepage": "https://github.com/zigzter/sublevo#readme",
+  "engines": {
+    "node": "8.10.0"
+  }
 }

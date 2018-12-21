@@ -78,7 +78,6 @@ const users = {
     async show(req, res) {
         const { username } = req.params;
         const user = await User.fetch(username);
-        console.log(user);
         if (user) {
             const commentsP = Comment.fetch(user.id);
             const seenP = User.fetchSeen(user.id);
