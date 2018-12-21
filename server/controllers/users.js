@@ -1,4 +1,5 @@
 const { body, validationResult } = require('express-validator/check');
+const blacklist = require("the-big-username-blacklist");
 const multer = require('multer');
 const crypto = require('crypto');
 const path = require('path');
@@ -11,25 +12,32 @@ const Subscription = require('../models/subscription');
 
 const storage = multer.diskStorage({
     destination: './public/img/',
-    filename: function (req, file, cb) {
-        crypto.pseudoRandomBytes(16, function (err, raw) {
+    filename: (req, file, cb) => {
+        crypto.pseudoRandomBytes(16, (err, raw) => {
             if (err) return cb(err)
             cb(null, raw.toString('hex') + path.extname(file.originalname))
-        })
-    }
-})
+        });
+    },
+});
 
 const upload = multer({ dest: 'public/img/', storage });
 
 const validateUser = [
-    body('username').not().isEmpty()
-        .withMessage('Please enter a username')
+    body('username').trim().escape()
+        .not().isEmpty().withMessage('Please enter a username')
         .custom(async (username) => {
             if (await User.fetch(username)) {
                 throw new Error('Username is already taken');
             }
+            if (!blacklist.validate(username)) {
+                throw new Error('Username blacklisted');
+            }
+            if (/[^a-zA-Z0-9\-\/]/.test(username)) {
+                throw new Error('Username must be alphanumeric');
+            }
         }),
-    body('email').not().isEmpty()
+    body('email').trim()
+        .not().isEmpty()
         .withMessage('Please enter your email')
         .custom(async (email) => {
             if (await User.fetchByEmail(email)) {
