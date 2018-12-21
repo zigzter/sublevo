@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Comment from './Comment';
 
 const Comments = (props) => {
-    const userPresent = !!Object.keys(props.currentUser).length;
+    const userPresent = props.currentUser;
     return (
         <div className="Comments">
             <h3>Comments</h3>

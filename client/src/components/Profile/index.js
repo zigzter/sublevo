@@ -80,11 +80,7 @@ export default class Profile extends Component {
         this.setState({ tab });
     }
     async componentDidMount() {
-        await console.log('profile mount firing');
         this.fetchUserData();
-    }
-    componentWillUnmount() {
-        console.log('UNMOUNTING');
     }
     async componentDidUpdate(prevProps) {
         if (this.props.match.params.username !== prevProps.match.params.username) {
@@ -111,7 +107,7 @@ export default class Profile extends Component {
                         <h4>{user.name}, {user.location}</h4>
                     </div>
                     {
-                        user.id !== currentUser.id && currentUser.id &&
+                        currentUser && user.id !== currentUser.id &&
                         <ButtonGroup>
                             <Button onClick={this.addFriend} color='success' outline disabled={friend}>{(friend) ? 'Friends' : 'Add Friend'}</Button>
                             <ButtonDropdown isOpen={dropdownOpen} toggle={this.toggle}>

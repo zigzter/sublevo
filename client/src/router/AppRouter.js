@@ -40,7 +40,6 @@ export default class AppRouter extends Component {
         this.setState({ notifications, notificationCount });
     }
     async componentDidMount() {
-        console.log('app router mount firing')
         await this.getUser();
         if (this.state.currentUser) {
             this.getNotifications();

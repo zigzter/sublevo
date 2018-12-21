@@ -76,7 +76,6 @@ export default class EventPage extends Component {
             this.getComments(),
             this.getAttendees()
         ]);
-        console.log(this.props.currentUser);
         this.setState({ spotifyId, loading: false });
     }
     render() {

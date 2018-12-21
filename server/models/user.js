@@ -28,7 +28,7 @@ module.exports = class User {
     }
 
     static async fetch(username) {
-        return knex('users').where({ username }).first();
+        return knex('users').whereRaw("LOWER(username) LIKE '%' || LOWER(?) || '%' ", username).first();
     }
 
     static async fetchByEmail(email) {
