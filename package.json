@@ -7,7 +7,8 @@
     "start": "node app.js",
     "server": "NODE_ENV=development nodemon app.js",
     "client": "npm run start --prefix ../client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm && npm run build"
   },
   "keywords": [
     "concert"
