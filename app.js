@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const connectRedis = require('connect-redis');
+const path = require('path');
 const helmet = require('helmet');
 const User = require('./models/user');
 
@@ -16,6 +17,7 @@ app.use(helmet.hidePoweredBy({ setTo: 'Lots of caffeine' }));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // SESSION CONFIG ===================================================
 
