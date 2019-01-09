@@ -54,12 +54,12 @@ app.use(async (req, res, next) => {
 
 const indexRouter = require('./routes/index');
 
-app.use('/', indexRouter);
-
 app.get('/*', (req, res) => {
     const url = path.join(__dirname, './client/build', 'index.html');
     res.sendFile(url);
 });
+
+app.use('/', indexRouter);
 
 app.use((err, req, res, next) => {
     if (process.env.NODE_ENV !== 'production') {
