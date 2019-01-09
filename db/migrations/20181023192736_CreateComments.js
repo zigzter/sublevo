@@ -10,7 +10,7 @@ exports.up = function (knex, Promise) {
       t.string('author').unsigned().references('users.username');
       t.string('profile').unsigned().references('users.username');
       t.text('content');
-
+      t.timestamp('createdAt').defaultTo(knex.fn.now());
     })
   ]);
 };
