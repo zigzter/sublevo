@@ -21,10 +21,12 @@ app.use(express.json());
 
 const RedisStore = connectRedis(session);
 
+const redisHost = process.env.REDIS_URL || 'localhost';
+
 app.use(session({
     secret: SESSION_KEY,
     name: 'sessionId',
-    store: new RedisStore({ port: 6379, host: 'localhost' }),
+    store: new RedisStore({ port: 6379, host: redisHost }),
     resave: true,
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 680000000 },
