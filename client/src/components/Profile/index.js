@@ -24,7 +24,10 @@ export default class Profile extends Component {
     }
     async fetchUserData() {
         const { user, comments, seen, friends } = await fetch(`/users/${ this.props.match.params.username }`).then(res => res.json());
-        const friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
+        let friend = false;
+        if (this.props.currentUser) {
+            friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
+        }
         const avatarCheck = user.avatar.slice(0, 5);
         this.avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
         this.setState({
