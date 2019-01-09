@@ -21,12 +21,13 @@ app.use(express.json());
 
 const RedisStore = connectRedis(session);
 
-const redisHost = process.env.REDIS_URL || 'localhost';
+const localRedis = { port: 6379, host: 'localhost' };
+const deployedRedis = { url: process.env.REDIS_URL };
 
 app.use(session({
     secret: SESSION_KEY,
     name: 'sessionId',
-    store: new RedisStore({ port: 6379, host: redisHost }),
+    store: new RedisStore((process.env.NODE_ENV === 'production') ? deployedRedis : localRedis),
     resave: true,
     saveUninitialized: false,
     cookie: { secure: false, maxAge: 680000000 },
