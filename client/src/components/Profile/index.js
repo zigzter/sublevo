@@ -23,7 +23,7 @@ export default class Profile extends Component {
         }
     }
     async fetchUserData() {
-        const { user, comments, seen, friends } = await fetch(`/users/${ this.props.match.params.username }`).then(res => res.json());
+        const { user, comments, seen, friends } = await fetch(`/api/users/${ this.props.match.params.username }`).then(res => res.json());
         let friend = false;
         if (this.props.currentUser) {
             friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
@@ -46,7 +46,7 @@ export default class Profile extends Component {
         const { user } = this.state;
         const content = e.target.elements.body.value.trim();
         const targetId = user.id;
-        const { id, createdAt } = await fetch('/comments', {
+        const { id, createdAt } = await fetch('/api/comments', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -62,14 +62,14 @@ export default class Profile extends Component {
         e.target.elements.body.value = '';
     }
     deleteComment = (id) => {
-        fetch(`/comments/${ id }`, { method: 'delete' });
+        fetch(`/api/comments/${ id }`, { method: 'delete' });
         this.setState({
             comments: this.state.comments.filter(comment => comment.id !== id)
         });
     }
     addFriend = () => {
         const { username } = this.props.match.params;
-        fetch(`/users/${ username }/addfriend`, { method: 'POST' });
+        fetch(`/api/users/${ username }/addfriend`, { method: 'POST' });
     }
     blockUser = () => {
         console.log('blocked');
