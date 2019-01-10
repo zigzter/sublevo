@@ -12,7 +12,7 @@ export default class NotificationsPage extends Component {
         }
     }
     respond = async (response, userOne) => {
-        fetch('/friends', {
+        fetch('/api/friends', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ response, userOne }),
@@ -20,14 +20,14 @@ export default class NotificationsPage extends Component {
     }
     markAllRead = async () => {
         const notificationIds = this.props.notifications.filter(n => !n.isRead).map(n => n.id);
-        fetch('/notifications/mark', {
+        fetch('/api/notifications/mark', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ notificationIds })
         }).then(console.log);
     }
     async componentDidMount() {
-        const friendRequests = await fetch('/friends').then(res => res.json());
+        const friendRequests = await fetch('/api/friends').then(res => res.json());
         this.setState({ friendRequests });
     }
     componentDidUpdate() {

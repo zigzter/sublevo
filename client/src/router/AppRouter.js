@@ -22,20 +22,20 @@ export default class AppRouter extends Component {
         }
     }
     getUser = async () => {
-        const currentUser = await fetch('/currentuser').then(res => res.json());
+        const currentUser = await fetch('/api/currentuser').then(res => res.json());
         if (currentUser) {
             this.setState({ currentUser });
             localStorage.setItem('currentUser', true);
         }
     }
     destroySession = () => {
-        fetch('/session', { method: 'DELETE' });
+        fetch('/api/session', { method: 'DELETE' });
         localStorage.removeItem('events');
         localStorage.removeItem('currentUser');
         this.setState({ currentUser: null });
     }
     getNotifications = async () => {
-        const notifications = await fetch('/notifications', { method: 'GET' }).then(res => res.json());
+        const notifications = await fetch('/api/notifications', { method: 'GET' }).then(res => res.json());
         const notificationCount = notifications.filter(n => !n.isRead).length;
         this.setState({ notifications, notificationCount });
     }

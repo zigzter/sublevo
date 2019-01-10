@@ -15,9 +15,10 @@ const app = express();
 app.use(helmet());
 app.use(helmet.hidePoweredBy({ setTo: 'Lots of caffeine' }));
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, 'client/build')));
+}
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'client/build')));
 
 // SESSION CONFIG ===================================================
 
@@ -56,10 +57,13 @@ const indexRouter = require('./routes/index');
 
 app.use('/api', indexRouter);
 
-app.get('/*', (req, res) => {
-    const url = path.join(__dirname, './client/build', 'index.html');
-    res.sendFile(url);
-});
+
+if (process.env.NODE_ENV === 'production') {
+    app.get('/*', (req, res) => {
+        const url = path.join(__dirname, './client/build', 'index.html');
+        res.sendFile(url);
+    });
+}
 
 app.use((err, req, res, next) => {
     if (process.env.NODE_ENV !== 'production') {

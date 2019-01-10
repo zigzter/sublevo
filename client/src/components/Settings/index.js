@@ -41,7 +41,7 @@ export default class Settings extends Component {
         const btn = document.getElementById('addArtist');
         btn.disabled = true;
         btn.innerText = 'Adding artist...';
-        const addResult = await fetch('/artists/add', {
+        const addResult = await fetch('/api/artists/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -67,7 +67,7 @@ export default class Settings extends Component {
         });
     }
     addVenue = async (currentTarget, venueId, name) => {
-        await fetch('/venues', {
+        await fetch('/api/venues', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ venueId, name })
@@ -78,7 +78,7 @@ export default class Settings extends Component {
     updateSeen = async (event) => {
         event.preventDefault();
         const { id: { value: id }, seenCount: { value: seenCount } } = event.currentTarget.elements;
-        fetch('/artists/update', {
+        fetch('/api/artists/update', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, seenCount })
@@ -87,7 +87,7 @@ export default class Settings extends Component {
         document.getElementById(`${ id }`).disabled = true;
     }
     removeSeen = async (artistId) => {
-        fetch('/artists', {
+        fetch('/api/artists', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ artistId })
@@ -96,7 +96,7 @@ export default class Settings extends Component {
         this.setState({ seen: filteredSeen })
     }
     removeSub = async (targetId) => {
-        fetch('/venues', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ targetId }) });
+        fetch('/api/venues', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ targetId }) });
         localStorage.removeItem('events');
         document.getElementById(`${ targetId }`).disabled = true;
         document.getElementById(`${ targetId }`).innerText = 'Deleted!';
@@ -105,7 +105,7 @@ export default class Settings extends Component {
         event.preventDefault();
         const form = document.getElementById("infoUpdateForm");
         const formData = new FormData(form);
-        fetch('/settings', {
+        fetch('/api/settings', {
             method: 'PATCH',
             body: formData,
         });
@@ -118,8 +118,8 @@ export default class Settings extends Component {
         }
     }
     async componentDidMount() {
-        const { about, name, location, subs } = await fetch('/currentuser/info').then(res => res.json());
-        const { seen } = await fetch('/artists/fetch').then(res => res.json());
+        const { about, name, location, subs } = await fetch('/api/currentuser/info').then(res => res.json());
+        const { seen } = await fetch('/api/artists/fetch').then(res => res.json());
         await this.setState({ seen, userInfo: { about, name, location }, subs });
     }
     render() {

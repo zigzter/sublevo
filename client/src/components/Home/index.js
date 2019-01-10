@@ -24,7 +24,7 @@ export default class Home extends Component {
             const types = [...new Set(cachedEvents.map(event => event.type))];
             return this.setState({ events: cachedEvents, filteredEvents: cachedEvents, venues: cachedVenues, types, loading: false });
         }
-        const { events, venues } = await fetch('/venues', { method: 'GET' }).then(res => res.json());
+        const { events, venues } = await fetch('/api/venues', { method: 'GET' }).then(res => res.json());
         const types = [...new Set(events.map(event => event.type))];
         localStorage.setItem('events', JSON.stringify(events));
         localStorage.setItem('venues', JSON.stringify(venues));

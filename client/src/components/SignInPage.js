@@ -13,7 +13,7 @@ export default class SignInPage extends Component {
     createSession = async (event) => {
         event.preventDefault();
         const { handle: { value: handle }, password: { value: password } } = event.currentTarget.elements;
-        const user = await fetch('/session', {
+        const user = await fetch('/api/session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ handle, password })

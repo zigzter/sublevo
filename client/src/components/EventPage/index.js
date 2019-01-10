@@ -27,7 +27,7 @@ export default class EventPage extends Component {
         const { currentUser } = this.props;
         const content = e.target.elements.body.value.trim();
         const targetId = event.id;
-        const { id, createdAt } = await fetch('/comments', {
+        const { id, createdAt } = await fetch('/api/comments', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -43,23 +43,23 @@ export default class EventPage extends Component {
         e.target.elements.body.value = '';
     }
     deleteComment = (id) => {
-        fetch(`/comments/${ id }`, { method: 'delete' });
+        fetch(`/api/comments/${ id }`, { method: 'delete' });
         this.setState({
             comments: this.state.comments.filter(comment => comment.id !== id)
         });
     }
     getComments = async () => {
-        const comments = await fetch(`/comments/${ this.state.event.id }`).then(res => res.json());
+        const comments = await fetch(`/api/comments/${ this.state.event.id }`).then(res => res.json());
         this.setState({ comments });
     }
     getAttendees = async () => {
-        const attendees = await fetch(`/events/${ this.state.event.id }`).then(res => res.json());
+        const attendees = await fetch(`/api/events/${ this.state.event.id }`).then(res => res.json());
         const [status] = attendees.filter(attendee => attendee.id === this.props.currentUser.id);
         const currentUserStatus = (status) ? status.status : undefined;
         this.setState({ attendees, currentUserStatus });
     }
     attend = (status) => {
-        fetch(`/events/${ this.state.event.id }`, {
+        fetch(`/api/events/${ this.state.event.id }`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status }),

@@ -14,7 +14,7 @@ export default class SignUpPage extends Component {
     createUser = async (event) => {
         event.preventDefault();
         const { username: { value: username }, email: { value: email }, password: { value: password }, passwordConfirmation: { value: passwordConfirmation } } = event.currentTarget.elements;
-        const user = await fetch('/users', {
+        const user = await fetch('/api/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password, passwordConfirmation }),

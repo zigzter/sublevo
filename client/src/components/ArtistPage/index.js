@@ -22,7 +22,7 @@ export default class ArtistPage extends Component {
         const { currentUser } = this.props;
         const content = e.target.elements.body.value.trim();
         const targetId = artist.id;
-        const { id, createdAt } = await fetch('/comments', {
+        const { id, createdAt } = await fetch('/api/comments', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -38,7 +38,7 @@ export default class ArtistPage extends Component {
         e.target.elements.body.value = '';
     }
     deleteComment = (id) => {
-        fetch(`/comments/${ id }`, { method: 'delete' });
+        fetch(`/api/comments/${ id }`, { method: 'delete' });
         this.setState({
             comments: this.state.comments.filter(comment => comment.id !== id)
         });
@@ -54,7 +54,7 @@ export default class ArtistPage extends Component {
         localStorage.setItem(`${ id }-events`, JSON.stringify(events));
     }
     getComments = async () => {
-        const comments = await fetch(`/comments/${ this.state.artist.id }`).then(res => res.json());
+        const comments = await fetch(`/api/comments/${ this.state.artist.id }`).then(res => res.json());
         this.setState({ comments });
     }
     async componentDidMount() {
