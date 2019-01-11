@@ -106,7 +106,10 @@ const users = {
         upload.single('avatar'),
         async (req, res) => {
             const { id } = req.currentUser;
-            const avatar = req.file.filename;
+            let avatar;
+            if (req.file) {
+                avatar = req.file.filename;
+            }
             const { name, about, location } = req.body;
             User.updateInfo(id, name, about, location, avatar);
             res.status(204).send();
