@@ -85,8 +85,7 @@ export default class Profile extends Component {
         if (this.props.currentUser) {
             friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
         }
-        const avatarCheck = user.avatar.slice(0, 5);
-        this.avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
+        this.avatar = `/img/${ user.avatar }`;
         this.setState({
             user,
             comments,

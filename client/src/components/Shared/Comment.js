@@ -9,7 +9,7 @@ const Comment = (props) => {
     return (
         <div id={`c${ props.id }`} className='Comment'>
             <div className="avatar">
-                <img className="shadow-sm" src={(props.avatar) ? `/img/${ props.avatar }` : '/img/default.jpg'} alt="avatar" width='80px' height='80px' />
+                <img className="shadow-sm" src={`/img/${ props.avatar }`} alt="avatar" width='80px' height='80px' />
             </div>
             <div className="content">
                 <h6><Link to={`/users/${ props.username }`}>{props.username}</Link></h6>

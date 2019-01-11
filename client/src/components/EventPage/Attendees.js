@@ -8,8 +8,7 @@ const Attendees = (props) => {
                 <h3>Going</h3>
                 {
                     props.attendees.filter(a => a.status === 'going').map(user => {
-                        const avatarCheck = user.avatar.slice(0, 5);
-                        let avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
+                        let avatar = `/img/${ user.avatar }`;
                         return (
                             <Link to={`/users/${ user.username }`} key={user.username} >
                                 <img width='50px' height='50px' src={avatar} alt={user.avatar} />
