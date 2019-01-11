@@ -23,6 +23,11 @@ export default class Settings extends Component {
             activeTab: '1',
         }
     }
+    async componentDidMount() {
+        const { about, name, location, subs } = await fetch('/api/currentuser/info').then(res => res.json());
+        const { seen } = await fetch('/api/artists/fetch').then(res => res.json());
+        await this.setState({ seen, userInfo: { about, name, location }, subs });
+    }
     searchArtists = async (e) => {
         e.preventDefault();
         this.setState({ loading: true, artists: [] });
@@ -116,11 +121,6 @@ export default class Settings extends Component {
         if (this.state.activeTab !== tab) {
             this.setState({ activeTab: tab });
         }
-    }
-    async componentDidMount() {
-        const { about, name, location, subs } = await fetch('/api/currentuser/info').then(res => res.json());
-        const { seen } = await fetch('/api/artists/fetch').then(res => res.json());
-        await this.setState({ seen, userInfo: { about, name, location }, subs });
     }
     render() {
         const { activeTab, userInfo, loading, artists, venues, subs, seen } = this.state;

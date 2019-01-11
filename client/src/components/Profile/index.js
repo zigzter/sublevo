@@ -22,22 +22,40 @@ export default class Profile extends Component {
             tab: 1,
         }
     }
-    async fetchUserData() {
-        const { user, comments, seen, friends } = await fetch(`/api/users/${ this.props.match.params.username }`).then(res => res.json());
-        let friend = false;
-        if (this.props.currentUser) {
-            friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
+    async componentDidMount() {
+        this.fetchUserData();
+    }
+    async componentDidUpdate(prevProps) {
+        if (this.props.match.params.username !== prevProps.match.params.username) {
+            this.setState({ tab: 1 });
+            await this.fetchUserData();
         }
-        const avatarCheck = user.avatar.slice(0, 5);
-        this.avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
+        const hash = this.props.location.hash.replace('#', '');
+        if (hash) {
+            const comment = document.getElementById(hash);
+            comment && comment.classList.add('hashLink');
+        }
+    }
+    toggleNav = (tab) => {
+        this.setState({ tab });
+    }
+    toggle = () => {
         this.setState({
-            user,
-            comments,
-            seen,
-            friends,
-            friend,
-            loading: false,
+            dropdownOpen: !this.state.dropdownOpen
         });
+    }
+    blockUser = () => {
+        console.log('blocked');
+    }
+    deleteComment = (id) => {
+        fetch(`/api/comments/${ id }`, { method: 'delete' });
+        this.setState({
+            comments: this.state.comments.filter(comment => comment.id !== id)
+        });
+    }
+    addFriend = () => {
+        const { username } = this.props.match.params;
+        fetch(`/api/users/${ username }/addfriend`, { method: 'POST' });
     }
     addComment = async (e) => {
         e.persist();
@@ -61,40 +79,22 @@ export default class Profile extends Component {
         });
         e.target.elements.body.value = '';
     }
-    deleteComment = (id) => {
-        fetch(`/api/comments/${ id }`, { method: 'delete' });
-        this.setState({
-            comments: this.state.comments.filter(comment => comment.id !== id)
-        });
-    }
-    addFriend = () => {
-        const { username } = this.props.match.params;
-        fetch(`/api/users/${ username }/addfriend`, { method: 'POST' });
-    }
-    blockUser = () => {
-        console.log('blocked');
-    }
-    toggle = () => {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen
-        });
-    }
-    toggleNav = (tab) => {
-        this.setState({ tab });
-    }
-    async componentDidMount() {
-        this.fetchUserData();
-    }
-    async componentDidUpdate(prevProps) {
-        if (this.props.match.params.username !== prevProps.match.params.username) {
-            this.setState({ tab: 1 });
-            await this.fetchUserData();
+    async fetchUserData() {
+        const { user, comments, seen, friends } = await fetch(`/api/users/${ this.props.match.params.username }`).then(res => res.json());
+        let friend = false;
+        if (this.props.currentUser) {
+            friend = !!friends.filter(friend => friend.id === this.props.currentUser.id).length;
         }
-        const hash = this.props.location.hash.replace('#', '');
-        if (hash) {
-            const comment = document.getElementById(hash);
-            comment && comment.classList.add('hashLink');
-        }
+        const avatarCheck = user.avatar.slice(0, 5);
+        this.avatar = (avatarCheck === 'https') ? user.avatar : `/img/${ user.avatar }`;
+        this.setState({
+            user,
+            comments,
+            seen,
+            friends,
+            friend,
+            loading: false,
+        });
     }
     render() {
         const { user, comments, seen, tab, friends, dropdownOpen, loading, friend } = this.state;

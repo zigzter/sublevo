@@ -17,6 +17,9 @@ export default class Home extends Component {
             venues: [],
         }
     }
+    componentDidMount() {
+        this.getEvents();
+    }
     getEvents = async () => {
         const cachedEvents = JSON.parse(localStorage.getItem('events'));
         const cachedVenues = JSON.parse(localStorage.getItem('venues'));
@@ -67,9 +70,6 @@ export default class Home extends Component {
             filteredEvents = this.state.events;
         }
         this.setState({ filteredEvents, typeFilter: undefined })
-    }
-    componentDidMount() {
-        this.getEvents();
     }
     render() {
         const { venues, filteredEvents, venueFilter, types, typeFilter, loading } = this.state;

@@ -20,6 +20,18 @@ export default class EventPage extends Component {
             loading: true,
         }
     }
+    async componentDidMount() {
+        await this.setState({ event: this.props.location.state.event });
+        let spotifyId;
+        if (this.state.event.type === 'Concert') {
+            spotifyId = await fetch(`/api/spotifyId/${ this.state.event.performance[0].displayName }`, { method: 'GET' }).then(res => res.json());
+        }
+        await Promise.all([
+            this.getComments(),
+            this.getAttendees()
+        ]);
+        this.setState({ spotifyId, loading: false });
+    }
     addComment = async (e) => {
         e.persist();
         e.preventDefault();
@@ -65,18 +77,6 @@ export default class EventPage extends Component {
             body: JSON.stringify({ status }),
         });
         this.setState({ currentUserStatus: status })
-    }
-    async componentDidMount() {
-        await this.setState({ event: this.props.location.state.event });
-        let spotifyId;
-        if (this.state.event.type === 'Concert') {
-            spotifyId = await fetch(`/api/spotifyId/${ this.state.event.performance[0].displayName }`, { method: 'GET' }).then(res => res.json());
-        }
-        await Promise.all([
-            this.getComments(),
-            this.getAttendees()
-        ]);
-        this.setState({ spotifyId, loading: false });
     }
     render() {
         const { event, attendees, currentUserStatus, loading, spotifyId } = this.state;

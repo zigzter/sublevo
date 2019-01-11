@@ -23,7 +23,7 @@ export default class SignInPage extends Component {
             return;
         }
         if (typeof this.props.onSignIn === "function") {
-            this.props.onSignIn();
+            await this.props.onSignIn();
         }
         this.props.history.push('/');
     }
@@ -51,5 +51,4 @@ export default class SignInPage extends Component {
 
 SignInPage.propTypes = {
     onSignIn: PropTypes.func,
-    history: PropTypes.object,
 };

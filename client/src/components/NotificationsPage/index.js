@@ -11,6 +11,13 @@ export default class NotificationsPage extends Component {
             friendRequests: [],
         }
     }
+    async componentDidMount() {
+        const friendRequests = await fetch('/api/friends').then(res => res.json());
+        this.setState({ friendRequests });
+    }
+    componentDidUpdate() {
+        this.props.notifications.length > 0 && this.markAllRead();
+    }
     respond = async (response, userOne) => {
         fetch('/api/friends', {
             method: 'POST',
@@ -25,13 +32,6 @@ export default class NotificationsPage extends Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ notificationIds })
         }).then(console.log);
-    }
-    async componentDidMount() {
-        const friendRequests = await fetch('/api/friends').then(res => res.json());
-        this.setState({ friendRequests });
-    }
-    componentDidUpdate() {
-        this.props.notifications.length > 0 && this.markAllRead();
     }
     render() {
         const { friendRequests } = this.state;

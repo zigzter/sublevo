@@ -21,11 +21,17 @@ export default class AppRouter extends Component {
             notificationCount: 0,
         }
     }
+    async componentDidMount() {
+        await this.getUser();
+        if (this.state.currentUser) {
+            this.getNotifications();
+        }
+    }
     getUser = async () => {
         const currentUser = await fetch('/api/currentuser').then(res => res.json());
         if (currentUser) {
-            this.setState({ currentUser });
             localStorage.setItem('currentUser', true);
+            this.setState({ currentUser });
         }
     }
     destroySession = () => {
@@ -38,12 +44,6 @@ export default class AppRouter extends Component {
         const notifications = await fetch('/api/notifications', { method: 'GET' }).then(res => res.json());
         const notificationCount = notifications.filter(n => !n.isRead).length;
         this.setState({ notifications, notificationCount });
-    }
-    async componentDidMount() {
-        await this.getUser();
-        if (this.state.currentUser) {
-            this.getNotifications();
-        }
     }
     render() {
         const { currentUser, notifications, notificationCount } = this.state;
