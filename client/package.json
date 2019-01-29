@@ -20,7 +20,7 @@
   "scripts": {
     "start": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "$(npm bin)/cypress run",
     "eject": "react-scripts eject",
     "cypress open": "$(npm bin)/cypress open"
   },

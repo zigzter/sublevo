@@ -1,4 +1,6 @@
 # client/src/keys.js
+client/cypress/screenshots/
+client/cypress/videos/
 
 # Created by https://www.gitignore.io/api/node,linux
 
