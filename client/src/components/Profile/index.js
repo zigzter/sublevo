@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import PropTypes from 'prop-types';
 import SeenLive from './SeenLive';
@@ -8,7 +9,7 @@ import FriendsList from './FriendsList';
 import FullSeen from './FullSeen';
 import './index.scss';
 
-export default class Profile extends Component {
+class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -143,3 +144,5 @@ Profile.propTypes = {
     match: PropTypes.object,
     currentUser: PropTypes.object,
 };
+
+export default connect()(Profile);

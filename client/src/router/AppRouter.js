@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Profile from '../components/Profile';
@@ -11,8 +12,9 @@ import ArtistPage from '../components/ArtistPage';
 import NotificationsPage from '../components/NotificationsPage';
 import NotFound from '../components/NotFound';
 import AuthRoute from './AuthRoute';
+import fetchCurrentUser from '../actions/currentUser';
 
-export default class AppRouter extends Component {
+class AppRouter extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +24,8 @@ export default class AppRouter extends Component {
         }
     }
     async componentDidMount() {
-        await this.getUser();
+        // await this.getUser();
+        this.props.fetchCurrentUser();
         if (this.state.currentUser) {
             this.getNotifications();
         }
@@ -80,3 +83,11 @@ export default class AppRouter extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.currentUser,
+    };
+};
+
+export default connect(mapStateToProps, { fetchCurrentUser })(AppRouter);
