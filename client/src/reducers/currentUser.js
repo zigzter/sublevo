@@ -1,25 +1,11 @@
-import { FETCH_CURRENT_USER, API_START, API_END } from '../actions/types';
+import { SET_CURRENT_USER } from '../actions/types';
 
 export default (state = null, action) => {
     switch (action.type) {
-        case FETCH_CURRENT_USER:
-            return state;
-        case API_START:
-            if (action.payload === FETCH_CURRENT_USER) {
-                return {
-                    ...state,
-                    isLoadingData: true,
-                }
+        case SET_CURRENT_USER:
+            return {
+                ...action.payload,
             }
-            break;
-        case API_END:
-            if (action.payload === FETCH_CURRENT_USER) {
-                return {
-                    ...state,
-                    isLoadingData: false,
-                }
-            }
-            break;
         default:
             return state;
     }

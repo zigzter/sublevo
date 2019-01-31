@@ -18,17 +18,19 @@ class AppRouter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentUser: null,
             notifications: [],
             notificationCount: 0,
         }
     }
     async componentDidMount() {
-        // await this.getUser();
-        this.props.fetchCurrentUser();
-        if (this.state.currentUser) {
+        await this.props.fetchCurrentUser();
+        if (this.props.currentUser) {
             this.getNotifications();
         }
+    }
+    componentDidUpdate() {
+        console.log(this.props)
+
     }
     getUser = async () => {
         const currentUser = await fetch('/api/currentuser').then(res => res.json());
@@ -49,7 +51,8 @@ class AppRouter extends Component {
         this.setState({ notifications, notificationCount });
     }
     render() {
-        const { currentUser, notifications, notificationCount } = this.state;
+        const { notifications, notificationCount } = this.state;
+        const { currentUser } = this.props;
         const userPresent = localStorage.getItem('currentUser');
         return (
             <BrowserRouter>
@@ -87,7 +90,9 @@ class AppRouter extends Component {
 const mapStateToProps = (state) => {
     return {
         currentUser: state.currentUser,
+        api: state.api,
     };
 };
 
+// export default connect(mapStateToProps, { fetchCurrentUser })(AppRouter);
 export default connect(mapStateToProps, { fetchCurrentUser })(AppRouter);

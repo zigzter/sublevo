@@ -1,11 +1,9 @@
 import { FETCH_CURRENT_USER, SET_CURRENT_USER } from './types';
 import { apiAction } from './api';
 
-const url = '/api/currentuser'
-
 export default () => {
     return apiAction({
-        url,
+        url: '/api/currentuser',
         onSuccess: setCurrentUser,
         onFailure: () => { console.log('Error getting user') },
         label: FETCH_CURRENT_USER,

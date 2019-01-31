@@ -9,7 +9,7 @@ export default ({ dispatch }) => (next) => (action) => {
         method,
         data,
         onSuccess,
-        onFailure = () => { },
+        onFailure,
         label,
         headers,
     } = action.payload;
