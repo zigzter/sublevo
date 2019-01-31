@@ -12,7 +12,8 @@ import ArtistPage from '../components/ArtistPage';
 import NotificationsPage from '../components/NotificationsPage';
 import NotFound from '../components/NotFound';
 import AuthRoute from './AuthRoute';
-import fetchCurrentUser from '../actions/currentUser';
+import { fetchCurrentUser, destroySession } from '../actions/currentUser';
+import store from '../store';
 
 class AppRouter extends Component {
     constructor(props) {
@@ -23,27 +24,19 @@ class AppRouter extends Component {
         }
     }
     async componentDidMount() {
-        await this.props.fetchCurrentUser();
-        if (this.props.currentUser) {
-            this.getNotifications();
-        }
-    }
-    componentDidUpdate() {
-        console.log(this.props)
-
-    }
-    getUser = async () => {
-        const currentUser = await fetch('/api/currentuser').then(res => res.json());
-        if (currentUser) {
-            localStorage.setItem('currentUser', true);
-            this.setState({ currentUser });
-        }
+        this.props.fetchCurrentUser();
+        // get notifications & set
+        // if (currentUser) {
+        //     localStorage.setItem('currentUser', true);
+        //     this.setState({ currentUser });
+        // }
     }
     destroySession = () => {
-        fetch('/api/session', { method: 'DELETE' });
-        localStorage.removeItem('events');
-        localStorage.removeItem('currentUser');
-        this.setState({ currentUser: null });
+        store.dispatch(destroySession());
+        // fetch('/api/session', { method: 'DELETE' });
+        // localStorage.removeItem('events');
+        // localStorage.removeItem('currentUser');
+        // this.setState({ currentUser: null });
     }
     getNotifications = async () => {
         const notifications = await fetch('/api/notifications', { method: 'GET' }).then(res => res.json());
@@ -94,5 +87,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-// export default connect(mapStateToProps, { fetchCurrentUser })(AppRouter);
 export default connect(mapStateToProps, { fetchCurrentUser })(AppRouter);
